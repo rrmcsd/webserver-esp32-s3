@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://files.catbox.moe/103pai.jpg">
+    <link rel="icon" href="https://files.catbox.moe/fwzirh.webp">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Settings ESP32S3</title>
+</head>
+<body>
+
+    <!-- HOME HOME HOME HOME HOME HOME HOME HOME HOME
+    HOME HOME HOME HOME HOME HOME HOME HOME HOME
+    HOME HOME HOME HOME HOME HOME HOME HOME HOME
+    HOME HOME HOME HOME HOME HOME HOME HOME HOME
+     -->
+
+     <div class="page">
+        <div class="central-content">
+            <img src="https://files.catbox.moe/fwzirh.webp" alt="GeekMagic S3 icon." class="tv">
+            <h1 class="title">Settings</h1>
+            <ul class="menu">
+                <li class="item" id="menu-wifi">WiFi</li>
+                <li class="item" id="menu-api">AwesomeAPI Key</li>
+                <li class="item" id="menu-brand">Brand Init</li>
+                <li class="item" id="menu-clock">Clock Background</li>
+                <li class="item" id="menu-gif">Gif Animation</li>
+            </ul>
+            <button id="button-apply" onclick="applyAnimation();">
+                <img src="https://files.catbox.moe/j77mbo.webp" alt="Apply icon." class="img-apply">
+                Apply
+            </button>
+        </div>
+        
+        <div id="footer" class="div-rect-footer">
+            <p class="sign">Made with 💚 by Renan Ribeiro</p>
+            <p class="text-footer">
+                © All rights reserved to 
+                <a href="https://aliexpress.com/item/1005007554542671.html" target="_blank"
+                class="link-footer">Geek Magic S3</a>
+                and the creators of its 
+                <a href="https://github.com/GeekMagicClock/GeekMagic-S3" target="_blank"
+                class="link-footer">source code.</a>
+                For more information contact me 
+                <a href="https://linktr.ee/eurenangribeiro" target="_blank"
+                class="link-footer">here.</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
+    MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
+    MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
+    MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY -->
+
+    <div id="modal-apply">
+        <h1 id="title-apply" class="title">Applying</h1>
+    </div>
+
+    <!-- WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
+    WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
+    WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
+    WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI -->
+
+    <div id="modal-wifi" class="modal" role="dialog" aria-hidden="true">
+        <img id="close-wifi" src="https://files.catbox.moe/y4m6ul.webp" alt="Close icon." class="fechar">
+
+        <!-- Wifis -->
+         <div class="wifis">
+            <p class="opcao-wifi">Mr. Robot 2.4Ghz</p>
+            <p class="opcao-wifi">Georgia 5G</p>
+         </div>
+
+        <!-- Rede -->
+        <label for="rede" class="label">Network:</label>
+        <input id="rede" name="rede" class="input" type="text" placeholder="Your WiFi name">
+        
+        <!-- Senha -->
+        <label for="senha" class="label label-space">Password:</label>
+        <div class="input-div">
+            <input id="senha" name="senha" class="input-transparent" type="password" placeholder="Your WiFi password"> 
+            <img src="https://files.catbox.moe/9ojj61.webp" alt="Viewer icon." id="visibility-password" class="icon-input-div">   
+        </div>
+        
+        <!-- Button -->
+        <button id="salvar-wifi" class="button">Save</button>
+        <p class="text-issues">
+            *Only 2.4Ghz networks are accepted. Check the device's 
+            <a href="https://github.com/GeekMagicClock/GeekMagic-S3" class="link-issues" target="_blank">
+                official documentation
+            </a> 
+            for more information.
+        </p>
+    </div>
+
+    <!-- API API API API API API API API API API API API API
+    API API API API API API API API API API API API API
+    API API API API API API API API API API API API API
+    API API API API API API API API API API API API API -->
+
+    <div id="modal-api" class="modal" role="dialog" aria-hidden="true">
+        <img id="close-api" src="https://files.catbox.moe/y4m6ul.webp" alt="Close icon." class="fechar">
+        
+        <!-- Key -->
+        <label class="label" for="api">Key:</label>
+        <textarea id="key" name="api" class="input" placeholder="Your AwesomeAPI key"></textarea>
+        
+        <!-- Label e select nativo (se quiser manter como fallback) -->
+        <label class="label label-space" for="conversion">Conversion currency:</label>
+
+        <!-- Custom dropdown -->
+        <div class="custom-dropdown" id="dropdown">
+        <div class="selected" id="selected">
+            <img id="selected-flag" src="" alt="" style="display: none;" />
+            <span id="selected-text">Your desired conversion</span>
+        </div>
+        <div class="options" id="options-list"></div>
+        </div>
+        
+        <!-- Button -->
+        <button id="salvar-api" class="button">Save</button>
+        <p class="text-issues">
+            *Until 04/20/2025 AwesomeAPI only allows 100K 
+            requests per month and is updated at most once per day, 
+            with some exceptions. Create your account for free and check 
+            out more details in the 
+            <a href="https://docs.awesomeapi.com.br/" class="link-issues" target="_blank">
+            Awesome API</a> 
+            documentation.
+        </p>
+    </div>
+
+    <!-- BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
+    BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
+    BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
+    BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND -->
+
+    <div id="modal-brand" class="modal" role="dialog" aria-hidden="true">
+        <img id="close-brand" src="https://files.catbox.moe/y4m6ul.webp" alt="Close icon." class="fechar">
+
+        <!-- Upload -->
+        <label class="label">Upload:</label>
+        <label for="brand" class="input-div custom-upload">
+        <span id="brand-placeholder">Choose your file</span>
+        <img src="https://files.catbox.moe/ax5up6.webp" alt="Upload icon." class="icon-input-div">
+        </label>
+        <input id="brand" type="file" name="brand" style="display: none;">
+
+        <!-- Button -->
+        <button id="salvar-brand" class="button">Save</button>
+        <p class="text-issues">
+            *Only .jpg files with a size of 
+            100x100 pixels are accepted.
+            For free customizations 
+            to your .jpg 
+            <a href="https://www.photopea.com/" class="link-issues" target="_blank">
+            click here</a>.
+        </p>
+    </div>
+
+    <!-- CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
+    CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
+    CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
+    CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK -->
+
+    <div id="modal-clock" class="modal" role="dialog" aria-hidden="true">
+        <img id="close-clock" src="https://files.catbox.moe/y4m6ul.webp" alt="Close icon." class="fechar">
+        
+        <!-- Upload -->
+        <label class="label">Upload:</label>
+        <label for="clock" class="input-div custom-upload">
+        <span id="clock-placeholder">Choose your file</span>
+        <img src="https://files.catbox.moe/ax5up6.webp" alt="Upload icon." class="icon-input-div">
+        </label>
+        <input id="clock" type="file" name="clock" style="display: none;">
+
+        <!-- Button -->
+        <button id="salvar-clock" class="button">Save</button>
+        <p class="text-issues">
+            *Only .jpg files with a size of 
+            240x240 pixels are accepted.
+            For free customizations 
+            to your .jpg 
+            <a href="https://www.photopea.com/" class="link-issues" target="_blank">
+            click here</a>.
+        </p>
+    </div>
+
+    <!-- GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
+    GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
+    GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
+    GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF -->
+
+    <div id="modal-gif" class="modal" role="dialog" aria-hidden="true">
+        <img id="close-gif" src="https://files.catbox.moe/y4m6ul.webp" alt="Close icon." class="fechar">
+        
+        <!-- Upload -->
+        <label class="label">Upload:</label>
+        <label for="gif" class="input-div custom-upload">
+        <span id="gif-placeholder">Choose your file</span>
+        <img src="https://files.catbox.moe/ax5up6.webp" alt="Upload icon." class="icon-input-div">
+        </label>
+        <input id="gif" type="file" name="gif" style="display: none;">
+
+        <!-- Button -->
+        <button id="salvar-gif" class="button">Save</button>
+        <p class="text-issues">
+            *Only .gif files with a size of 
+            240x240 pixels and up to 1 
+            megabyte are accepted.
+            For free customizations 
+            to your .gif 
+            <a href="https://ezgif.com/" class="link-issues" target="_blank">
+            click here</a>.
+        </p>
+    </div>
+
+    <!-- SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
+    SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
+    SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
+    SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS -->
+
+    <video class="sucess" autoplay muted playsinline onended="this.style.display='none'">
+        <source src="https://files.catbox.moe/rjf0yj.webm" type="video/webm">
+        Sucess!
+    </video>
+
+    <!-- ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
+    ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
+    ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
+    ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR -->
+
+    <video class="error" autoplay muted playsinline onended="this.style.display='none'">
+        <source src="https://files.catbox.moe/25h2vq.webm" type="video/webm">
+        Sucess!
+    </video>
+
+<div id="modal-error">
+    <p id="text-variant-error" class="text-error">
+        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Donec dictum tortor eu lectus elementum interdum. Fusce 
+        condimentum ligula quis mauris consectetur sollicitudin. -->
+    </p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
