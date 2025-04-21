@@ -484,7 +484,7 @@ buttonApply.addEventListener('click', async () => {
       showError("ESP32 rejected the apply request.");
       setTimeout(() => {
         fadeOut(modalApply)
-      }, 2000)
+      }, 4000)
     }
   } catch (e) {
     console.error("Error sending apply:", e);
