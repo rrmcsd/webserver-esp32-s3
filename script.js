@@ -163,13 +163,6 @@ closeGifButton.addEventListener('click', () =>{
   
 })
 
-buttonApply.addEventListener('click', async () => {
-  fadeIn(modalApply);
-  applyAnimation();
-
-});
-
-
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
 
@@ -445,6 +438,58 @@ salvarGifButton.addEventListener("click", async () => {
   };
 
   img.src = objectUrl;
+});
+
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+
+let brandHeader = { fileName: 'brand.h', content: '...' };
+let clockHeader = { fileName: 'clockbg.h', content: '...' };
+let gifHeader = { fileName: 'animation.h', content: '...' };
+let userConfig = {
+  ssid: "MyNetwork",
+  password: "12345678",
+  apikey: "abc-123",
+  currency: "USD"
+};
+
+buttonApply.addEventListener('click', async () => {
+  fadeIn(modalApply);
+  applyAnimation();
+
+  const payload = {
+    brand: brandHeader?.content || null,
+    clock: clockHeader?.content || null,
+    gif: gifHeader?.content || null,
+    config: userConfig
+  };
+
+  try {
+    const res = await fetch("/apply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const responseText = await res.text();
+    if (res.ok) {
+      showSucess();
+      setTimeout(() => {
+        fadeOut(modalApply)
+      }, 2000)
+      console.log("ESP32 response:", responseText);
+    } else {
+      showError("ESP32 rejected the apply request.");
+      setTimeout(() => {
+        fadeOut(modalApply)
+      }, 2000)
+    }
+  } catch (e) {
+    console.error("Error sending apply:", e);
+    showError("Error sending apply.");
+  }
 });
 
 
