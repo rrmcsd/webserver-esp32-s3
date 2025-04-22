@@ -3,7 +3,7 @@
     border: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Montserrat;
+    font-family: 'Montserrat', sans-serif;
     box-sizing: border-box;
 }
 
@@ -15,6 +15,7 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
 
 /* MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL
@@ -39,7 +40,7 @@ MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL */
   }
 
 .tv{
-    width: 50px;
+    width: 45px;
     margin-bottom: 5px;
 }
 
@@ -75,6 +76,8 @@ MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL */
     border-radius: 100px;
     transition: 1s background;
     cursor: pointer;
+    max-width: 300px;
+    min-width: 100px;
 }
 
 .item:hover{
@@ -101,7 +104,9 @@ MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL */
 }
 
 .img-apply{
-    width: 20px;
+    width: 15px;
+    margin-right: 5px;
+    margin-top: 2px;
 }
 
 .sign{
@@ -124,7 +129,7 @@ MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL */
 .text-footer{
     background-color: whitesmoke;
     border-radius: 30px 30px 0px 0px;
-    padding: 20px 15px;    
+    padding: 20px 35px;    
     width: 100%;
     color: rgb(32, 32, 32);
     font-size: 12px;
@@ -187,6 +192,22 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     display: none;
 }
 
+.container-wifis{
+    width: 100%;
+    
+}
+
+.container-img-reload{
+    width: 100%;
+    display: flex;
+    align-items: right;
+    justify-content: right;
+}
+
+.reload-wifis{
+    width: 25px;
+}
+
 .wifis{
     height: auto;
     width: 100%;
@@ -227,11 +248,24 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     color: whitesmoke;
 }
 
+.error-wifi-options{
+    background-color: rgb(241, 112, 97);
+    font-size: 12px;
+    color: rgb(32, 32, 32);
+    cursor: pointer;
+}
+
+.error-wifi-options:hover{
+    background-color: rgb(241, 112, 97);
+    color: rgb(32, 32, 32);
+}
+
+
 .fechar{
-    width: 40px;
+    width: 38px;
     position: absolute;
     right: 30px;
-    top: 30px;
+    top: 27px;
     cursor: pointer;
 }
 
@@ -256,6 +290,7 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     padding: 20px;
     font-size: 14px;
     outline: none;
+    min-width: 200px;
 }
 
 .input-div{
@@ -267,6 +302,7 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     height: 30px;
     border-radius: 100px;
     padding: 20px 20px 20px 0px;
+    min-width: 200px;
 
 }
 
@@ -286,6 +322,16 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     width: 22px;
     z-index: 2;
     cursor: pointer;
+    margin-top: 4px;
+}
+
+.img-upload{
+    width: 17px !important;
+}
+
+#invisibility-password{
+    margin-top: 5px;
+    display: none;
 }
 
 .button{
@@ -305,6 +351,21 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
 .button:hover{
     background-color: rgb(32, 32, 32);
     color: rgb(57, 255, 156);
+}
+
+.text-issues{
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 35px;
+    font-style: italic;
+    color: rgb(241, 112, 97);
+}
+
+.link-issues{
+    text-decoration: underline;
+    font-weight: 700;
+    color: rgb(241, 112, 97);
 }
 
 /* API API API API API API API API API API
@@ -414,21 +475,6 @@ BRAND BRAND BRAND BRAND BRAND BRAND */
     font-size: 14px;
 }
 
-.text-issues{
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 35px;
-    font-style: italic;
-    color: rgb(241, 112, 97);
-}
-
-.link-issues{
-    text-decoration: underline;
-    font-weight: 700;
-    color: rgb(241, 112, 97);
-}
-
 /* CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
 CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
 CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
@@ -504,6 +550,10 @@ Animações Animações Animações Animações Animações Animações */
     animation: fade-out 0.5s forwards;
 }
 
+.rotation{
+    animation: rotation 1s forwards;
+}
+
 @keyframes fade-in{
     0%{
         opacity: 0;
@@ -522,6 +572,15 @@ Animações Animações Animações Animações Animações Animações */
         display: none;
     }
 }
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(720deg); /* 360 × 3 voltas */
+    }
+  }
 
 .display-hidden{
     display: none !important;

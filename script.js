@@ -15,7 +15,12 @@ const modalWifi = document.getElementById("modal-wifi")
 const optionsWifi = document.querySelectorAll(".opcao-wifi")
 const inputRede = document.getElementById("rede")
 const visibilitySenha = document.getElementById("visibility-password")
+const invisibilitySenha = document.getElementById("invisibility-password")
 const inputSenha = document.getElementById("senha")
+const wifisContainer = document.querySelector(".wifis");
+const tooglePassword = document.querySelector(".icon-toggle-password")
+const reloadWifi = document.getElementById("icon-reload")
+
 let wifiData = {
   ssid: "",
   password: ""
@@ -80,28 +85,42 @@ let gifHeaderData = null;
 
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
+// Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
+// Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
 
 wifiMenuButton.addEventListener('click', () => {
+  reloadWifi.classList.remove("rotation");
   resetValue(inputRede)
   resetValue(inputSenha)
   inputSenha.type = "password"
-  visibilitySenha.src = "https://files.catbox.moe/9ojj61.webp"
+  invisibilitySenha.style.display =  "none"
+  visibilitySenha.style.display = "block"
   fadeIn(modalWifi)
   
 });
 
 closeWifiButton.addEventListener('click', () =>{
     fadeOut(modalWifi)
+    fadeOut(wifisContainer)
     
 })
 
-visibilitySenha.addEventListener('click', () => {
+tooglePassword.addEventListener('click', () => {
   const isPassword = inputSenha.type === 'password';
-
   inputSenha.type = isPassword ? 'text' : 'password';
-  visibilitySenha.src = isPassword
-    ? 'https://files.catbox.moe/qflp3n.webp'
-    : 'https://files.catbox.moe/9ojj61.webp';
+
+  // Alterna visibilidade dos ícones
+  visibilitySenha.style.display = isPassword ? "none" : "block";
+  invisibilitySenha.style.display = isPassword ? "block" : "none";
+
+});
+
+reloadWifi.addEventListener('click', () => {
+  reloadWifi.classList.remove("rotation");     // 1. Remove classe
+  void reloadWifi.offsetWidth;                 // 2. Força reflow
+  reloadWifi.classList.add("rotation");        // 3. Adiciona de novo
+
+  carregarRedes(); // Chama sua função normalmente
 });
 
 apiMenuButton.addEventListener('click', () => {
@@ -163,10 +182,16 @@ closeGifButton.addEventListener('click', () =>{
   
 })
 
+// Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
+// Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
 
 document.addEventListener("DOMContentLoaded", () => {
+
+carregarRedes()
+carregarMoedas()
+
 brandInput.addEventListener('change', () => {
     if (brandInput.files.length === 0) {
       brandPlaceholder.textContent = "Choose your file";
@@ -184,9 +209,6 @@ brandInput.addEventListener('change', () => {
     brandPlaceholder.textContent = fileName;
   });
 
-});
-
-document.addEventListener("DOMContentLoaded", () => {
   clockInput.addEventListener('change', () => {
       if (clockInput.files.length === 0) {
         clockPlaceholder.textContent = "Choose your file";
@@ -204,9 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clockPlaceholder.textContent = fileName;
     });
   
-  });
 
-  document.addEventListener("DOMContentLoaded", () => {
     gifInput.addEventListener('change', () => {
         if (gifInput.files.length === 0) {
           gifPlaceholder.textContent = "Choose your file";
@@ -279,7 +299,7 @@ async function carregarMoedas() {
   }
 }
 
-carregarMoedas();
+
 
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
@@ -300,7 +320,10 @@ salvarWifiButton.addEventListener("click", () => {
 
   wifiData = { ssid, password };
   showSucess();
-  setTimeout(() => fadeOut(modalWifi), 2000);
+  setTimeout(() => { 
+    fadeOut(modalWifi)
+    fadeOut(wifisContainer)
+  }, 2000);
 });
 
 // API
@@ -493,6 +516,7 @@ buttonApply.addEventListener('click', async () => {
 });
 
 
+
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
@@ -503,32 +527,21 @@ function resetValue(element) {
 }
 
 function showSucess() {
-  sucessAnimation.style.display = "inline";         // mostra o vídeo
-  sucessAnimation.currentTime = 0;                  // reinicia o vídeo do começo
-  sucessAnimation.play();   
+  fadeIn(sucessAnimation)
+  setTimeout(() => {
+      fadeOut(sucessAnimation)
+  }, 3000)
 };
 
 function showError(txt) {
-textError.textContent = String(txt)
-fadeIn(modalError)
-errorAnimation.style.display = "inline";        // mostra o vídeo
-errorAnimation.playbackRate = 0.8;
-errorAnimation.currentTime = 0;                  // reinicia o vídeo do começo
-errorAnimation.play();
-
-let repeatCount = 1;
-errorAnimation.onended = () => {
-  if (repeatCount < 2) {
-    repeatCount++;
-    errorAnimation.currentTime = 0;
-    errorAnimation.play();
-  } else {
-    errorAnimation.onended = null; // limpa o evento
-    fadeOut(modalError);
-    errorAnimation.style.display = "none";
-  }
-};  
-};
+  textError.textContent = String(txt)
+  fadeIn(modalError)
+  fadeIn(errorAnimation);        // mostra o vídeo
+  setTimeout(() => {
+      fadeOut(modalError);
+      fadeOut(errorAnimation)
+  }, 4000)
+  };
 
 function fadeIn(obj) {
   obj.classList.remove('display-hidden')
@@ -666,4 +679,33 @@ function downloadHeader({ fileName, content }) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+ // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
+ // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
+ // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
+ // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
+
+ async function carregarRedes() {
+  try {
+    const res = await fetch("/scan");
+    const redes = await res.json();
+
+    wifisContainer.innerHTML = ""; // limpa as anteriores
+    redes.forEach(ssid => {
+      const p = document.createElement("p");
+      p.classList.add("opcao-wifi");
+      p.textContent = ssid;
+      p.addEventListener("click", () => {
+        inputRede.value = ssid;
+      });
+      wifisContainer.appendChild(p);
+    });
+
+    fadeIn(wifisContainer)
+  } catch (e) {
+    console.error("Erro ao buscar redes:", e);
+    wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
+    wifisContainer.style.display = "block";
+  }
 }
