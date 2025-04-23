@@ -298,7 +298,7 @@ async function carregarRedes() {
         inputRede.value = ssid;
       });
       wifisContainer.appendChild(p);
-      setTimeout(() => fadeIn(p), 1000);
+      setTimeout(() => fadeIn(p), index * 750);
     });
 
     fadeIn(wifisContainer)
