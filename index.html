@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.55 81.68'%3E%3Cpath d='M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z' fill='%2339ff9c'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@98fab1ee6ffe4bdbf7346ff07da6d917eb103ada/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@98fab1ee6ffe4bdbf7346ff07da6d917eb103ada/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@930d755ef679ea3d5c621cb995800f4cc7b685e3/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@930d755ef679ea3d5c621cb995800f4cc7b685e3/responsive.css">
     <!-- <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,13 +14,11 @@
     <title>Settings - ESP32S3</title>
 </head>
 <body>
-
     <!-- HOME HOME HOME HOME HOME HOME HOME HOME HOME
     HOME HOME HOME HOME HOME HOME HOME HOME HOME
     HOME HOME HOME HOME HOME HOME HOME HOME HOME
     HOME HOME HOME HOME HOME HOME HOME HOME HOME
      -->
-
      <div class="page">
         <div class="central-content">
             <div class="tv" aria-hidden="true">
@@ -47,7 +45,6 @@
                 Apply
             </button>
         </div>
-        
         <div id="footer" class="div-rect-footer">
             <p class="sign">Made with 💚 by Renan Ribeiro</p>
             <p class="text-footer">
@@ -63,21 +60,17 @@
             </p>
         </div>
     </div>
-
     <!-- MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
     MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
     MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY
     MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY MODAL APPLY -->
-
     <div id="modal-apply">
         <h1 id="title-apply" class="title">Applying</h1>
     </div>
-
     <!-- WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI -->
-
     <div id="modal-wifi" class="modal" role="dialog" aria-hidden="true">
         <div id="close-wifi" class="fechar">
             <?xml version="1.0" encoding="UTF-8"?>
@@ -85,7 +78,6 @@
                 <path d="M45.91,22.95c0,12.68-10.28,22.95-22.95,22.95S0,35.63,0,22.95,10.28,0,22.95,0s22.95,10.28,22.95,22.95ZM15.42,13.5c-1.65.16-2.49,2.12-1.4,3.4,1.99,2.04,4.11,3.99,6,6.09l-6.09,6.12c-1.21,1.89.88,4.05,2.81,2.91,2.13-1.99,4.09-4.2,6.25-6.13l6.12,6.09c1.88,1.34,4.2-.86,2.91-2.81-1.99-2.13-4.2-4.09-6.13-6.25l6.09-6.12c1.34-1.92-.87-4.18-2.81-2.91-2.13,1.99-4.09,4.2-6.25,6.13l-6.07-6.05c-.42-.27-.92-.52-1.44-.47Z" fill="#202020"/>
             </svg>
         </div>
-
         <!-- Wifis -->
          <div class="container-wifis">
             <div class="container-img-reload">
@@ -96,15 +88,12 @@
                     </svg>
                 </div>
             </div>
-
             <div class="wifis">
             </div>
         </div>
-
         <!-- Rede -->
         <label for="rede" class="label">Network:</label>
         <input id="rede" name="rede" class="input" type="text" placeholder="Your WiFi name">
-        
         <!-- Senha -->
         <label for="senha" class="label label-space">Password:</label>
         <div class="input-div">
@@ -125,7 +114,6 @@
                 </div>
             </div>      
         </div>
-        
         <!-- Button -->
         <button id="salvar-wifi" class="button">Save</button>
         <p class="text-issues">
@@ -136,12 +124,10 @@
             for more information.
         </p>
     </div>
-
     <!-- API API API API API API API API API API API API API
     API API API API API API API API API API API API API
     API API API API API API API API API API API API API
     API API API API API API API API API API API API API -->
-
     <div id="modal-api" class="modal" role="dialog" aria-hidden="true">
         <div id="close-api" class="fechar">
             <?xml version="1.0" encoding="UTF-8"?>
@@ -149,14 +135,11 @@
                 <path d="M45.91,22.95c0,12.68-10.28,22.95-22.95,22.95S0,35.63,0,22.95,10.28,0,22.95,0s22.95,10.28,22.95,22.95ZM15.42,13.5c-1.65.16-2.49,2.12-1.4,3.4,1.99,2.04,4.11,3.99,6,6.09l-6.09,6.12c-1.21,1.89.88,4.05,2.81,2.91,2.13-1.99,4.09-4.2,6.25-6.13l6.12,6.09c1.88,1.34,4.2-.86,2.91-2.81-1.99-2.13-4.2-4.09-6.13-6.25l6.09-6.12c1.34-1.92-.87-4.18-2.81-2.91-2.13,1.99-4.09,4.2-6.25,6.13l-6.07-6.05c-.42-.27-.92-.52-1.44-.47Z" fill="#202020"/>
             </svg>
         </div>
-        
         <!-- Key -->
         <label class="label" for="api">Key:</label>
         <textarea id="key" name="api" class="input" placeholder="Your AwesomeAPI key"></textarea>
-        
         <!-- Label e select nativo (se quiser manter como fallback) -->
         <label class="label label-space" for="conversion">Conversion currency:</label>
-
         <!-- Custom dropdown -->
         <div class="custom-dropdown" id="dropdown">
             <div class="selected" id="selected">
@@ -165,7 +148,6 @@
             </div>
             <div class="options" id="options-list"></div>
         </div>
-        
         <!-- Button -->
         <button id="salvar-api" class="button">Save</button>
         <p class="text-issues">
@@ -178,12 +160,10 @@
             documentation.
         </p>
     </div>
-
     <!-- BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND -->
-
     <div id="modal-brand" class="modal" role="dialog" aria-hidden="true">
         <div id="close-brand" class="fechar">
             <?xml version="1.0" encoding="UTF-8"?>
@@ -191,7 +171,6 @@
                 <path d="M45.91,22.95c0,12.68-10.28,22.95-22.95,22.95S0,35.63,0,22.95,10.28,0,22.95,0s22.95,10.28,22.95,22.95ZM15.42,13.5c-1.65.16-2.49,2.12-1.4,3.4,1.99,2.04,4.11,3.99,6,6.09l-6.09,6.12c-1.21,1.89.88,4.05,2.81,2.91,2.13-1.99,4.09-4.2,6.25-6.13l6.12,6.09c1.88,1.34,4.2-.86,2.91-2.81-1.99-2.13-4.2-4.09-6.13-6.25l6.09-6.12c1.34-1.92-.87-4.18-2.81-2.91-2.13,1.99-4.09,4.2-6.25,6.13l-6.07-6.05c-.42-.27-.92-.52-1.44-.47Z" fill="#202020"/>
             </svg>
         </div>
-
         <!-- Upload -->
         <label class="label">Upload:</label>
         <label for="brand" class="input-div custom-upload">
@@ -205,7 +184,6 @@
         </div>
         </label>
         <input id="brand" type="file" name="brand" style="display: none;">
-
         <!-- Button -->
         <button id="salvar-brand" class="button">Save</button>
         <p class="text-issues">
@@ -217,12 +195,10 @@
             click here</a>.
         </p>
     </div>
-
     <!-- CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK -->
-
     <div id="modal-clock" class="modal" role="dialog" aria-hidden="true">
         <div id="close-clock" class="fechar">
             <?xml version="1.0" encoding="UTF-8"?>
@@ -230,7 +206,6 @@
                 <path d="M45.91,22.95c0,12.68-10.28,22.95-22.95,22.95S0,35.63,0,22.95,10.28,0,22.95,0s22.95,10.28,22.95,22.95ZM15.42,13.5c-1.65.16-2.49,2.12-1.4,3.4,1.99,2.04,4.11,3.99,6,6.09l-6.09,6.12c-1.21,1.89.88,4.05,2.81,2.91,2.13-1.99,4.09-4.2,6.25-6.13l6.12,6.09c1.88,1.34,4.2-.86,2.91-2.81-1.99-2.13-4.2-4.09-6.13-6.25l6.09-6.12c1.34-1.92-.87-4.18-2.81-2.91-2.13,1.99-4.09,4.2-6.25,6.13l-6.07-6.05c-.42-.27-.92-.52-1.44-.47Z" fill="#202020"/>
             </svg>
         </div>
-        
         <!-- Upload -->
         <label class="label">Upload:</label>
         <label for="clock" class="input-div custom-upload">
@@ -244,10 +219,8 @@
         </div>
         </label>
         <input id="clock" type="file" name="clock" style="display: none;">
-
         <!-- Label e select nativo (se quiser manter como fallback) -->
         <label class="label label-space">UTC:</label>
-
         <!-- Custom dropdown -->
         <div class="custom-dropdown" id="dropdown-utc">
             <div class="selected" id="selected-utc">
@@ -256,20 +229,6 @@
             </div>
             <div class="options" id="options-list-utc"></div>
         </div>
-        
-        
-        <!-- <label class="label label-space" for="conversion">Conversion currency:</label>
-
-        
-        <div class="custom-dropdown" id="dropdown">
-            <div class="selected" id="selected">
-                <img id="selected-flag" src="" alt="" style="display: none;" />
-                <span id="selected-text">Your desired conversion</span>
-            </div>
-            <div class="options" id="options-list"></div>
-        </div>
-         -->
-
         <!-- Button -->
         <button id="salvar-clock" class="button">Save</button>
         <p class="text-issues">
@@ -281,12 +240,10 @@
             click here</a>.
         </p>
     </div>
-
     <!-- GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF -->
-
     <div id="modal-gif" class="modal" role="dialog" aria-hidden="true">
         <div id="close-gif" class="fechar">
             <?xml version="1.0" encoding="UTF-8"?>
@@ -294,7 +251,6 @@
                 <path d="M45.91,22.95c0,12.68-10.28,22.95-22.95,22.95S0,35.63,0,22.95,10.28,0,22.95,0s22.95,10.28,22.95,22.95ZM15.42,13.5c-1.65.16-2.49,2.12-1.4,3.4,1.99,2.04,4.11,3.99,6,6.09l-6.09,6.12c-1.21,1.89.88,4.05,2.81,2.91,2.13-1.99,4.09-4.2,6.25-6.13l6.12,6.09c1.88,1.34,4.2-.86,2.91-2.81-1.99-2.13-4.2-4.09-6.13-6.25l6.09-6.12c1.34-1.92-.87-4.18-2.81-2.91-2.13,1.99-4.09,4.2-6.25,6.13l-6.07-6.05c-.42-.27-.92-.52-1.44-.47Z" fill="#202020"/>
             </svg>
         </div>
-        
         <!-- Upload -->
         <label class="label">Upload:</label>
         <label for="gif" class="input-div custom-upload">
@@ -308,7 +264,6 @@
         </div>
         </label>
         <input id="gif" type="file" name="gif" style="display: none;">
-
         <!-- Button -->
         <button id="salvar-gif" class="button">Save</button>
         <p class="text-issues">
@@ -321,12 +276,10 @@
             click here</a>.
         </p>
     </div>
-
     <!-- SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS -->
-
     <div class="sucess" aria-hidden="true">
         <?xml version="1.0" encoding="UTF-8"?>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.43 131.43">
@@ -335,28 +288,21 @@
             <path d="M32.21,15.61c0,5-4.05,9.05-9.05,9.05s-9.05-4.05-9.05-9.05,4.05-9.05,9.05-9.05,9.05,4.05,9.05,9.05ZM29.18,15.61c0-3.32-2.69-6.02-6.02-6.02s-6.02,2.69-6.02,6.02,2.69,6.02,6.02,6.02,6.02-2.69,6.02-6.02Z" fill="#39ff9c"/>
         </svg>
     </div>
-
     <!-- ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR -->
-
     <div class="error" aria-hidden="true">
         <?xml version="1.0" encoding="UTF-8"?>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.46 131.46">
             <path d="M131.46,65.73c0,36.3-29.43,65.73-65.73,65.73S0,102.03,0,65.73,29.43,0,65.73,0s65.73,29.43,65.73,65.73ZM65.38,30.64c-3.84.21-6.27,3.2-6.65,6.86-1.1,10.6.76,22.89-.05,33.67.62,9.2,13.05,9.72,14.04.25-.57-10.83.89-22.66.05-33.37-.32-4.1-2.93-7.64-7.39-7.39ZM73.56,93.91c0-4.34-3.52-7.86-7.86-7.86s-7.86,3.52-7.86,7.86,3.52,7.86,7.86,7.86,7.86-3.52,7.86-7.86Z" fill="#f17061"/>
         </svg>
     </div>
-
 <div id="modal-error">
     <p id="text-variant-error" class="text-error">
-        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Donec dictum tortor eu lectus elementum interdum. Fusce 
-        condimentum ligula quis mauris consectetur sollicitudin. -->
     </p>
 </div>
-
-<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@98fab1ee6ffe4bdbf7346ff07da6d917eb103ada/script.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@930d755ef679ea3d5c621cb995800f4cc7b685e3/script.js"></script>
 <!-- <script src="script.js"></script> -->
 </body>
 </html>
