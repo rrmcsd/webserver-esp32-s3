@@ -122,8 +122,9 @@ reloadWifi.addEventListener('click', () => {
   reloadWifi.classList.remove("rotation");     // 1. Remove classe
   void reloadWifi.offsetWidth;                 // 2. Força reflow
   reloadWifi.classList.add("rotation");        // 3. Adiciona de novo
-
+  
   carregarRedes(); // Chama sua função normalmente
+
 });
 
 apiMenuButton.addEventListener('click', () => {
@@ -300,6 +301,7 @@ async function carregarRedes() {
     });
 
     fadeIn(wifisContainer)
+    showSucess()
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
     wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
@@ -392,19 +394,24 @@ salvarWifiButton.addEventListener("click", () => {
   }, 2000);
 });
 
-// API
 salvarApiButton.addEventListener("click", () => {
   const key = keyInput.value.trim();
   const currency = selectedText.textContent;
 
-  if (!key) {
-    return showError("Please enter your AwesomeAPI APIkey.");
-  }
-  if (currency === "Your desired conversion") {
-    return showError("Please select your desired conversion currency.");
+  const hasKey = key !== "";
+  const hasCurrency = currency !== "Your desired conversion";
+
+  if (!hasKey && !hasCurrency) {
+    return showError("Please enter the API key or select a currency.");
   }
 
-  apiData = { key, currency };
+  if (hasKey) {
+    apiData.key = key;
+  }
+  if (hasCurrency) {
+    apiData.currency = currency;
+  }
+
   showSucess();
   setTimeout(() => fadeOut(modalApi), 2000);
 });
@@ -451,16 +458,23 @@ salvarBrandButton.addEventListener("click", () => {
 
 // CLOCK
 salvarClockButton.addEventListener("click", () => {
-  if (!clockInput.files || clockInput.files.length === 0) {
-    return showError("Please select a .jpg file for clock background.");
+  const hasUTC = !!selectedUTCValue;
+  const hasFile = clockInput.files && clockInput.files.length > 0;
+
+  if (!hasUTC && !hasFile) {
+    return showError("Please select a UTC timezone or a .jpg image.");
+  }
+
+  if (hasUTC && !hasFile) {
+    showSucess();
+    setTimeout(() => fadeOut(modalClock), 2000);
+    return;
   }
 
   const file = clockInput.files[0];
 
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
-  } if (!selectedUTCValue) {
-    return showError("Please select a UTC timezone.");
   }
 
   const img = new Image();
@@ -470,7 +484,7 @@ salvarClockButton.addEventListener("click", () => {
     URL.revokeObjectURL(objectUrl);
     if (img.width !== 240 || img.height !== 240) {
       return showError("The .jpg image must be exactly 240x240 pixels.");
-    } 
+    }
 
     try {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
@@ -488,6 +502,7 @@ salvarClockButton.addEventListener("click", () => {
 
   img.src = objectUrl;
 });
+
 
 // GIF
 salvarGifButton.addEventListener("click", async () => {
