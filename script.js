@@ -290,7 +290,7 @@ async function carregarRedes() {
     const redes = await res.json();
 
     wifisContainer.innerHTML = ""; // limpa as anteriores
-    redes.forEach(ssid => {
+    redes.forEach((ssid, index) => {
       const p = document.createElement("p");
       p.classList.add("opcao-wifi");
       p.textContent = ssid;
@@ -298,8 +298,8 @@ async function carregarRedes() {
         inputRede.value = ssid;
       });
       wifisContainer.appendChild(p);
-      setTimeout(() => fadeIn(p), index * 750);
-    });
+      setTimeout(() => fadeIn(p), 500 * index); // 
+    });    
 
     fadeIn(wifisContainer)
 
