@@ -295,7 +295,7 @@ async function carregarRedes() {
     antigos.forEach((p, index) => {
       setTimeout(() => {
         fadeOut(p);
-        setTimeout(() => p.remove(), 500); // remove após fade
+        setTimeout(() => p.remove(), 750); // remove após fade
       }, 250 * index);
     });
 
