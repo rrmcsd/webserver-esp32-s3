@@ -299,22 +299,25 @@ async function carregarRedes() {
       }, 250 * index);
     });
 
+    // ⏳ Aguarda TODOS os antigos sumirem + 2s extras antes de mostrar os novos
+    const tempoTotalParaRemover = 250 * antigos.length + 2000;
+
     // Adiciona os novos elementos com fadeIn sequencial
     redes.forEach((ssid, index) => {
       const p = document.createElement("p");
       p.classList.add("opcao-wifi");
       p.textContent = ssid;
-      p.style.opacity = 0; // começa invisível
+      p.style.opacity = 0;
 
       p.addEventListener("click", () => {
         inputRede.value = ssid;
       });
 
-      // Aguarda o tempo da saída + o delay de entrada
+      // Aguarda todo o fadeOut + delay de entrada individual
       setTimeout(() => {
         wifisContainer.appendChild(p);
         fadeIn(p);
-      }, antigos.length * 250 + 750 * index);
+      }, tempoTotalParaRemover + 750 * index);
     });
 
   } catch (e) {
@@ -323,6 +326,7 @@ async function carregarRedes() {
     fadeIn(wifisContainer);
   }
 }
+
 
 function getFlag(code) {
   const pais = mapaPais[code] || code.slice(0, 2).toUpperCase();
