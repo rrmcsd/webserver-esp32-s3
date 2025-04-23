@@ -118,13 +118,13 @@ tooglePassword.addEventListener('click', () => {
 
 });
 
-reloadWifi.addEventListener('click', () => {
-  reloadWifi.classList.remove("rotation");     // 1. Remove classe
-  void reloadWifi.offsetWidth;                 // 2. Força reflow
-  reloadWifi.classList.add("rotation");        // 3. Adiciona de novo
-  
-  carregarRedes(); // Chama sua função normalmente
+reloadWifi.addEventListener('click', async () => {
+  reloadWifi.classList.remove("rotation");
+  void reloadWifi.offsetWidth;
+  reloadWifi.classList.add("rotation");
 
+  await carregarRedes();  // Agora permitido
+  showSucess();
 });
 
 apiMenuButton.addEventListener('click', () => {
@@ -301,7 +301,7 @@ async function carregarRedes() {
     });
 
     fadeIn(wifisContainer)
-    showSucess()
+    // showSucess()
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
     wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
@@ -750,8 +750,8 @@ buttonApply.addEventListener('click', async () => {
 
     const responseText = await res.text();
     if (res.ok) {
-      showSucess();
-      setTimeout(() => fadeOut(modalApply), 2000);
+      setTimeout(() => showSucess(), 2000);
+      setTimeout(() => fadeOut(modalApply), 4000);
       console.log("ESP32 response:", responseText);
     } else {
       showError("ESP32 rejected the apply request.");

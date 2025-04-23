@@ -34,7 +34,7 @@
         .central-content {
             display: flex;
             flex-direction: column;
-            align-items: left;
+            align-items: center;
             justify-content: center;
             flex-grow: 1; /* ocupa o espaço disponível */
             gap: 0px;
@@ -104,11 +104,10 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: left;
+            justify-content: center;
             overflow-y: scroll;
             scrollbar-width: none;     /* Firefox */
             -ms-overflow-style: none;  /* IE 10+ */
-            
         }
         
         .wifis::-webkit-scrollbar {
@@ -134,14 +133,18 @@
             cursor: pointer;
         }
         .label{
+            width: 100%;
             font-size: 16px;
             font-weight: 700;
-            margin: 5px ;
-            margin-left: 15px;
+            margin: 5px;
             color: whitesmoke;
+            align-self: left;
+            width: 300px;
+            min-width: 200px;
+            padding-left: 15px;
         }
         .label-space{
-            margin-top: 30px;
+            margin-top: 20px;
         }
         .input{
             background-color: whitesmoke;
@@ -301,7 +304,9 @@
             <!-- Wifi -->
             <h1 class="title">WiFi Config</h1>
                 <div class="wifis">
-                    <!--WIFIS_AQUI-->
+                    <!-- <p class="opcao-wifi">Mr. Robot 2.4Ghz</p>
+                    <p class="opcao-wifi">Georgia 5G</p>
+                    <p class="opcao-wifi">Suite Master</p> -->
                 </div>
             <!-- Rede -->
             <label for="ssid" class="label">Network:</label>

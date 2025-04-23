@@ -223,6 +223,7 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     scrollbar-width: none;     /* Firefox */
     -ms-overflow-style: none;  /* IE 10+ */
     display: none;
+    
 }
 
 .wifis::-webkit-scrollbar {
