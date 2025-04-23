@@ -216,7 +216,7 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     padding: 5px;
     margin-bottom: 10px;
     gap: 15px;
-    display: none;
+    display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: left;
