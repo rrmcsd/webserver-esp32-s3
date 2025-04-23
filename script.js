@@ -343,7 +343,7 @@ async function carregarMoedas() {
 
 async function carregarUTCs() {
   try {
-    const response = await fetch("https://worldtimeapi.org/api/timezone");
+    const response = await fetch("https://cors-anywhere.herokuapp.com/https://worldtimeapi.org/api/timezone");
     const timezones = await response.json();
 
     timezones.forEach(tz => {
