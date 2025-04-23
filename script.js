@@ -297,11 +297,15 @@ async function carregarRedes() {
       p.addEventListener("click", () => {
         inputRede.value = ssid;
       });
+    
+      fadeOut(p); // Aplica fadeOut inicial
       wifisContainer.appendChild(p);
-      setTimeout(() => fadeIn(p), 500 * index); // 
-    });    
-
-    fadeIn(wifisContainer)
+    
+      // Após 1s + (index * 750ms), executa fadeIn
+      setTimeout(() => fadeIn(p), 1000 + (750 * index));
+    });
+    
+    fadeIn(wifisContainer); // Aplica fadeIn no container geral
 
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
