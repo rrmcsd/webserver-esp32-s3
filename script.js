@@ -291,33 +291,30 @@ async function carregarRedes() {
 
     const antigos = Array.from(wifisContainer.querySelectorAll("p"));
 
-    // FadeOut + remoção suave dos antigos
+    // FadeOut sequencial + remoção após a transição
     antigos.forEach((p, index) => {
       setTimeout(() => {
-        fadeOut(p);
-        setTimeout(() => p.remove(), 750); // remove após fade
-      }, 250 * index);
+        p.classList.add("fade-out");
+        p.addEventListener("transitionend", () => p.remove(), { once: true });
+      }, 1000 * index); // 1s entre cada
     });
 
-    // ⏳ Aguarda TODOS os antigos sumirem + 2s extras antes de mostrar os novos
-    const tempoTotalParaRemover = 250 * antigos.length + 2000;
+    // 🕒 Espera todos saírem (1s cada) + 1s extra antes de começar o fadeIn
+    const delayTotal = antigos.length * 1000 + 1000;
 
-    // Adiciona os novos elementos com fadeIn sequencial
+    // FadeIn dos novos com intervalo de 1.5s
     redes.forEach((ssid, index) => {
       const p = document.createElement("p");
-      p.classList.add("opcao-wifi");
+      p.classList.add("opcao-wifi", "fade-out"); // começa invisível
       p.textContent = ssid;
-      p.style.opacity = 0;
-
       p.addEventListener("click", () => {
         inputRede.value = ssid;
       });
 
-      // Aguarda todo o fadeOut + delay de entrada individual
       setTimeout(() => {
         wifisContainer.appendChild(p);
-        fadeIn(p);
-      }, tempoTotalParaRemover + 750 * index);
+        requestAnimationFrame(() => p.classList.remove("fade-out")); // ativa fadeIn
+      }, delayTotal + 1500 * index);
     });
 
   } catch (e) {
