@@ -291,30 +291,31 @@ async function carregarRedes() {
 
     const antigos = Array.from(wifisContainer.querySelectorAll("p"));
 
-    // FadeOut sequencial + remoção após a transição
-    antigos.forEach((p, index) => {
-      setTimeout(() => {
-        p.classList.add("fade-out");
-        p.addEventListener("transitionend", () => p.remove(), { once: true });
-      }, 1000 * index); // 1s entre cada
-    });
+    // Aplica fadeOut a todos de uma vez
+    antigos.forEach(p => p.classList.add("fade-out"));
 
-    // 🕒 Espera todos saírem (1s cada) + 1s extra antes de começar o fadeIn
-    const delayTotal = antigos.length * 1000 + 1000;
+    // Aguarda o fade terminar (1s), depois remove todos
+    setTimeout(() => {
+      antigos.forEach(p => p.remove());
+    }, 1000);
 
-    // FadeIn dos novos com intervalo de 1.5s
+    // Depois de todos os antigos saírem + 1s extra, insere os novos com fadeIn um por um
+    const delayInicial = 2000;
+
     redes.forEach((ssid, index) => {
       const p = document.createElement("p");
-      p.classList.add("opcao-wifi", "fade-out"); // começa invisível
+      p.classList.add("opcao-wifi", "fade-out"); // Começa invisível
       p.textContent = ssid;
+
       p.addEventListener("click", () => {
         inputRede.value = ssid;
       });
 
+      // Aplica o fadeIn sequencialmente
       setTimeout(() => {
         wifisContainer.appendChild(p);
-        requestAnimationFrame(() => p.classList.remove("fade-out")); // ativa fadeIn
-      }, delayTotal + 1500 * index);
+        requestAnimationFrame(() => p.classList.remove("fade-out"));
+      }, delayInicial + index * 1500);
     });
 
   } catch (e) {
@@ -323,7 +324,6 @@ async function carregarRedes() {
     fadeIn(wifisContainer);
   }
 }
-
 
 function getFlag(code) {
   const pais = mapaPais[code] || code.slice(0, 2).toUpperCase();
