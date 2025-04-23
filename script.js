@@ -289,38 +289,38 @@ async function carregarRedes() {
     const res = await fetch("/scan");
     const redes = await res.json();
 
-    const antigos = wifisContainer.querySelectorAll("p");
+    const antigos = Array.from(wifisContainer.querySelectorAll("p"));
+
+    // FadeOut + remoção suave dos antigos
     antigos.forEach((p, index) => {
-      setTimeout(() => fadeOut(p), 250 * index); // fadeOut sequencial
+      setTimeout(() => {
+        fadeOut(p);
+        setTimeout(() => p.remove(), 500); // remove após fade
+      }, 250 * index);
     });
 
-    // Aguarda os fadeOuts terminarem (~250ms por item), depois limpa
-    const delayParaLimpar = 250 * antigos.length + 300;
-    setTimeout(() => {
-      wifisContainer.innerHTML = "";
+    // Adiciona os novos elementos com fadeIn sequencial
+    redes.forEach((ssid, index) => {
+      const p = document.createElement("p");
+      p.classList.add("opcao-wifi");
+      p.textContent = ssid;
+      p.style.opacity = 0; // começa invisível
 
-      redes.forEach((ssid, index) => {
-        const p = document.createElement("p");
-        p.classList.add("opcao-wifi");
-        p.textContent = ssid;
-        p.style.opacity = 0; // Começa invisível
-
-        p.addEventListener("click", () => {
-          inputRede.value = ssid;
-        });
-
-        wifisContainer.appendChild(p);
-
-        // Mostra um por um com fadeIn
-        setTimeout(() => fadeIn(p), 500 + 750 * index);
+      p.addEventListener("click", () => {
+        inputRede.value = ssid;
       });
 
-    }, delayParaLimpar);
+      // Aguarda o tempo da saída + o delay de entrada
+      setTimeout(() => {
+        wifisContainer.appendChild(p);
+        fadeIn(p);
+      }, antigos.length * 250 + 750 * index);
+    });
 
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
     wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
-    wifisContainer.style.display = "block";
+    fadeIn(wifisContainer);
   }
 }
 

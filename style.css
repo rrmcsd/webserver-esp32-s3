@@ -216,14 +216,13 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     padding: 5px;
     margin-bottom: 10px;
     gap: 15px;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     align-items: center;
     justify-content: left;
     overflow-y: scroll;
     scrollbar-width: none;     /* Firefox */
     -ms-overflow-style: none;  /* IE 10+ */
-    /* display: none; */
 }
 
 .wifis::-webkit-scrollbar {
