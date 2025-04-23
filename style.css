@@ -223,7 +223,6 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     scrollbar-width: none;     /* Firefox */
     -ms-overflow-style: none;  /* IE 10+ */
     display: none;
-    
 }
 
 .wifis::-webkit-scrollbar {
@@ -242,7 +241,6 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: none;
 }
 
 .opcao-wifi:hover{

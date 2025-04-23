@@ -302,7 +302,7 @@ async function carregarRedes() {
     });
 
     fadeIn(wifisContainer)
-    // showSucess()
+
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
     wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
