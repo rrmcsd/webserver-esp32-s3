@@ -27,9 +27,7 @@ let wifiData = {
 };
 
 // API 
-const apiInput = document.getElementById('api');
 const keyInput = document.getElementById('key');
-const apiPlaceholder = document.getElementById('api-placeholder');
 const apiMenuButton = document.getElementById("menu-api");
 const modalApi = document.getElementById("modal-api")
 const closeApiButton = document.getElementById("close-api");
@@ -73,6 +71,12 @@ const modalClock = document.getElementById("modal-clock")
 const closeClockButton = document.getElementById("close-clock");
 const salvarClockButton = document.getElementById("salvar-clock")
 let clockHeaderData = null;
+const dropdownUTC = document.getElementById("dropdown-utc");
+const selectedUTC = document.getElementById("selected-utc");
+const textUTC = document.getElementById("text-utc");
+const flagUTC = document.getElementById("flag-utc");
+const optionsListUTC = document.getElementById("options-list-utc");
+let selectedUTCValue = null;
 
 // GIF
 const gifInput = document.getElementById('gif');
@@ -101,7 +105,6 @@ wifiMenuButton.addEventListener('click', () => {
 
 closeWifiButton.addEventListener('click', () =>{
     fadeOut(modalWifi)
-    fadeOut(wifisContainer)
     
 })
 
@@ -160,15 +163,29 @@ closeBrandButton.addEventListener('click', () =>{
     
 })
 
+selectedUTC.addEventListener("click", () => {
+  const isOpen = optionsListUTC.style.display === "block";
+  optionsListUTC.style.display = isOpen ? "none" : "block";
+});
+
+document.addEventListener("click", (e) => {
+  if (!dropdownUTC.contains(e.target)) {
+    optionsListUTC.style.display = "none";
+  }
+});
+
+
 clockMenuButton.addEventListener('click', () => {
   clockPlaceholder.textContent = "Choose your file";
+  textUTC.textContent = "Your desired timezone";
+  textUTC.style.color = "rgba(255, 255, 255, 0.44)";
+  textUTC.style.fontWeight = "400";
   fadeIn(modalClock)
 
 });
 
 closeClockButton.addEventListener('click', () =>{
   fadeOut(modalClock)
-  
 })
 
 gifMenuButton.addEventListener('click', () => {
@@ -191,6 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 carregarRedes()
 carregarMoedas()
+carregarUTCs();
 
 brandInput.addEventListener('change', () => {
     if (brandInput.files.length === 0) {
@@ -265,6 +283,30 @@ optionsWifi.forEach(option => {
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 
+async function carregarRedes() {
+  try {
+    const res = await fetch("/scan");
+    const redes = await res.json();
+
+    wifisContainer.innerHTML = ""; // limpa as anteriores
+    redes.forEach(ssid => {
+      const p = document.createElement("p");
+      p.classList.add("opcao-wifi");
+      p.textContent = ssid;
+      p.addEventListener("click", () => {
+        inputRede.value = ssid;
+      });
+      wifisContainer.appendChild(p);
+    });
+
+    fadeIn(wifisContainer)
+  } catch (e) {
+    console.error("Erro ao buscar redes:", e);
+    wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
+    wifisContainer.style.display = "block";
+  }
+}
+
 function getFlag(code) {
   const pais = mapaPais[code] || code.slice(0, 2).toUpperCase();
   return `https://flagsapi.com/${pais}/flat/32.png`;
@@ -299,6 +341,29 @@ async function carregarMoedas() {
   }
 }
 
+async function carregarUTCs() {
+  try {
+    const response = await fetch("https://worldtimeapi.org/api/timezone");
+    const timezones = await response.json();
+
+    timezones.forEach(tz => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.innerHTML = `<span>${tz}</span>`;
+      div.addEventListener("click", () => {
+        textUTC.textContent = tz;
+        textUTC.style.color = "rgb(57, 255, 156)";
+        textUTC.style.fontWeight = "500";
+        optionsListUTC.style.display = "none";
+        selectedUTCValue = tz;
+      });
+      optionsListUTC.appendChild(div);
+    });
+  } catch (error) {
+    console.error("❌ Failed to fetch UTC options:", error);
+    optionsListUTC.innerHTML = "<div class='option error-wifi-options'>Failed to load timezones</div>";
+  }
+}
 
 
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
@@ -393,6 +458,8 @@ salvarClockButton.addEventListener("click", () => {
 
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
+  } if (!selectedUTCValue) {
+    return showError("Please select a UTC timezone.");
   }
 
   const img = new Image();
@@ -402,7 +469,7 @@ salvarClockButton.addEventListener("click", () => {
     URL.revokeObjectURL(objectUrl);
     if (img.width !== 240 || img.height !== 240) {
       return showError("The .jpg image must be exactly 240x240 pixels.");
-    }
+    } 
 
     try {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
@@ -462,60 +529,6 @@ salvarGifButton.addEventListener("click", async () => {
 
   img.src = objectUrl;
 });
-
-// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
-// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
-// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
-// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
-
-let brandHeader = { fileName: 'brand.h', content: '...' };
-let clockHeader = { fileName: 'clockbg.h', content: '...' };
-let gifHeader = { fileName: 'animation.h', content: '...' };
-let userConfig = {
-  ssid: "MyNetwork",
-  password: "12345678",
-  apikey: "abc-123",
-  currency: "USD"
-};
-
-buttonApply.addEventListener('click', async () => {
-  fadeIn(modalApply);
-  applyAnimation();
-
-  const payload = {
-    brand: brandHeader?.content || null,
-    clock: clockHeader?.content || null,
-    gif: gifHeader?.content || null,
-    config: userConfig
-  };
-
-  try {
-    const res = await fetch("/apply", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const responseText = await res.text();
-    if (res.ok) {
-      showSucess();
-      setTimeout(() => {
-        fadeOut(modalApply)
-      }, 2000)
-      console.log("ESP32 response:", responseText);
-    } else {
-      showError("ESP32 rejected the apply request.");
-      setTimeout(() => {
-        fadeOut(modalApply)
-      }, 4000)
-    }
-  } catch (e) {
-    console.error("Error sending apply:", e);
-    showError("Error sending apply.");
-  }
-});
-
-
 
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
@@ -681,31 +694,55 @@ function downloadHeader({ fileName, content }) {
   document.body.removeChild(link);
 }
 
- // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
- // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
- // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
- // CARREGAR REDES CARREGAR REDES CARREGAR REDES CARREGAR REDES
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
+// APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 
- async function carregarRedes() {
+buttonApply.addEventListener('click', async () => {
+  fadeIn(modalApply);
+  applyAnimation();
+
+  const config = {};
+  if (wifiData?.ssid && wifiData?.password) {
+    config.ssid = wifiData.ssid;
+    config.password = wifiData.password;
+  }
+
+  if (apiData?.key && apiData?.currency) {
+    config.apikey = apiData.key;
+    config.currency = apiData.currency;
+  }
+
+  if (selectedUTCValue) {
+    config.utc = selectedUTCValue;
+  }
+
+  const payload = {
+    config: Object.keys(config).length > 0 ? config : undefined,
+    brand: brandHeaderData?.content || undefined,
+    clock: clockHeaderData?.content || undefined,
+    gif: gifHeaderData?.content || undefined
+  };
+
   try {
-    const res = await fetch("/scan");
-    const redes = await res.json();
-
-    wifisContainer.innerHTML = ""; // limpa as anteriores
-    redes.forEach(ssid => {
-      const p = document.createElement("p");
-      p.classList.add("opcao-wifi");
-      p.textContent = ssid;
-      p.addEventListener("click", () => {
-        inputRede.value = ssid;
-      });
-      wifisContainer.appendChild(p);
+    const res = await fetch("/apply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
 
-    fadeIn(wifisContainer)
+    const responseText = await res.text();
+    if (res.ok) {
+      showSucess();
+      setTimeout(() => fadeOut(modalApply), 2000);
+      console.log("ESP32 response:", responseText);
+    } else {
+      showError("ESP32 rejected the apply request.");
+      setTimeout(() => fadeOut(modalApply), 4000);
+    }
   } catch (e) {
-    console.error("Erro ao buscar redes:", e);
-    wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
-    wifisContainer.style.display = "block";
+    console.error("Error sending apply:", e);
+    showError("Error sending apply.");
   }
-}
+});

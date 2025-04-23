@@ -403,7 +403,7 @@ API API API API API API API API API API */
   }
   
   .selected {
-    padding: 15px 20px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -423,6 +423,7 @@ API API API API API API API API API API */
     font-size: 14px;
     font-weight: 500;
     margin-top: 2px;
+    overflow-x: hidden;
   }
   
   .option {
@@ -483,6 +484,14 @@ CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK */
 #modal-clock{
     display: none;
 }
+
+#flag-utc {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
 
 /* GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
 GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.55 81.68'%3E%3Cpath d='M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z' fill='%23202020'/%3E%3C/svg%3E">
+    <title>WiFi Config - ESP32S3</title>
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('/data/masters/montserrat.ttf') format('truetype');
+            font-weight: inherit;
+            font-style: normal;
+          }
+        *{
+            margin: 0;
+            border: 0;
+            padding: 0;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            background-color: rgb(32, 32, 32);
+            background-image: linear-gradient( to bottom, rgb(32, 32, 32), black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif; 
+            height: 100vh;
+        }
+        .central-content {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: center;
+            flex-grow: 1; /* ocupa o espaço disponível */
+            gap: 0px;
+            }
+        .tv{
+            width: 45px;
+            margin-bottom: 5px;
+            align-self: center;
+        }
+        .title{
+            text-align: center;
+            color: whitesmoke;
+            vertical-align: middle;
+            margin: 0px 20px 10px 20px;
+            font-size: 28px;
+            font-weight: 800;
+        }
+        #button-apply{
+            background-color: rgb(57, 255, 156);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            font-weight: 700;
+            font-size: 16px;
+            color: rgb(32, 32, 32);
+            padding: 7px 20px;
+            border-radius: 100px;
+            margin-top: 20px;
+            transition: all 0.5s;
+            width: 200px;
+            align-self: center;
+            cursor: pointer;
+        }
+        .img-apply{
+            width: 15px;
+            margin-right: 5px;
+            margin-top: 2px;
+        }
+        .div-rect-footer{
+            width: 85%;
+            height: auto;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .text-footer{
+            background-color: whitesmoke;
+            border-radius: 30px 30px 0px 0px;
+            padding: 20px 35px;    
+            width: 100%;
+            color: rgb(32, 32, 32);
+            font-size: 12px;
+            text-align: center;
+            margin: 0;
+            font-weight: 500;
+        }     
+        .wifis{
+            height: auto;
+            width: 100%;
+            max-height: 120px;
+            padding: 5px;
+            margin-bottom: 10px;
+            gap: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: left;
+            overflow-y: scroll;
+            scrollbar-width: none;     /* Firefox */
+            -ms-overflow-style: none;  /* IE 10+ */
+            
+        }
+        
+        .wifis::-webkit-scrollbar {
+            display: none;             /* Chrome, Safari, Edge */
+        }
+        .opcao-wifi{
+            font-size: 12px;
+            color: rgb(32, 32, 32);
+            background-color: rgb(57, 255, 156);
+            border-radius: 100px;
+            padding: 5px 15px;
+            font-weight: 500;
+            transition: all 0.5s;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .error-wifi-options{
+            background-color: rgb(241, 112, 97);
+            font-size: 12px;
+            color: rgb(32, 32, 32);
+            cursor: pointer;
+        }
+        .label{
+            font-size: 16px;
+            font-weight: 700;
+            margin: 5px ;
+            margin-left: 15px;
+            color: whitesmoke;
+        }
+        .label-space{
+            margin-top: 30px;
+        }
+        .input{
+            background-color: whitesmoke;
+            height: 30px;
+            border-radius: 100px;
+            color: rgb(32, 32, 32);
+            font-weight: 500;
+            padding: 20px;
+            font-size: 14px;
+            outline: none;
+            width: 300px;
+            min-width: 200px;
+        }
+        .input-div{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+            background-color: whitesmoke;
+            height: 30px;
+            border-radius: 100px;
+            padding: 20px 20px 20px 0px;
+            width: 300px;
+            min-width: 200px;
+        }
+        .input-transparent{
+            all: unset;
+            height: 100%;
+            width: 100%;
+            background-color: transparent;
+            padding: 20px;
+            font-size: 14px;
+            color: rgb(32, 32, 32);
+            font-weight: 500;
+        }
+        .icon-input-div{
+            width: 22px;
+            z-index: 2;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        #invisibility-password{
+            margin-top: 4px;
+            display: none;
+        }
+        .text-issues{
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: rgb(241, 112, 97);
+            width: 300px;
+        }
+        #modal-apply{
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(245, 245, 245, 0.99);
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        #title-apply{
+            color: rgb(32, 32, 32);
+        }        
+        .sucess{
+            width: 120px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: none;
+        }
+        .error{
+            width: 120px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: none;
+        }
+        #modal-error{
+            width: 85%;
+            max-width: 450px;
+            height: auto;
+            min-height: 120px;
+            padding: 20px;
+            background-color: rgb(241, 112, 97, 0.98);
+            border-radius: 25px;
+            position: absolute;
+            top: 40px;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        .text-error{
+            font-size: 14px;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+        .fade-in{
+            animation: fade-in 0.5s forwards;
+        }
+        .fade-out{
+            animation: fade-out 0.5s forwards;
+        }
+        .rotation{
+            animation: rotation 1s forwards;
+        }
+        @keyframes fade-in{
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out{
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+                display: none;
+            }
+        }
+        @keyframes rotation {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(720deg); /* 360 × 3 voltas */
+            }
+          }
+        .display-hidden{
+            display: none !important;
+        }
+        .display-show{
+            display: flex !important;
+        }
+    </style>
+    </head>
+        <div class="central-content">
+            <div class="tv" aria-hidden="true">
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.55 81.68">
+                    <path d="M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z" fill="#39ff9c"/>
+                </svg>
+            </div>
+            <!-- Wifi -->
+            <h1 class="title">WiFi Config</h1>
+                <div class="wifis">
+                    <!--WIFIS_AQUI-->
+                </div>
+            <!-- Rede -->
+            <label for="ssid" class="label">Network:</label>
+            <input id="rede" name="ssid" class="input" type="text" placeholder="Your WiFi name">
+            <!-- Senha -->
+            <label for="password" class="label label-space">Password:</label>
+            <div class="input-div">
+                <input id="senha" name="password" class="input-transparent" type="password" placeholder="Your WiFi password"> 
+                    <div class="icon-toggle-password">
+                        <div id="visibility-password" class="icon-input-div" aria-hidden="true">
+                            <?xml version="1.0" encoding="UTF-8"?>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.32 31.19">
+                                <path d="M22.27.02c9.01-.35,17.97,4.36,22.72,11.99,2.34,3.76,1.37,5.49-1.08,8.77-10.2,13.71-30.73,13.92-41.19.39-3.21-4.16-3.77-5.83-.63-10.27C6.7,4.37,14.26.33,22.27.02ZM22.37,3.05c-7.03.29-13.65,3.81-17.74,9.51-.75,1.04-1.95,2.53-1.43,3.84.75,1.89,3.55,4.97,5.13,6.3,10.2,8.66,25.59,6.83,33.38-4.02.69-.96,1.9-2.5,1.51-3.72-.17-.53-1.13-1.88-1.51-2.4-4.37-6.09-11.78-9.82-19.34-9.51Z" fill="#202020"/>
+                                <path d="M32.21,15.61c0,5-4.05,9.05-9.05,9.05s-9.05-4.05-9.05-9.05,4.05-9.05,9.05-9.05,9.05,4.05,9.05,9.05ZM29.18,15.61c0-3.32-2.69-6.02-6.02-6.02s-6.02,2.69-6.02,6.02,2.69,6.02,6.02,6.02,6.02-2.69,6.02-6.02Z" fill="#202020"/>
+                            </svg>
+                        </div>
+                        <div id="invisibility-password" class="icon-input-div" aria-hidden="true">
+                            <?xml version="1.0" encoding="UTF-8"?>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.3 31.89">
+                                <path d="M38.64,31.44c-1.63,1.63-3.29-1.62-4.51-2.31-1.3.51-2.58,1.06-3.93,1.44-10.19,2.87-21.07-.75-27.5-9.06C.11,18.15-1.12,16.25,1.33,12.34c2.05-3.27,4.86-5.92,8.05-8.06-.83-.97-3.16-2.39-1.72-3.82,1.63-1.63,3.29,1.62,4.51,2.31,1.3-.51,2.58-1.06,3.93-1.44,10.19-2.87,21.07.75,27.5,9.06,2.6,3.36,3.82,5.23,1.37,9.16-2.05,3.28-4.85,5.92-8.05,8.06.83.97,3.16,2.39,1.72,3.82ZM22.54,3.38c-2.76.09-5.56.65-8.08,1.78l3.39,3.36c.98-.48,1.86-1.02,2.96-1.31,7.29-1.89,13.55,5.27,10.69,12.25-.26.62-.68,1.18-.92,1.79.52.46,3.85,4.06,4.14,4.07,3.05-1.74,5.81-4.37,7.67-7.37.48-.78,1.03-1.45.87-2.44-.07-.45-1.24-2.16-1.57-2.62-4.32-6.05-11.66-9.74-19.14-9.51ZM11.5,6.59c-.24.06-1.38.87-1.67,1.08-2.31,1.63-4.79,4.23-6.2,6.69-.85,1.48-.82,1.78.04,3.25,4.29,7.29,13.06,11.6,21.48,10.85,2.27-.2,4.54-.79,6.64-1.66l-3.34-3.41c-.14-.04-1.4.75-1.72.89-7.48,3.17-15.05-4.32-11.93-11.83.26-.62.7-1.18.92-1.79l-3.94-3.98c-.08-.08-.16-.11-.27-.08ZM22.93,9.92c-.9.03-2.12.32-2.81.9l8.15,8.15c.85-1.11,1.05-2.86.79-4.2-.56-2.86-3.21-4.95-6.13-4.85ZM26.17,21.22l-8.25-8.2c-2.98,5.36,2.89,11.05,8.25,8.2Z" fill="#202020"/>
+                            </svg>
+                        </div>
+                    </div>   
+                </div>
+            <p class="text-issues">
+                *Only 2.4Ghz networks are accepted. Check 
+                github.com/GeekMagicClock/GeekMagic-S3 
+                for more information.
+            </p>
+            <button id="button-apply">
+                <div class="img-apply" aria-hidden="true">
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.98 41.86">
+                        <path d="M17.14,14.71h9.42c.08,0,.66.22.8.28,2.31.91,3.28,3.7,2.13,5.88l-12.89,20.31c-.92.84-2.46,1.01-3.27-.05-.13-.17-.49-.9-.49-1.07v-12.84H3.42c-.08,0-.66-.22-.8-.28-2.32-.92-3.31-3.77-2.1-5.94L13.33.79c.83-1.04,2.5-1.07,3.32,0,.13.17.49.9.49,1.07v12.84Z" fill="#202020"/>
+                    </svg>
+                </div>
+                Apply
+            </button>
+        </div>
+        <div id="footer" class="div-rect-footer">
+            <p class="text-footer">
+                Connect to wifi for more information. 
+                After applying, connect to the same network applied and access http://192.168.1.119 for fun.
+            </p>
+        </div>
+    <div id="modal-apply">
+        <h1 id="title-apply" class="title">Applying</h1>
+    </div>
+    <div class="sucess" aria-hidden="true">
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.43 131.43">
+            <path d="M131.43,65.71c0,36.29-29.42,65.71-65.71,65.71S0,102.01,0,65.71,29.42,0,65.71,0s65.71,29.42,65.71,65.71ZM89.05,42.31c-.95.16-2.38.94-3.15,1.53l-28.56,28.57c-.96,0-10.44-11.67-14-12.95-6.61-2.37-12.13,5.36-7.54,11.05,4.89,6.05,12.43,11.56,17.6,17.55,2.65,1.67,6.37,1.52,8.63-.71l34.07-34.19c3.46-5.32-.72-11.95-7.06-10.87Z" fill="#39ff9c"/>
+        </svg>
+            <path d="M32.21,15.61c0,5-4.05,9.05-9.05,9.05s-9.05-4.05-9.05-9.05,4.05-9.05,9.05-9.05,9.05,4.05,9.05,9.05ZM29.18,15.61c0-3.32-2.69-6.02-6.02-6.02s-6.02,2.69-6.02,6.02,2.69,6.02,6.02,6.02,6.02-2.69,6.02-6.02Z" fill="#39ff9c"/>
+        </svg>
+    </div>
+    <div class="error" aria-hidden="true">
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.46 131.46">
+            <path d="M131.46,65.73c0,36.3-29.43,65.73-65.73,65.73S0,102.03,0,65.73,29.43,0,65.73,0s65.73,29.43,65.73,65.73ZM65.38,30.64c-3.84.21-6.27,3.2-6.65,6.86-1.1,10.6.76,22.89-.05,33.67.62,9.2,13.05,9.72,14.04.25-.57-10.83.89-22.66.05-33.37-.32-4.1-2.93-7.64-7.39-7.39ZM73.56,93.91c0-4.34-3.52-7.86-7.86-7.86s-7.86,3.52-7.86,7.86,3.52,7.86,7.86,7.86,7.86-3.52,7.86-7.86Z" fill="#f17061"/>
+        </svg>
+    </div>
+<div id="modal-error">
+    <p id="text-variant-error" class="text-error">
+    </p>
+</div>
+<script>
+    const sucessAnimation = document.querySelector(".sucess")
+    const errorAnimation = document.querySelector(".error")
+    const modalError = document.getElementById("modal-error")
+    const textError = document.getElementById("text-variant-error")
+    const buttonApply = document.getElementById("button-apply")
+    const modalApply = document.getElementById("modal-apply")
+    const titleApply = document.getElementById("title-apply")
+    const optionsWifi = document.querySelectorAll(".opcao-wifi")
+    const inputRede = document.getElementById("rede")
+    const visibilitySenha = document.getElementById("visibility-password")
+    const invisibilitySenha = document.getElementById("invisibility-password")
+    const inputSenha = document.getElementById("senha")
+    const tooglePassword = document.querySelector(".icon-toggle-password")
+    const wifisContainer = document.querySelector(".wifis");
+    let wifiData = {
+    ssid: "",
+    password: ""
+    };
+  tooglePassword.addEventListener('click', () => {
+    const isPassword = inputSenha.type === 'password';
+    inputSenha.type = isPassword ? 'text' : 'password';
+    // Alterna visibilidade dos ícones
+    visibilitySenha.style.display = isPassword ? "none" : "block";
+    invisibilitySenha.style.display = isPassword ? "block" : "none";
+  });
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("opcao-wifi")) {
+            wifiName = e.target.textContent;
+            inputRede.value = wifiName;
+        }
+    });
+    buttonApply.addEventListener('click', async () => {
+        const ssid = inputRede.value.trim();
+        const password = inputSenha.value.trim();
+        if (!ssid) {
+            return showError("Please fill in the name of your selected Wi-Fi network.");
+        }
+        if (!password) {
+            return showError("Please fill in the password of your selected Wi-Fi network.");
+        }
+        fadeIn(modalApply);
+        applyAnimation();
+        try {
+            const formData = new URLSearchParams();
+            formData.append("ssid", ssid);
+            formData.append("password", password);
+            
+            const res = await fetch("/wifi", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: formData.toString()
+            });
+            const responseText = await res.text();
+            if (res.ok) {
+            showSucess();
+            setTimeout(() => {
+                fadeOut(modalApply)
+            }, 2000)
+            console.log("ESP32 response:", responseText);
+            } else {
+            showError("ESP32 rejected the apply request.");
+            setTimeout(() => {
+                fadeOut(modalApply)
+            }, 4000)
+            }
+            } catch (e) {
+            console.error("Error sending apply:", e);
+            showError("Error sending apply.");
+        }
+    });
+    function showSucess() {
+        fadeIn(sucessAnimation)
+        setTimeout(() => {
+            fadeOut(sucessAnimation)
+        }, 3000)
+    };
+    function showError(txt) {
+    textError.textContent = String(txt)
+    fadeIn(modalError)
+    fadeIn(errorAnimation);        // mostra o vídeo
+    setTimeout(() => {
+        fadeOut(modalError);
+        fadeOut(errorAnimation)
+    }, 4000)
+    };
+    function fadeIn(obj) {
+    obj.classList.remove('display-hidden')
+    obj.classList.add('display-show')
+    obj.classList.remove('fade-out')
+    obj.classList.add('fade-in')
+    };
+    function fadeOut(obj) {
+    obj.classList.remove('fade-in')
+    obj.classList.add('fade-out')
+    setTimeout(() => {
+        obj.classList.remove('display-show')
+        obj.classList.add('display-hidden')
+    }, 500);
+    };
+    function applyAnimation() {
+    const titleApply = document.getElementById("title-apply"); // certifique-se do ID correto
+    const baseText = "Applying";
+    let dotCount = 0;
+    const interval = setInterval(() => {
+        dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3 → zera
+        titleApply.textContent = baseText + ".".repeat(dotCount);
+    }, 500);
+    }
+</script>
+</body>
+</html>
