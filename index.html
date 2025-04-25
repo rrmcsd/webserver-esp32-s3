@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#39ff9c">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.55 81.68'%3E%3Cpath d='M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z' fill='%2339ff9c'/%3E%3C/svg%3E">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@48387a2d089fbb142a85ec393f6ba37e3da47631/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@48387a2d089fbb142a85ec393f6ba37e3da47631/responsive.css"> -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@fa902f31b4851e9e139fa80ff133ce75beee63d1/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@fa902f31b4851e9e139fa80ff133ce75beee63d1/responsive.css">
+    <!-- <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
      -->
      <div class="page">
         <div class="central-content">
-            <div class="tv" aria-hidden="true">
+            <div class="tv">
                 <?xml version="1.0" encoding="UTF-8"?>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.55 81.68">
                     <path d="M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z" fill="#39ff9c"/>
@@ -37,7 +37,7 @@
                 <li class="item" id="menu-gif">Gif Animation</li>
             </ul>
             <button id="button-apply">
-                <div class="img-apply" aria-hidden="true">
+                <div class="img-apply">
                     <?xml version="1.0" encoding="UTF-8"?>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.98 41.86">
                         <path d="M17.14,14.71h9.42c.08,0,.66.22.8.28,2.31.91,3.28,3.7,2.13,5.88l-12.89,20.31c-.92.84-2.46,1.01-3.27-.05-.13-.17-.49-.9-.49-1.07v-12.84H3.42c-.08,0-.66-.22-.8-.28-2.32-.92-3.31-3.77-2.1-5.94L13.33.79c.83-1.04,2.5-1.07,3.32,0,.13.17.49.9.49,1.07v12.84Z" fill="#202020"/>
@@ -72,7 +72,7 @@
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI
     WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI WIFI -->
-    <div id="modal-wifi" class="modal" role="dialog" aria-hidden="true">
+    <div id="modal-wifi" class="modal" role="dialog">
         <div id="close-wifi">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -87,7 +87,7 @@
                         <path d="M44.45,14.6v1.3c-.19.53-.45.9-.78,1.34-2.11,2.8-4.73,5.5-6.98,8.2-1.41.89-2.5.59-3.73-.35-2.32-1.76-5.31-4.22-7.42-6.2-2.96-2.77.12-6.41,2.98-4.8l3.53,2.85c-1.35-9.37-11.98-14.35-20.12-9.32s-8.44,16.61-.73,22.15c2.65,1.9,4.56,2.16,7.71,2.45,3.85.36,3.59,5.36.26,5.64-3.58.31-8.2-1.37-11.09-3.4-10.73-7.55-10.76-23.42-.05-31s24.45-2.63,28.69,8.95l.93,3.23c1.08-1,1.97-2.99,3.57-3.2s2.79.7,3.25,2.16Z" fill="#202020"/>
                     </svg>
                 </div>
-                <div class="sucess-reload-wifis" aria-hidden="true">
+                <div class="sucess-reload-wifis">
                     <svg viewBox="0 0 45.91 45.91">
                         <use href="#icon-sucess"></use>
                     </svg>
@@ -104,12 +104,12 @@
         <div class="input-div">
             <input id="senha" name="senha" class="input-transparent" type="password" placeholder="Your WiFi password"> 
             <div class="icon-toggle-password">
-                <div id="visibility-password" aria-hidden="true">
+                <div id="visibility-password">
                     <svg class="icon-input-div" viewBox="0 0 45.91 45.91">
                         <use href="#icon-visibility"></use>
                     </svg>
                 </div>
-                <div id="invisibility-password" aria-hidden="true">
+                <div id="invisibility-password">
                     <svg class="icon-input-div" viewBox="0 0 45.91 45.91">
                         <use href="#icon-invisibility"></use>
                     </svg>
@@ -130,7 +130,7 @@
     API API API API API API API API API API API API API
     API API API API API API API API API API API API API
     API API API API API API API API API API API API API -->
-    <div id="modal-api" class="modal" role="dialog" aria-hidden="true">
+    <div id="modal-api" class="modal" role="dialog">
         <div id="close-api">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -141,12 +141,12 @@
         <div class="textarea-wrapper">
             <textarea type="password" id="key" name="api" class="input" placeholder="Your AwesomeAPI key"></textarea>
             <div class="icon-toggle-key">
-                <div id="visibility-key" aria-hidden="true">
+                <div id="visibility-key">
                     <svg class="sensitivy-key" viewBox="0 0 45.91 45.91">
                         <use href="#icon-visibility"></use>
                     </svg>
                 </div>
-                <div id="invisibility-key" class="sensitivy-key" aria-hidden="true">
+                <div id="invisibility-key" class="sensitivy-key">
                     <svg class="sensitivy-key" viewBox="0 0 45.91 45.91">
                         <use href="#icon-invisibility"></use>
                     </svg>
@@ -180,7 +180,7 @@
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND
     BRAND BRAND BRAND BRAND BRAND BRAND BRAND BRAND -->
-    <div id="modal-brand" class="modal" role="dialog" aria-hidden="true">
+    <div id="modal-brand" class="modal" role="dialog">
         <div id="close-brand">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -212,7 +212,7 @@
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK
     CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK -->
-    <div id="modal-clock" class="modal" role="dialog" aria-hidden="true">
+    <div id="modal-clock" class="modal" role="dialog">
         <div id="close-clock">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -261,7 +261,7 @@
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF
     GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF -->
-    <div id="modal-gif" class="modal" role="dialog" aria-hidden="true">
+    <div id="modal-gif" class="modal" role="dialog">
         <div id="close-gif">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -294,7 +294,7 @@
     CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM 
     CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM 
     CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  -->
-    <div id="modal-confirm" role="dialog" aria-hidden="true">
+    <div id="modal-confirm" role="dialog">
         <div id="close-confirm">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
                 <use href="#icon-close"></use>
@@ -305,12 +305,12 @@
             <div class="title-sensitivity">
                 <p class="title-item-confirm">WiFi</p>
                 <div class="icon-toggle-wifi-confirm">
-                    <div id="visibility-wifi-confirm" aria-hidden="true">
+                    <div id="visibility-wifi-confirm">
                         <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
                             <use href="#icon-visibility"></use>
                         </svg>
                     </div>
-                    <div id="invisibility-wifi-confirm" aria-hidden="true">
+                    <div id="invisibility-wifi-confirm">
                         <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
                             <use href="#icon-invisibility"></use>
                         </svg>
@@ -329,12 +329,12 @@
             <div class="title-sensitivity">
                 <p class="title-item-confirm">AwesomeAPI Infos</p>
                 <div class="icon-toggle-key-confirm">
-                    <div id="visibility-key-confirm" aria-hidden="true">
+                    <div id="visibility-key-confirm">
                         <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
                             <use href="#icon-visibility"></use>
                         </svg>
                     </div>
-                    <div id="invisibility-key-confirm" aria-hidden="true">
+                    <div id="invisibility-key-confirm">
                         <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
                             <use href="#icon-invisibility"></use>
                         </svg>
@@ -383,7 +383,7 @@
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS -->
-    <div class="sucess" aria-hidden="true">
+    <div class="sucess">
         <svg viewBox="0 0 45.91 45.91">
             <use href="#icon-sucess"></use>
         </svg>
@@ -392,7 +392,7 @@
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR -->
-    <div class="error" aria-hidden="true">
+    <div class="error">
         <?xml version="1.0" encoding="UTF-8"?>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.46 131.46">
             <rect x="50.93" y="28.22" width="28.04" height="76.55" fill="#fff"/>
@@ -481,7 +481,7 @@ SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS  -->
     <path d="M65.72,0C29.43,0,0,29.42,0,65.71s29.43,65.71,65.72,65.71,65.71-29.42,65.71-65.71S102.01,0,65.72,0ZM96.11,53.17l-34.08,34.19c-2.26,2.23-5.97,2.37-8.63.7-5.17-5.99-12.71-11.5-17.6-17.55-4.6-5.69.93-13.42,7.54-11.05,3.56,1.27,13.04,12.94,14,12.94l28.56-28.56c.77-.6,2.2-1.37,3.15-1.54,6.34-1.08,10.52,5.55,7.06,10.87Z" fill="#39ff9c"/>
 </symbol>
 </svg>
-<!-- <script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@48387a2d089fbb142a85ec393f6ba37e3da47631/script.js"></script> -->
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@fa902f31b4851e9e139fa80ff133ce75beee63d1/script.js"></script>
+<!-- <script src="script.js"></script> -->
 </body>
 </html>
