@@ -20,7 +20,6 @@ const inputSenha = document.getElementById("senha")
 const wifisContainer = document.querySelector(".wifis");
 const tooglePassword = document.querySelector(".icon-toggle-password")
 const reloadWifi = document.getElementById("icon-reload")
-
 let wifiData = {
   ssid: "",
   password: ""
@@ -36,6 +35,11 @@ const dropdown = document.getElementById("dropdown");
 const selectedText = document.getElementById("selected-text");
 const selectedFlag = document.getElementById("selected-flag");
 const optionsList = document.getElementById("options-list");
+const visibilityKey = document.getElementById("visibility-key");
+const invisibilityKey = document.getElementById("invisibility-key");
+const toggleKey = document.querySelector(".icon-toggle-key");
+let realApiKey = "";
+let isKeyMasked = true;
 const mapaPais = {
   USD: "US",
   EUR: "EU",
@@ -77,6 +81,11 @@ const textUTC = document.getElementById("text-utc");
 const flagUTC = document.getElementById("flag-utc");
 const optionsListUTC = document.getElementById("options-list-utc");
 let selectedUTCValue = null;
+const divRectHex = document.getElementById("div-rect-color")
+const hexText = document.getElementById("hex-text")
+const inputRectColor = document.getElementById("input-transparent-hex")
+const hexPlaceholder = document.getElementById("hex-placeholder")
+let rectHexColor = "";
 
 // GIF
 const gifInput = document.getElementById('gif');
@@ -86,6 +95,28 @@ const modalGif = document.getElementById("modal-gif")
 const closeGifButton = document.getElementById("close-gif");
 const salvarGifButton = document.getElementById("salvar-gif")
 let gifHeaderData = null;
+
+// CONFIRM
+const modalConfirm =  document.getElementById("modal-confirm");
+const closeConfirmButton = document.getElementById("close-confirm");
+const confirmButton = document.getElementById("confirm-button");
+const ssidConfirm = document.getElementById("ssid-confirm");
+const passwordConfirm = document.getElementById("password-confirm");
+const keyConfirm = document.getElementById("key-confirm");
+const currencyConfirm = document.getElementById("currency-confirm");
+const uploadBrandConfirm = document.getElementById("upload-brand-confirm");
+const rectHexConfirm = document.getElementById("rect-hex-confirm");
+const uploadClockConfirm = document.getElementById("upload-clock-confirm");
+const utcConfirm = document.getElementById("utc-confirm");
+const uploadGifConfirm = document.getElementById("upload-gif-confirm")
+const visibilityWifiConfirm = document.getElementById("visibility-wifi-confirm")
+const invisibilityWifiConfirm = document.getElementById("invisibility-wifi-confirm")
+const toogleWifiConfirm = document.querySelector(".icon-toggle-wifi-confirm")
+const visibilityKeyConfirm = document.getElementById("visibility-key-confirm")
+const invisibilityKeyConfirm = document.getElementById("invisibility-key-confirm")
+const toogleKeyConfirm = document.querySelector(".icon-toggle-key-confirm")
+let realWifiConfirm = "";
+let sensitivyKey = "";
 
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
@@ -123,8 +154,10 @@ reloadWifi.addEventListener('click', async () => {
   void reloadWifi.offsetWidth;
   reloadWifi.classList.add("rotation");
 
-  await carregarRedes();  // Agora permitido
-  showSucess();
+  const carregou = await carregarRedes();
+  if (carregou) {
+    showSucess();
+  }
 });
 
 apiMenuButton.addEventListener('click', () => {
@@ -132,6 +165,7 @@ apiMenuButton.addEventListener('click', () => {
   selectedText.style.color = "rgba(255, 255, 255, 0.44)";
   selectedText.style.fontWeight = "400";
   selectedFlag.style.display = "none";
+  keyInput.style.paddingTop = "20px"
   resetValue(keyInput)
   fadeIn(modalApi)
 
@@ -151,6 +185,19 @@ document.addEventListener("click", function (e) {
   if (!dropdown.contains(e.target)) {
     optionsList.style.display = "none";
   }
+});
+
+// Toggle visibilidade
+toggleKey.addEventListener("click", () => {
+  isKeyMasked = !isKeyMasked;
+  keyInput.value = isKeyMasked
+    ? "*".repeat(realApiKey.length)
+    : realApiKey;
+  if (!keyInput === "") {
+    keyInput.style.paddingTop = isKeyMasked ? "20px" : "15px";
+  	}
+  visibilityKey.style.display = isKeyMasked ? "block" : "none";
+  invisibilityKey.style.display = isKeyMasked ? "none" : "block";
 });
 
 brandMenuButton.addEventListener('click', () => {
@@ -173,14 +220,31 @@ document.addEventListener("click", (e) => {
   if (!dropdownUTC.contains(e.target)) {
     optionsListUTC.style.display = "none";
   }
+  inputRectColor.addEventListener("blur", () => {
+    const isEmpty = inputRectColor.value.trim() === "";
+    if (isEmpty) {
+      hexPlaceholder.style.display = "block";
+      inputRectColor.style.display = "none";
+      hexText.style.display = "none";
+      inputRectColor.classList.remove("input-padding-hex");
+      inputRectColor.value = "";
+    }
+  });
 });
-
 
 clockMenuButton.addEventListener('click', () => {
   clockPlaceholder.textContent = "Choose your file";
   textUTC.textContent = "Your desired timezone";
   textUTC.style.color = "rgba(255, 255, 255, 0.44)";
   textUTC.style.fontWeight = "400";
+
+  hexPlaceholder.style.display = "block"
+  inputRectColor.style.display = "none"
+  hexText.style.display = "none"
+  inputRectColor.value = ""
+  inputRectColor.classList.remove("input-padding-hex")
+  
+
   fadeIn(modalClock)
 
 });
@@ -199,6 +263,48 @@ closeGifButton.addEventListener('click', () =>{
   fadeOut(modalGif)
   
 })
+
+buttonApply.addEventListener('click', () =>{
+  if (passwordConfirm.textContent === "No change") {
+      visibilityWifiConfirm.style.display = "none"
+  } 
+  
+  if (keyConfirm.textContent === "No change") {
+      visibilityKeyConfirm.style.display = "none"
+  } 
+
+  fadeIn(modalConfirm)
+})
+
+closeConfirmButton.addEventListener('click', () => {
+    fadeOut(modalConfirm)
+});
+
+toogleWifiConfirm.addEventListener('click', () => {
+  if (passwordConfirm.textContent !== "No change") {
+    const isMasked = passwordConfirm.textContent.includes('*');
+    passwordConfirm.textContent = isMasked
+      ? realWifiConfirm // mostrar senha real
+      : formatSensitive(realWifiConfirm, true);
+
+    visibilityWifiConfirm.style.display = isMasked ? "none" : "block";
+    invisibilityWifiConfirm.style.display = isMasked ? "block" : "none";
+  }
+
+});
+
+toogleKeyConfirm.addEventListener('click', () => {
+  if (keyConfirm.textContent !== "No change") {
+  const isMasked = keyConfirm.textContent.includes('*');
+  keyConfirm.textContent = isMasked
+    ? `${realApiKey.slice(0, 11)}...${realApiKey.slice(-11)}`
+    : formatSensitive(realApiKey, true);
+
+  visibilityKeyConfirm.style.display = isMasked ? "none" : "block";
+  invisibilityKeyConfirm.style.display = isMasked ? "block" : "none";
+  }
+});
+
 
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
@@ -291,37 +397,36 @@ async function carregarRedes() {
 
     const antigos = Array.from(wifisContainer.querySelectorAll("p"));
 
-    // Aplica fadeOut a todos de uma vez
     antigos.forEach(p => p.classList.add("fade-out"));
 
-    // Aguarda o fade terminar (1s), depois remove todos
     setTimeout(() => {
       antigos.forEach(p => p.remove());
     }, 1000);
 
-    // Depois de todos os antigos saírem + 1s extra, insere os novos com fadeIn um por um
     const delayInicial = 2000;
 
     redes.forEach((ssid, index) => {
       const p = document.createElement("p");
-      p.classList.add("opcao-wifi", "fade-out"); // Começa invisível
+      p.classList.add("opcao-wifi", "fade-out");
       p.textContent = ssid;
 
       p.addEventListener("click", () => {
         inputRede.value = ssid;
       });
 
-      // Aplica o fadeIn sequencialmente
       setTimeout(() => {
         wifisContainer.appendChild(p);
         requestAnimationFrame(() => p.classList.remove("fade-out"));
       }, delayInicial + index * 1500);
     });
 
+    return true; // ✅ sucesso
+
   } catch (e) {
     console.error("Erro ao buscar redes:", e);
     wifisContainer.innerHTML = "<p class='opcao-wifi error-wifi-options'>Error when searching for networks.</p>";
     fadeIn(wifisContainer);
+    return false; // ❌ erro
   }
 }
 
@@ -384,6 +489,47 @@ async function carregarUTCs() {
   }
 }
 
+function formatSensitive(value, isPassword = false) {
+  if (isPassword) {
+    if (value.length > 25) {
+      return '*'.repeat(25);
+    } else {
+      return '*'.repeat(value.length);
+    }
+  }
+
+  return value;
+}
+keyInput.addEventListener("input", (e) => {
+  const selectionStart = keyInput.selectionStart;
+  const selectionEnd = keyInput.selectionEnd;
+  const currentLength = keyInput.value.length;
+
+  const delta = currentLength - realApiKey.length;
+
+  // CASO 1: Deleção (seleção ou backspace)
+  if (delta < 0) {
+    const start = selectionStart;
+    const end = start - delta;
+    realApiKey = realApiKey.slice(0, start) + realApiKey.slice(end);
+  }
+
+  // CASO 2: Inserção ou colagem
+  else if (delta > 0) {
+    const inserted = e.data || ""; // pega o que foi digitado (ou colado)
+    const start = selectionStart - inserted.length;
+    realApiKey = realApiKey.slice(0, start) + inserted + realApiKey.slice(start);
+  }
+
+  // CASO 3: texto apagado todo (ou limpado manualmente)
+  if (keyInput.value === "") {
+    realApiKey = "";
+  }
+
+  if (isKeyMasked) {
+    keyInput.value = "*".repeat(realApiKey.length);
+  }
+});
 
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
@@ -400,19 +546,30 @@ salvarWifiButton.addEventListener("click", () => {
   }
   if (!password) {
     return showError("Please fill in the password of your selected Wi-Fi network.");
+  } 
+  if (password.length < 6) {
+    return showError("Password must be at least 6 characters long.");
   }
 
+  realWifiConfirm = password;
+  ssidConfirm.textContent = ssid;
+  passwordConfirm.textContent = formatSensitive(password, true);
   wifiData = { ssid, password };
+
   showSucess();
   setTimeout(() => { 
-    fadeOut(modalWifi)
-    fadeOut(wifisContainer)
+    fadeOut(modalWifi);
+    fadeOut(wifisContainer);
   }, 2000);
 });
 
+
 salvarApiButton.addEventListener("click", () => {
-  const key = keyInput.value.trim();
+  const key = realApiKey.trim();
   const currency = selectedText.textContent;
+
+  keyConfirm.textContent = formatSensitive(key, true);
+  currencyConfirm.textContent = currency;
 
   const hasKey = key !== "";
   const hasCurrency = currency !== "Your desired conversion";
@@ -456,6 +613,7 @@ salvarBrandButton.addEventListener("click", () => {
 
     try {
       brandHeaderData = await convertJPGtoHeader(file, "brand", 100, 100);
+      uploadBrandConfirm.textContent = brandPlaceholder.textContent
       showSucess();
       setTimeout(() => fadeOut(modalBrand), 2000);
     } catch (e) {
@@ -471,17 +629,30 @@ salvarBrandButton.addEventListener("click", () => {
   img.src = objectUrl;
 });
 
-
 // CLOCK
 salvarClockButton.addEventListener("click", () => {
   const hasUTC = !!selectedUTCValue;
   const hasFile = clockInput.files && clockInput.files.length > 0;
+  const hexInput = inputRectColor.value.trim();
 
-  if (!hasUTC && !hasFile) {
-    return showError("Please select a UTC timezone or a .jpg image.");
+  if (hexInput.includes("#")) {
+    return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
   }
 
-  if (hasUTC && !hasFile) {
+  const hexOnly = hexInput.toUpperCase();
+  const hasHex = hexOnly.length === 6;
+
+  if (hexInput.length > 0 && !hasHex) {
+    return showError("HEX color must have exactly 6 characters.");
+  } else if (hasHex) {
+    rectHexColor = hexToRGB565(hexOnly);
+  }
+
+  if (!hasUTC && !hasFile && !hasHex) {
+    return showError("Please select a UTC timezone, a .jpg image, or a HEX color.");
+  }
+
+  if ((hasUTC || hasHex) && !hasFile) {
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
     return;
@@ -504,6 +675,9 @@ salvarClockButton.addEventListener("click", () => {
 
     try {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
+      rectHexConfirm.textContent = inputRectColor.value;
+      uploadClockConfirm.textContent = clockPlaceholder.textContent;
+      utcConfirm.textContent = textUTC.textContent;
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
     } catch (e) {
@@ -547,6 +721,7 @@ salvarGifButton.addEventListener("click", async () => {
 
     try {
       gifHeaderData = await convertGIFtoHeader(file, "animation");
+      uploadGifConfirm.textContent = gifPlaceholder.textContent
       showSucess();
       setTimeout(() => fadeOut(modalGif), 2000);
     } catch (e) {
@@ -567,24 +742,37 @@ salvarGifButton.addEventListener("click", async () => {
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 
+divRectHex.addEventListener('click', () => {
+  hexPlaceholder.style.display = "none"
+  inputRectColor.style.display = "block"
+  hexText.style.display = "block"
+  inputRectColor.classList.add("input-padding-hex")
+  inputRectColor.focus()
+
+});
+
 function resetValue(element) {
   element.value = ''
 }
 
 function showSucess() {
+  document.body.style.pointerEvents = "none";
   fadeIn(sucessAnimation)
   setTimeout(() => {
       fadeOut(sucessAnimation)
+      document.body.style.pointerEvents = "auto";
   }, 3000)
 };
 
 function showError(txt) {
+  document.body.style.pointerEvents = "none";
   textError.textContent = String(txt)
   fadeIn(modalError)
   fadeIn(errorAnimation);        // mostra o vídeo
   setTimeout(() => {
       fadeOut(modalError);
       fadeOut(errorAnimation)
+      document.body.style.pointerEvents = "auto";
   }, 4000)
   };
 
@@ -726,12 +914,21 @@ function downloadHeader({ fileName, content }) {
   document.body.removeChild(link);
 }
 
+// HEX TO RGB565
+function hexToRGB565(hex) {
+
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  const rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
+  return "0x" + rgb565.toString(16).toUpperCase().padStart(4, "0");
+}
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 
-buttonApply.addEventListener('click', async () => {
+confirmButton.addEventListener('click', async () => {
   fadeIn(modalApply);
   applyAnimation();
 
@@ -748,6 +945,10 @@ buttonApply.addEventListener('click', async () => {
 
   if (selectedUTCValue) {
     config.utc = selectedUTCValue;
+  }
+
+  if (rectHexColor) {
+    config.color = rectHexColor; 
   }
 
   const payload = {

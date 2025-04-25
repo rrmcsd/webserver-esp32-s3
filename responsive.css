@@ -2,4 +2,7 @@
     .modal{
         padding: 20px 50px;
     }
+    #modal-confirm{
+        padding: 20px 50px;
+    }
 }
