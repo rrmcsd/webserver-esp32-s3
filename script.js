@@ -631,6 +631,10 @@ salvarBrandButton.addEventListener("click", () => {
     return showError("Only .jpg files are allowed for your startup brand.");
   }
 
+  if (file.size > 40960) {
+    return showError("Brand must be 40K or less.");
+  }
+
   const img = new Image();
   const objectUrl = URL.createObjectURL(file);
 
@@ -681,6 +685,8 @@ salvarClockButton.addEventListener("click", () => {
     return showError("Please select a UTC timezone, a .jpg image, or a HEX color.");
   }
 
+
+
   if ((hasUTC || hasHex) && !hasFile) {
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
@@ -691,6 +697,9 @@ salvarClockButton.addEventListener("click", () => {
 
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
+  } 
+  if (file.size > 40960) {
+    return showError("Clock background must be 40K or less.");
   }
 
   const img = new Image();
@@ -735,8 +744,8 @@ salvarGifButton.addEventListener("click", async () => {
     return showError("Only .gif files are allowed.");
   }
 
-  if (file.size > 1048576) {
-    return showError("GIF must be 1MB or less.");
+  if (file.size > 40960) {
+    return showError("GIF must be 40K or less.");
   }
 
   const img = new Image();
