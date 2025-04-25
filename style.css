@@ -559,11 +559,19 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
-    padding: 50px 100px;
+    align-items: center;
     font-size: 14px;
     color: whitesmoke;
     display: none;
+}
+
+#container-confirm{
+    width: 100%;
+    max-width: 450px;
+    min-width: 200px;
+    border: solid 2px whitesmoke;
+    padding: 35px 45px;
+    border-radius: 45px;
 }
 
 #close-confirm svg{
@@ -621,6 +629,7 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
 
 #confirm-button{
     margin-top: 20px;
+
 }
 
 #confirm-button:hover{
@@ -654,6 +663,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
     gap: 7px;
     cursor: pointer;
     transition: all 0.5s;
+    margin-left: 15px;
 }
 #button-manual:hover{
     background-color: rgb(57, 255, 156);

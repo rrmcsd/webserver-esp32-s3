@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.55 81.68'%3E%3Cpath d='M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z' fill='%2339ff9c'/%3E%3C/svg%3E">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@6a614cf31d4af9ed26c1cd36dbb9173e39fbbc41/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@6a614cf31d4af9ed26c1cd36dbb9173e39fbbc41/responsive.css"> -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@bfd884bac4203863aa65c0c405cbd8f18575cd32/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@bfd884bac4203863aa65c0c405cbd8f18575cd32/responsive.css">
+    <!-- <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -294,82 +294,85 @@
                 <use href="#icon-close"></use>
               </svg>
         </div>
-        <!-- WIFI -->
-         <div class="title-sensitivity">
-            <p class="title-item-confirm">WiFi</p>
-            <div class="icon-toggle-wifi-confirm">
-                <div id="visibility-wifi-confirm" aria-hidden="true">
-                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                        <use href="#icon-visibility"></use>
-                    </svg>
-                </div>
-                <div id="invisibility-wifi-confirm" aria-hidden="true">
-                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                        <use href="#icon-invisibility"></use>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Network:</p>
-            <p id="ssid-confirm" class="value-confirm">No change</p>
-        </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Password:</p>
-            <p id="password-confirm" class="value-confirm">No change</p>
-        </div>
-        <!-- API -->
-        <div class="title-sensitivity">
-            <p class="title-item-confirm">AwesomeAPI Infos</p>
-            <div class="icon-toggle-key-confirm">
-                <div id="visibility-key-confirm" aria-hidden="true">
-                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                        <use href="#icon-visibility"></use>
-                    </svg>
-                </div>
-                <div id="invisibility-key-confirm" aria-hidden="true">
-                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                        <use href="#icon-invisibility"></use>
-                    </svg>
+        <div id="container-confirm">
+            <!-- WIFI -->
+            <div class="title-sensitivity">
+                <p class="title-item-confirm">WiFi</p>
+                <div class="icon-toggle-wifi-confirm">
+                    <div id="visibility-wifi-confirm" aria-hidden="true">
+                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                            <use href="#icon-visibility"></use>
+                        </svg>
+                    </div>
+                    <div id="invisibility-wifi-confirm" aria-hidden="true">
+                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                            <use href="#icon-invisibility"></use>
+                        </svg>
+                    </div>
                 </div>
             </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Network:</p>
+                <p id="ssid-confirm" class="value-confirm">No change</p>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Password:</p>
+                <p id="password-confirm" class="value-confirm">No change</p>
+            </div>
+            <!-- API -->
+            <div class="title-sensitivity">
+                <p class="title-item-confirm">AwesomeAPI Infos</p>
+                <div class="icon-toggle-key-confirm">
+                    <div id="visibility-key-confirm" aria-hidden="true">
+                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                            <use href="#icon-visibility"></use>
+                        </svg>
+                    </div>
+                    <div id="invisibility-key-confirm" aria-hidden="true">
+                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                            <use href="#icon-invisibility"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Key:</p>
+                <p id="key-confirm" class="value-confirm">No change</p>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Currency:</p>
+                <p id="currency-confirm" class="value-confirm">No change</p>
+            </div>
+            <!-- BRAND -->
+            <p class="title-item-confirm">Brand Init</p>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Upload:</p>
+                <p id="upload-brand-confirm" class="value-confirm">No change</p>
+            </div>
+            <!-- CLOCK -->
+            <p class="title-item-confirm">Clock Layout & UTC</p>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Rectangle color:</p>
+                <p id="rect-hex-confirm" class="value-confirm">No change</p>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Upload:</p>
+                <p id="upload-clock-confirm" class="value-confirm">No change</p>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">UTC:</p>
+                <p id="utc-confirm" class="value-confirm">No change</p>
+            </div>
+            <!-- GIF -->
+            <p class="title-item-confirm">Animation GIF</p>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Upload:</p>
+                <p id="upload-gif-confirm" class="value-confirm">No change</p>
+            </div>
         </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Key:</p>
-            <p id="key-confirm" class="value-confirm">No change</p>
+            <button id="confirm-button" class="button">Confirm!</button>
         </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Currency:</p>
-            <p id="currency-confirm" class="value-confirm">No change</p>
-        </div>
-        <!-- BRAND -->
-        <p class="title-item-confirm">Brand Init</p>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Upload:</p>
-            <p id="upload-brand-confirm" class="value-confirm">No change</p>
-        </div>
-        <!-- CLOCK -->
-        <p class="title-item-confirm">Clock Layout & UTC</p>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Rectangle color:</p>
-            <p id="rect-hex-confirm" class="value-confirm">No change</p>
-        </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Upload:</p>
-            <p id="upload-clock-confirm" class="value-confirm">No change</p>
-        </div>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">UTC:</p>
-            <p id="utc-confirm" class="value-confirm">No change</p>
-        </div>
-        <!-- GIF -->
-        <p class="title-item-confirm">Animation GIF</p>
-        <div class="itens-confirm itens-space">
-            <p class="label-confirm">Upload:</p>
-            <p id="upload-gif-confirm" class="value-confirm">No change</p>
-        </div>
-        <button id="confirm-button" class="button">Confirm!</button>
-    </div>
+
     <!-- SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
@@ -396,12 +399,10 @@
     <p id="text-variant-error" class="text-error">
     </p>
 </div>
-
 <!-- MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL 
 MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL 
 MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL 
 MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  -->
-
 <div id="modal-manual">
     <div id="close-icon-manual">
         <svg class="fechar" viewBox="0 0 45.91 45.91">
@@ -443,7 +444,6 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  -->
         </svg>
     </button>
 </div>
-
 <!-- SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS 
 SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS 
 SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS 
@@ -470,7 +470,7 @@ SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS  -->
         <path d="M17.34,9.92l-6.64,6.6c-2.93,2.36-6.35-1.05-4.18-4,3.13-3.22,6.29-6.41,9.52-9.51,1.57-1.51,3.14-4.01,5.64-2.59,4.34,3.98,8.54,8.19,12.53,12.53,1.48,2.79-1.5,5.55-4.18,3.82-.58-.37-.83-.8-1.28-1.24-1.85-1.83-3.68-3.69-5.53-5.52-.03-.01-.13.21-.13.22v18.95c0,.44-.53,1.43-.85,1.75-1.29,1.26-3.77.92-4.57-.73-.06-.13-.32-.85-.32-.93V9.92Z"/>
     </symbol>
 </svg>
-<!-- <script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@6a614cf31d4af9ed26c1cd36dbb9173e39fbbc41/script.js"></script> -->
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@bfd884bac4203863aa65c0c405cbd8f18575cd32/script.js"></script>
+<!-- <script src="script.js"></script> -->
 </body>
 </html>
