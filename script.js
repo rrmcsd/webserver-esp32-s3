@@ -118,6 +118,11 @@ const toogleKeyConfirm = document.querySelector(".icon-toggle-key-confirm")
 let realWifiConfirm = "";
 let sensitivyKey = "";
 
+// MANUAL
+const closeButtonManual = document.getElementById("close-icon-manual")
+const modalManual = document.getElementById("modal-manual")
+const buttonManual = document.getElementById("button-manual")
+
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
 // Ouvindo Click Ouvindo Click Ouvindo Click Ouvindo Click
@@ -305,7 +310,12 @@ toogleKeyConfirm.addEventListener('click', () => {
   }
 });
 
-
+buttonManual.addEventListener('click', () => {
+  fadeIn(modalManual)
+})
+closeButtonManual.addEventListener('click', () => {
+  fadeOut(modalManual)
+});
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
