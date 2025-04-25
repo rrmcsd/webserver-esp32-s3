@@ -20,6 +20,7 @@ const inputSenha = document.getElementById("senha")
 const wifisContainer = document.querySelector(".wifis");
 const tooglePassword = document.querySelector(".icon-toggle-password")
 const reloadWifi = document.getElementById("icon-reload")
+const sucessWifis = document.querySelector(".sucess-reload-wifis")
 let wifiData = {
   ssid: "",
   password: ""
@@ -160,8 +161,15 @@ reloadWifi.addEventListener('click', async () => {
   reloadWifi.classList.add("rotation");
 
   const carregou = await carregarRedes();
+  
   if (carregou) {
-    showSucess();
+    setTimeout(() => {
+    reloadWifi.classList.remove("rotation");
+    fadeOut(reloadWifi)}
+    , 1000);
+    setTimeout(() => {fadeIn(sucessWifis)}, 1500)
+    setTimeout(() => {fadeOut(sucessWifis)}, 4000)
+    setTimeout(() => {fadeIn(reloadWifi)}, 4500)
   }
 });
 
@@ -400,13 +408,22 @@ optionsWifi.forEach(option => {
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 
+let redesTeste = true;
+
 async function carregarRedes() {
   try {
-    const res = await fetch("/scan");
-    const redes = await res.json();
+    let redes;
+
+    if (redesTeste) {
+      // Ambiente de TESTE
+      redes = ["Mr. Robot 2.4G", "Suite Master", "Georgia 5G"];
+    } else {
+      // Ambiente REAL
+      const res = await fetch("/scan");
+      redes = await res.json();
+    }
 
     const antigos = Array.from(wifisContainer.querySelectorAll("p"));
-
     antigos.forEach(p => p.classList.add("fade-out"));
 
     setTimeout(() => {
@@ -426,6 +443,7 @@ async function carregarRedes() {
 
       setTimeout(() => {
         wifisContainer.appendChild(p);
+        fadeIn(p, index)
         requestAnimationFrame(() => p.classList.remove("fade-out"));
       }, delayInicial + index * 1500);
     });
@@ -439,6 +457,7 @@ async function carregarRedes() {
     return false; // ❌ erro
   }
 }
+
 
 function getFlag(code) {
   const pais = mapaPais[code] || code.slice(0, 2).toUpperCase();

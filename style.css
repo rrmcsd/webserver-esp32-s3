@@ -15,7 +15,6 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
 }
 
 /* MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL MENU INCIAL
@@ -170,9 +169,9 @@ WIFI WIFI WIFI WIFI WIFI WIFI
 WIFI WIFI WIFI WIFI WIFI WIFI
 WIFI WIFI WIFI WIFI WIFI WIFI */
 
-.modal{
-    width: 95%;
-    height: 95vh;
+.modal {
+    width: 90%;
+    height: 90vh;
     max-width: 500px;
     z-index: 1;
     background-color: rgba(245, 245, 245, 0.97);
@@ -200,6 +199,7 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
 
 .container-img-reload{
     width: 100%;
+    min-height: 25px;
     display: flex;
     align-items: right;
     justify-content: right;
@@ -207,6 +207,11 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
 
 .reload-wifis{
     width: 25px;
+}
+
+.sucess-reload-wifis{
+    width: 25px;
+    display: none;
 }
 
 .wifis{
@@ -570,7 +575,7 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
     max-width: 450px;
     min-width: 200px;
     border: solid 2px whitesmoke;
-    padding: 35px 45px;
+    padding: 35px 20px;
     border-radius: 45px;
 }
 
@@ -663,7 +668,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
     gap: 7px;
     cursor: pointer;
     transition: all 0.5s;
-    margin-left: 15px;
+    margin-left: 25px;
 }
 #button-manual:hover{
     background-color: rgb(57, 255, 156);
@@ -674,7 +679,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
 }
 #modal-manual{
     width: 100%;
-    min-width: 300px;
+    min-width: 200px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -719,6 +724,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
     font-style: italic;
     color: rgb(241, 112, 97);
     align-self: center;
+    margin: 0px 20px;
 }
 .types{
     width: 100%;
@@ -747,6 +753,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
     font-weight: 500;
     text-align: center;
     padding: 20px 30px;
+    margin: 20px;
     max-width: 450px;
     font-style: italic;
     border-radius: 30px;
@@ -783,7 +790,7 @@ Animações Animações Animações Animações Animações Animações */
     max-width: 450px;
     height: auto;
     min-height: 120px;
-    padding: 20px;
+    padding: 20px 30px;
     background-color: rgb(241, 112, 97, 0.98);
     border-radius: 25px;
     position: absolute;
