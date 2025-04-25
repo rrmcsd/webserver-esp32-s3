@@ -408,7 +408,7 @@ optionsWifi.forEach(option => {
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 // Funções Modais Funções Modais Funções Modais Funções Modais 
 
-let redesTeste = true;
+let redesTeste = false;
 
 async function carregarRedes() {
   try {
