@@ -369,7 +369,6 @@ brandInput.addEventListener('change', () => {
       }
     
       clockPlaceholder.textContent = fileName;
-      clockInput.value = ''
     });
   
 
@@ -800,6 +799,7 @@ salvarClockButton.addEventListener("click", () => {
       if (clockPlaceholder.textContent !== "Choose your file") {
         uploadClockConfirm.textContent = clockPlaceholder.textContent;
         uploadClockConfirm.style.color = esmeraldColor;
+        clockInput.value = ''
       }
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
