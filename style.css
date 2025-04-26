@@ -609,6 +609,8 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
     overflow-wrap: break-word;
     white-space: normal;
     max-width: 100%;
+    font-style: italic;
+    font-weight: 300;
 }
 
 .title-sensitivity{
@@ -632,12 +634,13 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
     display: none;
 }
 
-#confirm-button{
+#confirm-button, #clear-button{
     margin-top: 20px;
+    width: 120px;
 
 }
 
-#confirm-button:hover{
+#clear-button:hover{
     background-color: rgb(241, 112, 97);
     color: whitesmoke;
     

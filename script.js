@@ -6,7 +6,8 @@ const textError = document.getElementById("text-variant-error")
 const buttonApply = document.getElementById("button-apply")
 const modalApply = document.getElementById("modal-apply")
 const titleApply = document.getElementById("title-apply")
-
+const esmeraldColor = "rgb(57, 255, 156)"
+const whiteSmokeColor = "whitesmoke"
 // WIFI
 const wifiMenuButton = document.getElementById("menu-wifi");
 const closeWifiButton = document.getElementById("close-wifi");
@@ -560,6 +561,27 @@ keyInput.addEventListener("input", (e) => {
   }
 });
 
+function clearConfirm() {
+  const valuesConfirm = document.querySelectorAll(".value-confirm");
+  fadeOut(modalConfirm);
+
+  // Resetar variáveis usadas no /apply
+  wifiData = { ssid: "", password: "" };
+  apiData = { key: "", currency: "" };
+  selectedUTCValue = "";
+  rectHexColor = null;
+  brandHeaderData = null;
+  clockHeaderData = null;
+  gifHeaderData = null;
+
+  setTimeout(() => {
+    valuesConfirm.forEach((value) => {
+      value.textContent = "No change";
+      value.style.color = whiteSmokeColor;
+    });
+  }, 1000);
+}
+
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
 // VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES VALIDAÇÕES
@@ -582,7 +604,9 @@ salvarWifiButton.addEventListener("click", () => {
 
   realWifiConfirm = password;
   ssidConfirm.textContent = ssid;
+  ssidConfirm.style.color = esmeraldColor
   passwordConfirm.textContent = formatSensitive(password, true);
+  passwordConfirm.style.color = esmeraldColor
   wifiData = { ssid, password };
 
   showSucess();
@@ -596,9 +620,6 @@ salvarWifiButton.addEventListener("click", () => {
 salvarApiButton.addEventListener("click", () => {
   const key = realApiKey.trim();
   const currency = selectedText.textContent;
-
-  keyConfirm.textContent = formatSensitive(key, true);
-  currencyConfirm.textContent = currency;
 
   const hasKey = key !== "";
   const hasCurrency = currency !== "Your desired conversion";
@@ -614,6 +635,12 @@ salvarApiButton.addEventListener("click", () => {
     apiData.currency = currency;
   }
 
+  keyConfirm.textContent = formatSensitive(key, true);
+  keyConfirm.style.color = esmeraldColor;
+  if (currency !== "Your desired conversion") {
+  currencyConfirm.textContent = currency;
+  currencyConfirm.style.color = esmeraldColor;
+  };
   showSucess();
   setTimeout(() => fadeOut(modalApi), 2000);
 });
@@ -646,7 +673,10 @@ salvarBrandButton.addEventListener("click", () => {
 
     try {
       brandHeaderData = await convertJPGtoHeader(file, "brand", 100, 100);
+      if (brandPlaceholder.textContent !== "Choose your file") {
       uploadBrandConfirm.textContent = brandPlaceholder.textContent
+      uploadBrandConfirm.style.color = esmeraldColor;
+      };
       showSucess();
       setTimeout(() => fadeOut(modalBrand), 2000);
     } catch (e) {
@@ -679,15 +709,17 @@ salvarClockButton.addEventListener("click", () => {
     return showError("HEX color must have exactly 6 characters.");
   } else if (hasHex) {
     rectHexColor = hexToRGB565(hexOnly);
+    rectHexConfirm.textContent = "#" + inputRectColor.value;
   }
 
   if (!hasUTC && !hasFile && !hasHex) {
     return showError("Please select a UTC timezone, a .jpg image, or a HEX color.");
   }
 
-
-
   if ((hasUTC || hasHex) && !hasFile) {
+    if (textUTC.textContent !== "Your desired timezone") {
+      utcConfirm.textContent = textUTC.textContent;
+    };
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
     return;
@@ -713,9 +745,9 @@ salvarClockButton.addEventListener("click", () => {
 
     try {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
-      rectHexConfirm.textContent = inputRectColor.value;
+      if (clockPlaceholder.textContent !== "Choose your file") {
       uploadClockConfirm.textContent = clockPlaceholder.textContent;
-      utcConfirm.textContent = textUTC.textContent;
+      };
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
     } catch (e) {
@@ -759,7 +791,10 @@ salvarGifButton.addEventListener("click", async () => {
 
     try {
       gifHeaderData = await convertGIFtoHeader(file, "animation");
+      if (gifPlaceholder.textContent !== "Choose your file"){
       uploadGifConfirm.textContent = gifPlaceholder.textContent
+      uploadGifConfirm.style.color = esmeraldColor;
+      };
       showSucess();
       setTimeout(() => fadeOut(modalGif), 2000);
     } catch (e) {
@@ -799,7 +834,7 @@ function showSucess() {
   setTimeout(() => {
       fadeOut(sucessAnimation)
       document.body.style.pointerEvents = "auto";
-  }, 3000)
+  }, 2000)
 };
 
 function showError(txt) {
@@ -811,7 +846,7 @@ function showError(txt) {
       fadeOut(modalError);
       fadeOut(errorAnimation)
       document.body.style.pointerEvents = "auto";
-  }, 4000)
+  }, 3000)
   };
 
 function fadeIn(obj) {
