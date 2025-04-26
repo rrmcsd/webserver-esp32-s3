@@ -951,10 +951,6 @@ async function convertJPGtoHeader(inputFile, variableName, width, height) {
 
         const imageData = ctx.getImageData(0, 0, width, height).data;
 
-        let output = `int ${variableName}_width=${width};\n`;
-        output += `int ${variableName}_height=${height};\n`;
-        output += `const unsigned short ${variableName}[${width * height}] ={\n`;
-
         const rgb565Array = [];
 
         for (let i = 0; i < imageData.length; i += 4) {
@@ -970,17 +966,17 @@ async function convertJPGtoHeader(inputFile, variableName, width, height) {
           rgb565Array.push(`0x${rgb565.toString(16).padStart(4, '0')}`);
         }
 
-        // Quebra em linhas de 12 valores por linha
+        // Junta tudo só com vírgula e quebras de linha
         const lines = [];
         for (let i = 0; i < rgb565Array.length; i += 12) {
           lines.push(rgb565Array.slice(i, i + 12).join(", "));
         }
 
-        output += lines.join(",\n") + "\n};";
+        const output = lines.join(",\n");
 
         resolve({
           fileName: `${variableName}.h`,
-          content: output
+          content: output  // <-- agora só o array de dados, sem cabeçalho!
         });
       };
 
@@ -992,6 +988,7 @@ async function convertJPGtoHeader(inputFile, variableName, width, height) {
     reader.readAsDataURL(inputFile);
   });
 }
+
 
 // GIF
 async function convertGIFtoHeader(file, variableName = "animation") {
