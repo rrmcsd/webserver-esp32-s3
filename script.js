@@ -1111,23 +1111,23 @@ confirmButton.addEventListener('click', async () => {
   }
 });
 
-async function sendFileInParts(content, endpoint) {
-  const partSize = 20480; // 20 KB por parte
-  const totalParts = Math.ceil(content.length / partSize);
+async function sendFileInParts(fileContent, endpoint) {
+  const chunkSize = 1000; // 10 KB
+  const totalParts = Math.ceil(fileContent.length / chunkSize);
 
   for (let i = 0; i < totalParts; i++) {
-    const part = content.slice(i * partSize, (i + 1) * partSize);
+    const part = fileContent.slice(i * chunkSize, (i + 1) * chunkSize);
+    const payload = JSON.stringify({ part });
 
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ part })
+      body: payload
     });
 
     if (!res.ok) {
       throw new Error(`Failed to send part ${i + 1}/${totalParts} to ${endpoint}`);
     }
-
-    console.log(`✅ Parte ${i + 1}/${totalParts} enviada para ${endpoint}`);
+    console.log(`✅ Parte ${i + 1}/${totalParts} enviada com sucesso`);
   }
 }
