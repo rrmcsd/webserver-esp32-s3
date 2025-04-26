@@ -351,6 +351,7 @@ brandInput.addEventListener('change', () => {
     }
   
     brandPlaceholder.textContent = fileName;
+    brandInput.value = '';
   });
 
   clockInput.addEventListener('change', () => {
@@ -368,6 +369,7 @@ brandInput.addEventListener('change', () => {
       }
     
       clockPlaceholder.textContent = fileName;
+      clockInput.value = ''
     });
   
 
@@ -386,6 +388,7 @@ brandInput.addEventListener('change', () => {
         }
       
         gifPlaceholder.textContent = fileName;
+        gifInput.value = ''
       });
     
     });
