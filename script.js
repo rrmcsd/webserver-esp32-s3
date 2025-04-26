@@ -710,6 +710,7 @@ salvarClockButton.addEventListener("click", () => {
   } else if (hasHex) {
     rectHexColor = hexToRGB565(hexOnly);
     rectHexConfirm.textContent = "#" + inputRectColor.value;
+    rectHexColor.style.color = esmeraldColor
   }
 
   if (!hasUTC && !hasFile && !hasHex) {
@@ -719,6 +720,7 @@ salvarClockButton.addEventListener("click", () => {
   if ((hasUTC || hasHex) && !hasFile) {
     if (textUTC.textContent !== "Your desired timezone") {
       utcConfirm.textContent = textUTC.textContent;
+      utcConfirm.style.color = esmeraldColor
     };
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
@@ -747,6 +749,7 @@ salvarClockButton.addEventListener("click", () => {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
       if (clockPlaceholder.textContent !== "Choose your file") {
       uploadClockConfirm.textContent = clockPlaceholder.textContent;
+      uploadClockConfirm.style.color = esmeraldColor
       };
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
