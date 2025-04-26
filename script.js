@@ -989,13 +989,13 @@ function downloadHeader({ fileName, content }) {
 
 // HEX TO RGB565
 function hexToRGB565(hex) {
-
   const r = parseInt(hex.slice(0, 2), 16);
   const g = parseInt(hex.slice(2, 4), 16);
   const b = parseInt(hex.slice(4, 6), 16);
   const rgb565 = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
-  return "0x" + rgb565.toString(16).toUpperCase().padStart(4, "0");
+  return rgb565; // <-- Agora retorna um número (não string)
 }
+
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
@@ -1031,6 +1031,8 @@ confirmButton.addEventListener('click', async () => {
     gif: gifHeaderData?.content || undefined
   };
 
+  console.log("Payload que vai ser enviado:", JSON.stringify(payload, null, 2));
+  
   try {
     const res = await fetch("/apply", {
       method: "POST",
