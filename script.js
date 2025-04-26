@@ -787,10 +787,17 @@ salvarClockButton.addEventListener("click", () => {
 
     try {
       clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
+    
+      // 🧹 Novo código: verificar tamanho do conteúdo gerado
+      const contentSizeInBytes = new Blob([clockHeaderData.content]).size;
+      if (contentSizeInBytes > 512000) { // por exemplo, 20 KB limite
+        return showError("Clock header must be 500KB or less after conversion.");
+      }
+    
       if (clockPlaceholder.textContent !== "Choose your file") {
-      uploadClockConfirm.textContent = clockPlaceholder.textContent;
-      uploadClockConfirm.style.color = esmeraldColor;
-      };
+        uploadClockConfirm.textContent = clockPlaceholder.textContent;
+        uploadClockConfirm.style.color = esmeraldColor;
+      }
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
     } catch (e) {
@@ -1043,58 +1050,84 @@ function hexToRGB565(hex) {
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
 // APLICANDO APLICANDO APLICANDO APLCICANDO APLICANDO
-
 confirmButton.addEventListener('click', async () => {
   fadeIn(modalApply);
   applyAnimation();
 
-  const config = {};
-  if (wifiData?.ssid && wifiData?.password) {
-    config.ssid = wifiData.ssid;
-    config.password = wifiData.password;
-  }
-
-  if (apiData?.key && apiData?.currency) {
-    config.apikey = apiData.key;
-    config.currency = apiData.currency;
-  }
-
-  if (selectedUTCValue) {
-    config.utc = selectedUTCValue;
-  }
-
-  if (rectHexColor) {
-    config.color = rectHexColor; 
-  }
-
-  const payload = {
-    config: Object.keys(config).length > 0 ? config : undefined,
-    brand: brandHeaderData?.content || undefined,
-    clock: clockHeaderData?.content || undefined,
-    gif: gifHeaderData?.content || undefined
-  };
-
-  console.log("Payload que vai ser enviado:", JSON.stringify(payload, null, 2));
-  
   try {
-    const res = await fetch("/apply", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const responseText = await res.text();
-    if (res.ok) {
-      clearConfirm()
-      setTimeout(() => showSucess(), 2000);
-      setTimeout(() => fadeOut(modalApply), 4000);
-      console.log("ESP32 response:", responseText);
-    } else {
-      showError("ESP32 rejected the apply request.");
-      setTimeout(() => fadeOut(modalApply), 4000);
+    // 1️⃣ Primeiro envia clockbg
+    if (clockHeaderData?.content) {
+      await sendFileInParts(clockHeaderData.content, "/upload_clock_part");
     }
+
+    // 2️⃣ Depois envia brand
+    if (brandHeaderData?.content) {
+      await sendFileInParts(brandHeaderData.content, "/upload_brand_part");
+    }
+
+    // 3️⃣ Depois envia gif
+    if (gifHeaderData?.content) {
+      await sendFileInParts(gifHeaderData.content, "/upload_gif_part");
+    }
+
+    // 4️⃣ Depois envia o restante da configuração (wifi, apiKey, currency, utc, cor)
+    const config = {};
+    if (wifiData?.ssid && wifiData?.password) {
+      config.ssid = wifiData.ssid;
+      config.password = wifiData.password;
+    }
+    if (apiData?.key && apiData?.currency) {
+      config.apikey = apiData.key;
+      config.currency = apiData.currency;
+    }
+    if (selectedUTCValue) {
+      config.utc = selectedUTCValue;
+    }
+    if (rectHexColor) {
+      config.color = rectHexColor;
+    }
+
+    if (Object.keys(config).length > 0) {
+      const resConfig = await fetch("/apply_config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ config })
+      });
+
+      if (!resConfig.ok) {
+        throw new Error("Failed to send configuration");
+      }
+    }
+
+    clearConfirm();
+    setTimeout(() => showSucess(), 2000);
+    setTimeout(() => fadeOut(modalApply), 4000);
+    console.log("✅ Todo o envio finalizado com sucesso!");
+
   } catch (e) {
-    console.error("Error sending apply:", e);
-    showError("Error sending apply.");
+    console.error("❌ Erro no envio:", e);
+    showError("Failed to upload all data.");
+    setTimeout(() => fadeOut(modalApply), 4000);
   }
 });
+
+async function sendFileInParts(content, endpoint) {
+  const partSize = 20480; // 20 KB por parte
+  const totalParts = Math.ceil(content.length / partSize);
+
+  for (let i = 0; i < totalParts; i++) {
+    const part = content.slice(i * partSize, (i + 1) * partSize);
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ part })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to send part ${i + 1}/${totalParts} to ${endpoint}`);
+    }
+
+    console.log(`✅ Parte ${i + 1}/${totalParts} enviada para ${endpoint}`);
+  }
+}
