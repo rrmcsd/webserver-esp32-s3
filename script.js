@@ -1040,6 +1040,7 @@ confirmButton.addEventListener('click', async () => {
 
     const responseText = await res.text();
     if (res.ok) {
+      clearConfirm()
       setTimeout(() => showSucess(), 2000);
       setTimeout(() => fadeOut(modalApply), 4000);
       console.log("ESP32 response:", responseText);
