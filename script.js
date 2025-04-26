@@ -496,25 +496,65 @@ async function carregarMoedas() {
 
 async function carregarUTCs() {
   try {
-    const response = await fetch("https://timeapi.io/api/TimeZone/AvailableTimeZones");
+    const response = await fetch("https://worldtimeapi.org/api/timezone");
     const timezones = await response.json();
 
-    optionsListUTC.innerHTML = ""; // Limpa antes
+    // Ordena os timezones em ordem alfabética
+    timezones.sort((a, b) => a.localeCompare(b));
+
+    optionsListUTC.innerHTML = ""; // Limpa o dropdown antes de popular
+
     timezones.forEach(tz => {
+      const timezoneLabel = tz; // Ex: "America/Sao_Paulo"
+
       const div = document.createElement("div");
       div.className = "option";
-      div.innerHTML = `<span>${tz}</span>`;
+      div.innerHTML = `<span>${timezoneLabel}</span>`;
+
       div.addEventListener("click", () => {
-        textUTC.textContent = tz;
+        textUTC.textContent = timezoneLabel;
         textUTC.style.color = "rgb(57, 255, 156)";
         textUTC.style.fontWeight = "500";
         optionsListUTC.style.display = "none";
-        selectedUTCValue = tz;
+        selectedUTCValue = timezoneLabel; // Salva direto o nome
       });
+
       optionsListUTC.appendChild(div);
     });
+
   } catch (error) {
     console.error("❌ Failed to fetch UTC options:", error);
+    optionsListUTC.innerHTML = "<div class='option error-wifi-options'>Failed to load timezones</div>";
+  }
+}
+
+async function carregarUTCs() {
+  try {
+    optionsListUTC.innerHTML = ""; // Limpa antes
+
+    // Gera a lista a partir do timezoneMap
+    const timezoneNames = Object.keys(timezoneMap);
+    timezoneNames.sort((a, b) => a.localeCompare(b)); // Ordena por nome
+
+    timezoneNames.forEach(tzName => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.innerHTML = `<span>${tzName}</span>`;
+
+      div.addEventListener("click", () => {
+        textUTC.textContent = tzName;
+        textUTC.style.color = "rgb(57, 255, 156)";
+        textUTC.style.fontWeight = "500";
+        optionsListUTC.style.display = "none";
+        selectedUTCValue = timezoneMap[tzName]; // AQUI: Salva o POSIX já mapeado
+        console.log(selectedUTCValue)
+      });
+
+      optionsListUTC.appendChild(div);
+    });
+
+  } catch (error) {
+    console.error("❌ Failed to load timezone list:", error);
     optionsListUTC.innerHTML = "<div class='option error-wifi-options'>Failed to load timezones</div>";
   }
 }
