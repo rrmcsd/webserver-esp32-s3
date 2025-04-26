@@ -1087,16 +1087,14 @@ confirmButton.addEventListener('click', async () => {
       config.color = rectHexColor;
     }
 
-    if (Object.keys(config).length > 0) {
-      const resConfig = await fetch("/apply_config", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ config })
-      });
-
-      if (!resConfig.ok) {
-        throw new Error("Failed to send configuration");
-      }
+    const resConfig = await fetch("/apply_config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ config }) // mesmo vazio!
+    });
+    
+    if (!resConfig.ok) {
+      throw new Error("Failed to send configuration");
     }
 
     clearConfirm();
