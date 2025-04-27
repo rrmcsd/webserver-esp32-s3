@@ -935,21 +935,20 @@ function applyAnimation() {
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 
 // BRAND E CLOCK
-async function convertJPGtoHeader(inputFile, variableName, width, height) {
+async function convertJPGtoHeader(inputFile) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onload = function (e) {
       const img = new Image();
       img.onload = function () {
-        // Redimensionar para o tamanho desejado
         const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = 240;
+        canvas.height = 240;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
+        ctx.drawImage(img, 0, 0, 240, 240);
 
-        const imageData = ctx.getImageData(0, 0, width, height).data;
+        const imageData = ctx.getImageData(0, 0, 240, 240).data;
 
         const rgb565Array = [];
 
@@ -966,17 +965,20 @@ async function convertJPGtoHeader(inputFile, variableName, width, height) {
           rgb565Array.push(`0x${rgb565.toString(16).padStart(4, '0')}`);
         }
 
-        // Junta tudo só com vírgula e quebras de linha
         const lines = [];
         for (let i = 0; i < rgb565Array.length; i += 12) {
           lines.push(rgb565Array.slice(i, i + 12).join(", "));
         }
 
-        const output = lines.join(",\n");
+        let output = `int clockbg_width=240;\n`;
+        output += `int clockbg_height=240;\n`;
+        output += `const unsigned short clockbg[57600] = {\n`;
+        output += lines.join(",\n");
+        output += `\n};`;
 
         resolve({
-          fileName: `${variableName}.h`,
-          content: output  // <-- agora só o array de dados, sem cabeçalho!
+          fileName: "clockbg.h",
+          content: output
         });
       };
 
@@ -988,7 +990,6 @@ async function convertJPGtoHeader(inputFile, variableName, width, height) {
     reader.readAsDataURL(inputFile);
   });
 }
-
 
 // GIF
 async function convertGIFtoHeader(file, variableName = "animation") {
