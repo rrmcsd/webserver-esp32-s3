@@ -76,7 +76,6 @@ const clockMenuButton = document.getElementById("menu-clock");
 const modalClock = document.getElementById("modal-clock")
 const closeClockButton = document.getElementById("close-clock");
 const salvarClockButton = document.getElementById("salvar-clock")
-let clockHeaderData = null;
 const dropdownUTC = document.getElementById("dropdown-utc");
 const selectedUTC = document.getElementById("selected-utc");
 const textUTC = document.getElementById("text-utc");
@@ -88,6 +87,7 @@ const hexText = document.getElementById("hex-text")
 const inputRectColor = document.getElementById("input-transparent-hex")
 const hexPlaceholder = document.getElementById("hex-placeholder")
 let rectHexColor = "";
+let clockBinaryData = null;
 
 // GIF
 const gifInput = document.getElementById('gif');
@@ -614,7 +614,7 @@ function clearConfirm() {
   selectedUTCValue = "";
   rectHexColor = null;
   brandHeaderData = null;
-  clockHeaderData = null;
+  clockBinaryData = null;
   gifHeaderData = null;
 
   setTimeout(() => {
@@ -690,6 +690,7 @@ salvarApiButton.addEventListener("click", () => {
 
 
 // BRAND
+// BRAND
 salvarBrandButton.addEventListener("click", () => {
   if (!brandInput.files || brandInput.files.length === 0) {
     return showError("Please select a .jpg file to launch your branded device.");
@@ -702,38 +703,44 @@ salvarBrandButton.addEventListener("click", () => {
   }
 
   if (file.size > 40960) {
-    return showError("Brand must be 40K or less.");
+    return showError("Brand must be 40KB or less.");
   }
 
   const img = new Image();
   const objectUrl = URL.createObjectURL(file);
 
-  img.onload = async function () {
+  img.onload = function () {
     URL.revokeObjectURL(objectUrl);
+
     if (img.width !== 100 || img.height !== 100) {
       return showError("The .jpg image must be exactly 100x100 pixels.");
     }
 
-    try {
-      brandHeaderData = await convertJPGtoHeader(file, "brand", 100, 100);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      brandBinaryData = new Uint8Array(e.target.result); // 🆕 Agora salvamos como binário puro
       if (brandPlaceholder.textContent !== "Choose your file") {
-      uploadBrandConfirm.textContent = brandPlaceholder.textContent
-      uploadBrandConfirm.style.color = esmeraldColor;
-      };
+        uploadBrandConfirm.textContent = brandPlaceholder.textContent;
+        uploadBrandConfirm.style.color = esmeraldColor;
+      }
       showSucess();
       setTimeout(() => fadeOut(modalBrand), 2000);
-    } catch (e) {
-      showError("Failed to convert brand image.");
-    }
+    };
+    reader.onerror = function () {
+      showError("Failed to read brand file.");
+    };
+
+    reader.readAsArrayBuffer(file);
   };
 
   img.onerror = function () {
     URL.revokeObjectURL(objectUrl);
-    showError("Error reading image.");
+    showError("Error reading brand image.");
   };
 
   img.src = objectUrl;
 });
+
 
 // CLOCK
 salvarClockButton.addEventListener("click", () => {
@@ -764,7 +771,7 @@ salvarClockButton.addEventListener("click", () => {
     if (textUTC.textContent !== "Your desired timezone") {
       utcConfirm.textContent = textUTC.textContent;
       utcConfirm.style.color = esmeraldColor;
-    };
+    }
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
     return;
@@ -775,8 +782,8 @@ salvarClockButton.addEventListener("click", () => {
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
   } 
-  if (file.size > 40960) {
-    return showError("Clock background must be 40K or less.");
+  if (file.size > 51200) {
+    return showError("Clock background must be 50KB or less.");
   }
 
   const img = new Image();
@@ -789,14 +796,10 @@ salvarClockButton.addEventListener("click", () => {
     }
 
     try {
-      clockHeaderData = await convertJPGtoHeader(file, "clockbg", 240, 240);
-    
-      // 🧹 Novo código: verificar tamanho do conteúdo gerado
-      const contentSizeInBytes = new Blob([clockHeaderData.content]).size;
-      if (contentSizeInBytes > 512000) { // por exemplo, 20 KB limite
-        return showError("Clock header must be 500KB or less after conversion.");
-      }
-    
+      // Novo: Lê como ArrayBuffer (binário)
+      const arrayBuffer = await file.arrayBuffer();
+      clockBinaryData = new Uint8Array(arrayBuffer);
+
       if (clockPlaceholder.textContent !== "Choose your file") {
         uploadClockConfirm.textContent = clockPlaceholder.textContent;
         uploadClockConfirm.style.color = esmeraldColor;
@@ -804,7 +807,7 @@ salvarClockButton.addEventListener("click", () => {
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
     } catch (e) {
-      showError("Failed to convert clock image.");
+      showError("Failed to read clock image as binary.");
     }
   };
 
@@ -934,63 +937,6 @@ function applyAnimation() {
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 
-// BRAND E CLOCK
-async function convertJPGtoHeader(inputFile) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      const img = new Image();
-      img.onload = function () {
-        const canvas = document.createElement('canvas');
-        canvas.width = 240;
-        canvas.height = 240;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, 240, 240);
-
-        const imageData = ctx.getImageData(0, 0, 240, 240).data;
-
-        const rgb565Array = [];
-
-        for (let i = 0; i < imageData.length; i += 4) {
-          const r = imageData[i];
-          const g = imageData[i + 1];
-          const b = imageData[i + 2];
-
-          const r5 = (r >> 3) & 0x1F;
-          const g6 = (g >> 2) & 0x3F;
-          const b5 = (b >> 3) & 0x1F;
-
-          const rgb565 = (r5 << 11) | (g6 << 5) | b5;
-          rgb565Array.push(`0x${rgb565.toString(16).padStart(4, '0')}`);
-        }
-
-        const lines = [];
-        for (let i = 0; i < rgb565Array.length; i += 12) {
-          lines.push(rgb565Array.slice(i, i + 12).join(", "));
-        }
-
-        let output = `int clockbg_width=240;\n`;
-        output += `int clockbg_height=240;\n`;
-        output += `const unsigned short clockbg[57600] = {\n`;
-        output += lines.join(",\n");
-        output += `\n};`;
-
-        resolve({
-          fileName: "clockbg.h",
-          content: output
-        });
-      };
-
-      img.onerror = () => reject("Erro ao carregar imagem");
-      img.src = e.target.result;
-    };
-
-    reader.onerror = () => reject("Erro ao ler arquivo");
-    reader.readAsDataURL(inputFile);
-  });
-}
-
 // GIF
 async function convertGIFtoHeader(file, variableName = "animation") {
   return new Promise((resolve, reject) => {
@@ -1057,21 +1003,21 @@ confirmButton.addEventListener('click', async () => {
 
   try {
     // 1️⃣ Primeiro envia clockbg
-    if (clockHeaderData?.content) {
-      await sendFileInParts(clockHeaderData.content, "/upload_clock_part");
+    if (clockBinaryData) {
+      await sendBinary(clockBinaryData, "/upload_clock_part");
     }
 
     // 2️⃣ Depois envia brand
-    if (brandHeaderData?.content) {
-      await sendFileInParts(brandHeaderData.content, "/upload_brand_part");
+    if (brandBinaryData) {
+      await sendBinary(brandBinaryData, "/upload_brand_part");
     }
 
-    // 3️⃣ Depois envia gif
+    // 3️⃣ Depois envia gif (opcional, se quiser ainda trabalhar gif como h ou outro)
     if (gifHeaderData?.content) {
       await sendFileInParts(gifHeaderData.content, "/upload_gif_part");
     }
 
-    // 4️⃣ Depois envia o restante da configuração (wifi, apiKey, currency, utc, cor)
+    // 4️⃣ Depois envia configurações normais
     const config = {};
     if (wifiData?.ssid && wifiData?.password) {
       config.ssid = wifiData.ssid;
@@ -1091,9 +1037,9 @@ confirmButton.addEventListener('click', async () => {
     const resConfig = await fetch("/apply_config", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ config }) // mesmo vazio!
+      body: JSON.stringify({ config })
     });
-    
+
     if (!resConfig.ok) {
       throw new Error("Failed to send configuration");
     }
@@ -1110,23 +1056,15 @@ confirmButton.addEventListener('click', async () => {
   }
 });
 
-async function sendFileInParts(fileContent, endpoint) {
-  const chunkSize = 1000;
-  const totalParts = Math.ceil(fileContent.length / chunkSize);
+async function sendBinary(fileData, endpoint) {
+  const res = await fetch(endpoint, {
+    method: "POST",
+    body: fileData
+  });
 
-  for (let i = 0; i < totalParts; i++) {
-    const part = fileContent.slice(i * chunkSize, (i + 1) * chunkSize);
-    const payload = JSON.stringify({ part, isLastPart: (i === totalParts - 1) }); // <-- 👈 ALTERADO AQUI
-
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: payload
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to send part ${i + 1}/${totalParts} to ${endpoint}`);
-    }
-    console.log(`✅ Parte ${i + 1}/${totalParts} enviada com sucesso`);
+  if (!res.ok) {
+    throw new Error(`Failed to send binary to ${endpoint}`);
   }
+
+  console.log(`✅ Upload binário enviado para ${endpoint}`);
 }
