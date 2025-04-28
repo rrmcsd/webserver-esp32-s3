@@ -1111,12 +1111,12 @@ confirmButton.addEventListener('click', async () => {
 });
 
 async function sendFileInParts(fileContent, endpoint) {
-  const chunkSize = 1000; // 10 KB
+  const chunkSize = 1000;
   const totalParts = Math.ceil(fileContent.length / chunkSize);
 
   for (let i = 0; i < totalParts; i++) {
     const part = fileContent.slice(i * chunkSize, (i + 1) * chunkSize);
-    const payload = JSON.stringify({ part });
+    const payload = JSON.stringify({ part, isLastPart: (i === totalParts - 1) }); // <-- 👈 ALTERADO AQUI
 
     const res = await fetch(endpoint, {
       method: "POST",
