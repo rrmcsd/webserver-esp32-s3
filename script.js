@@ -699,8 +699,8 @@ salvarBrandButton.addEventListener("click", async () => {
     return showError("Only .jpg files are allowed for your startup brand.");
   }
 
-  if (file.size > 40960) {
-    return showError("Brand must be 40KB or less.");
+  if (file.size > 30720) {
+    return showError("Brand must be 30KB or less.");
   }
 
   const img = new Image();
@@ -721,7 +721,7 @@ salvarBrandButton.addEventListener("click", async () => {
 
       ctx.drawImage(img, 0, 0, 100, 100);
 
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
       const arrayBuffer = await blob.arrayBuffer();
       brandBinaryData = new Uint8Array(arrayBuffer);
 
@@ -790,8 +790,8 @@ salvarClockButton.addEventListener("click", () => {
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
   }
-  if (file.size > 51200) {
-    return showError("Clock background must be 50KB or less.");
+  if (file.size > 61440) {
+    return showError("Clock background must be 60KB or less.");
   }
 
   const img = new Image();
@@ -812,7 +812,7 @@ salvarClockButton.addEventListener("click", () => {
 
       ctx.drawImage(img, 0, 0, 240, 240);
 
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
       const arrayBuffer = await blob.arrayBuffer();
       clockBinaryData = new Uint8Array(arrayBuffer);
 
