@@ -67,7 +67,7 @@ const brandMenuButton = document.getElementById("menu-brand");
 const modalBrand = document.getElementById("modal-brand")
 const closeBrandButton = document.getElementById("close-brand");
 const salvarBrandButton = document.getElementById("salvar-brand")
-let brandHeaderData = null;
+let brandBinaryData = null;
 
 // CLOCK
 const clockInput = document.getElementById('clock');
