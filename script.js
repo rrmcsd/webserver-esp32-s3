@@ -221,7 +221,8 @@ brandMenuButton.addEventListener('click', () => {
 });
 
 closeBrandButton.addEventListener('click', () =>{
-    fadeOut(modalBrand)
+    brandInput.value = '';
+    fadeOut(modalBrand);
     
 })
 
@@ -257,7 +258,6 @@ clockMenuButton.addEventListener('click', () => {
   hexText.style.display = "none"
   inputRectColor.value = ""
   inputRectColor.classList.remove("input-padding-hex")
-  
 
   fadeIn(modalClock)
 
@@ -352,7 +352,6 @@ brandInput.addEventListener('change', () => {
     }
   
     brandPlaceholder.textContent = fileName;
-    brandInput.value = '';
   });
 
   clockInput.addEventListener('change', () => {
@@ -388,7 +387,6 @@ brandInput.addEventListener('change', () => {
         }
       
         gifPlaceholder.textContent = fileName;
-        gifInput.value = ''
       });
     
     });
@@ -690,8 +688,7 @@ salvarApiButton.addEventListener("click", () => {
 
 
 // BRAND
-// BRAND
-salvarBrandButton.addEventListener("click", () => {
+salvarBrandButton.addEventListener("click", async () => {
   if (!brandInput.files || brandInput.files.length === 0) {
     return showError("Please select a .jpg file to launch your branded device.");
   }
@@ -709,29 +706,39 @@ salvarBrandButton.addEventListener("click", () => {
   const img = new Image();
   const objectUrl = URL.createObjectURL(file);
 
-  img.onload = function () {
+  img.onload = async function () {
     URL.revokeObjectURL(objectUrl);
 
     if (img.width !== 100 || img.height !== 100) {
       return showError("The .jpg image must be exactly 100x100 pixels.");
     }
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      brandBinaryData = new Uint8Array(e.target.result); // 🆕 Agora salvamos como binário puro
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 100;
+      canvas.height = 100;
+      const ctx = canvas.getContext('2d');
+
+      ctx.drawImage(img, 0, 0, 100, 100);
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+      const arrayBuffer = await blob.arrayBuffer();
+      brandBinaryData = new Uint8Array(arrayBuffer);
+
       if (brandPlaceholder.textContent !== "Choose your file") {
         uploadBrandConfirm.textContent = brandPlaceholder.textContent;
         uploadBrandConfirm.style.color = esmeraldColor;
       }
+
       showSucess();
       setTimeout(() => fadeOut(modalBrand), 2000);
-    };
-    reader.onerror = function () {
-      showError("Failed to read brand file.");
-    };
-
-    reader.readAsArrayBuffer(file);
+    } catch (e) {
+      console.error("❌ Error during optimization:", e);
+      showError("Failed to process brand image.");
+    }
   };
+
+  brandInput.value = '';
 
   img.onerror = function () {
     URL.revokeObjectURL(objectUrl);
@@ -740,6 +747,7 @@ salvarBrandButton.addEventListener("click", () => {
 
   img.src = objectUrl;
 });
+
 
 
 // CLOCK
@@ -821,6 +829,8 @@ salvarClockButton.addEventListener("click", () => {
     }
   };
 
+  clockInput.value = '';
+
   img.onerror = function () {
     URL.revokeObjectURL(objectUrl);
     showError("Error reading clock image.");
@@ -828,7 +838,6 @@ salvarClockButton.addEventListener("click", () => {
 
   img.src = objectUrl;
 });
-
 
 // GIF
 salvarGifButton.addEventListener("click", async () => {
@@ -1015,11 +1024,13 @@ confirmButton.addEventListener('click', async () => {
     // 1️⃣ Primeiro envia clockbg
     if (clockBinaryData) {
       await sendBinary(clockBinaryData, "/upload_clock_part");
+      clockBinaryData = null;
     }
 
     // 2️⃣ Depois envia brand
     if (brandBinaryData) {
       await sendBinary(brandBinaryData, "/upload_brand_part");
+      brandBinaryData = null;
     }
 
     // 3️⃣ Depois envia gif (opcional, se quiser ainda trabalhar gif como h ou outro)

@@ -9,6 +9,7 @@
 
 body{
     width: 100%;
+    height: 100vh;
     background-color: rgb(32, 32, 32);
     background-image: linear-gradient( to bottom, rgb(32, 32, 32), black);
     display: flex;
@@ -173,9 +174,10 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     width: 90%;
     height: 90vh;
     max-width: 500px;
+    min-height: 500px;
     z-index: 1;
     background-color: rgba(245, 245, 245, 0.97);
-    position: absolute;
+    position: fixed;
     border-radius: 50px;
     top: 50%;
     left: 50%;
@@ -555,9 +557,10 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
 #modal-confirm{
     width: 100%;
     height: 100vh;
+    min-height: 500px;
     z-index: 1;
     background-color: rgb(32, 32, 32, 0.98);
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -654,7 +657,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
 #container-button-manual{
     width: 100%;
     max-width: 450px;
-    position: fixed;
+    position: absolute;
     top: 25px;
 }
 #button-manual{
@@ -683,12 +686,13 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
 #modal-manual{
     width: 100%;
     min-width: 200px;
+    min-height: 500px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
