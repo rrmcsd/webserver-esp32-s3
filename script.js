@@ -781,7 +781,7 @@ salvarClockButton.addEventListener("click", () => {
 
   if (!file.name.toLowerCase().endsWith(".jpg")) {
     return showError("Only .jpg files are allowed for clock background.");
-  } 
+  }
   if (file.size > 51200) {
     return showError("Clock background must be 50KB or less.");
   }
@@ -791,23 +791,33 @@ salvarClockButton.addEventListener("click", () => {
 
   img.onload = async function () {
     URL.revokeObjectURL(objectUrl);
+
     if (img.width !== 240 || img.height !== 240) {
       return showError("The .jpg image must be exactly 240x240 pixels.");
     }
 
     try {
-      // Novo: Lê como ArrayBuffer (binário)
-      const arrayBuffer = await file.arrayBuffer();
+      const canvas = document.createElement('canvas');
+      canvas.width = 240;
+      canvas.height = 240;
+      const ctx = canvas.getContext('2d');
+
+      ctx.drawImage(img, 0, 0, 240, 240);
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+      const arrayBuffer = await blob.arrayBuffer();
       clockBinaryData = new Uint8Array(arrayBuffer);
 
       if (clockPlaceholder.textContent !== "Choose your file") {
         uploadClockConfirm.textContent = clockPlaceholder.textContent;
         uploadClockConfirm.style.color = esmeraldColor;
       }
+
       showSucess();
       setTimeout(() => fadeOut(modalClock), 2000);
     } catch (e) {
-      showError("Failed to read clock image as binary.");
+      console.error("❌ Error during optimization:", e);
+      showError("Failed to process clock image.");
     }
   };
 
@@ -1058,7 +1068,7 @@ confirmButton.addEventListener('click', async () => {
 
 async function sendBinary(fileData, endpoint) {
   const formData = new FormData();
-  formData.append("file", new Blob([fileData], { type: "image/jpeg" }));
+  formData.append("file", new Blob([fileData]));
 
   const res = await fetch(endpoint, {
     method: "POST",
@@ -1068,5 +1078,6 @@ async function sendBinary(fileData, endpoint) {
   if (!res.ok) {
     throw new Error(`Failed to send file to ${endpoint}`);
   }
+
   console.log(`✅ Upload de arquivo enviado para ${endpoint}`);
 }
