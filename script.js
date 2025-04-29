@@ -1057,14 +1057,16 @@ confirmButton.addEventListener('click', async () => {
 });
 
 async function sendBinary(fileData, endpoint) {
+  const formData = new FormData();
+  formData.append("file", new Blob([fileData], { type: "image/jpeg" }));
+
   const res = await fetch(endpoint, {
     method: "POST",
-    body: fileData
+    body: formData
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to send binary to ${endpoint}`);
+    throw new Error(`Failed to send file to ${endpoint}`);
   }
-
-  console.log(`✅ Upload binário enviado para ${endpoint}`);
+  console.log(`✅ Upload de arquivo enviado para ${endpoint}`);
 }
