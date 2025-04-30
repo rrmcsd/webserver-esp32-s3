@@ -8,6 +8,7 @@ const modalApply = document.getElementById("modal-apply")
 const titleApply = document.getElementById("title-apply")
 const esmeraldColor = "rgb(57, 255, 156)"
 const whiteSmokeColor = "whitesmoke"
+
 // WIFI
 const wifiMenuButton = document.getElementById("menu-wifi");
 const closeWifiButton = document.getElementById("close-wifi");
@@ -67,6 +68,11 @@ const brandMenuButton = document.getElementById("menu-brand");
 const modalBrand = document.getElementById("modal-brand")
 const closeBrandButton = document.getElementById("close-brand");
 const salvarBrandButton = document.getElementById("salvar-brand")
+const divBgHex = document.getElementById("div-bg-color-brand")
+const hexTextBrand = document.getElementById("hex-text-brand")
+const inputBgColor = document.getElementById("input-transparent-hex-brand")
+const hexPlaceholderBrand = document.getElementById("hex-placeholder-brand")
+let bgHexColor = "";
 let brandBinaryData = null;
 
 // CLOCK
@@ -81,13 +87,14 @@ const selectedUTC = document.getElementById("selected-utc");
 const textUTC = document.getElementById("text-utc");
 const flagUTC = document.getElementById("flag-utc");
 const optionsListUTC = document.getElementById("options-list-utc");
+const divRectHex = document.getElementById("div-rect-color-clock")
+const hexTextClock = document.getElementById("hex-text-clock")
+const inputRectColor = document.getElementById("input-transparent-hex-clock")
+const hexPlaceholderClock = document.getElementById("hex-placeholder-clock")
 let selectedUTCValue = null;
-const divRectHex = document.getElementById("div-rect-color")
-const hexText = document.getElementById("hex-text")
-const inputRectColor = document.getElementById("input-transparent-hex")
-const hexPlaceholder = document.getElementById("hex-placeholder")
 let rectHexColor = "";
 let clockBinaryData = null;
+
 
 // GIF
 const gifInput = document.getElementById('gif');
@@ -107,6 +114,7 @@ const passwordConfirm = document.getElementById("password-confirm");
 const keyConfirm = document.getElementById("key-confirm");
 const currencyConfirm = document.getElementById("currency-confirm");
 const uploadBrandConfirm = document.getElementById("upload-brand-confirm");
+const bgHexConfirm = document.getElementById("bg-hex-confirm");
 const rectHexConfirm = document.getElementById("rect-hex-confirm");
 const uploadClockConfirm = document.getElementById("upload-clock-confirm");
 const utcConfirm = document.getElementById("utc-confirm");
@@ -216,6 +224,13 @@ toggleKey.addEventListener("click", () => {
 
 brandMenuButton.addEventListener('click', () => {
     brandPlaceholder.textContent = "Choose your file";
+
+    hexPlaceholderBrand.style.display = "block"
+    inputBgColor.style.display = "none"
+    hexTextBrand.style.display = "none"
+    inputBgColor.value = ""
+    inputBgColor.classList.remove("input-padding-hex")
+    
     fadeIn(modalBrand)
   
 });
@@ -238,9 +253,9 @@ document.addEventListener("click", (e) => {
   inputRectColor.addEventListener("blur", () => {
     const isEmpty = inputRectColor.value.trim() === "";
     if (isEmpty) {
-      hexPlaceholder.style.display = "block";
+      hexPlaceholderClock.style.display = "block";
       inputRectColor.style.display = "none";
-      hexText.style.display = "none";
+      hexTextClock.style.display = "none";
       inputRectColor.classList.remove("input-padding-hex");
       inputRectColor.value = "";
     }
@@ -253,9 +268,9 @@ clockMenuButton.addEventListener('click', () => {
   textUTC.style.color = "rgba(255, 255, 255, 0.44)";
   textUTC.style.fontWeight = "400";
 
-  hexPlaceholder.style.display = "block"
+  hexPlaceholderClock.style.display = "block"
   inputRectColor.style.display = "none"
-  hexText.style.display = "none"
+  hexTextClock.style.display = "none"
   inputRectColor.value = ""
   inputRectColor.classList.remove("input-padding-hex")
 
@@ -610,8 +625,8 @@ function clearConfirm() {
   wifiData = { ssid: "", password: "" };
   apiData = { key: "", currency: "" };
   selectedUTCValue = "";
-  rectHexColor = null;
-  brandHeaderData = null;
+  rectHexColor = "";
+  bgHexColor = ""
   clockBinaryData = null;
   gifHeaderData = null;
 
@@ -689,8 +704,32 @@ salvarApiButton.addEventListener("click", () => {
 
 // BRAND
 salvarBrandButton.addEventListener("click", async () => {
-  if (!brandInput.files || brandInput.files.length === 0) {
-    return showError("Please select a .jpg file to launch your branded device.");
+  const hexInputBrand = inputBgColor.value.trim();
+  const hasFileBrand = brandInput.files && brandInput.files.length > 0;
+
+  if (hexInputBrand.includes("#")) {
+    return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
+  }
+
+  const hexOnly = hexInputBrand.toUpperCase();
+  const hasHex = hexOnly.length === 6;
+
+  if (hexInputBrand.length > 0 && !hasHex) {
+    return showError("HEX color must have exactly 6 characters.");
+  } else if (hasHex) {
+    bgHexColor = hexToRGB565(hexOnly);
+    bgHexConfirm.textContent = "#" + hexOnly;
+    bgHexConfirm.style.color = esmeraldColor;
+  }
+
+  if (!hasFileBrand && !hasHex) {
+    return showError("Please select a .jpg image, or a HEX color.");
+  }
+
+  if (hasHex && !hasFileBrand) {
+    showSucess();
+    setTimeout(() => fadeOut(modalBrand), 2000);
+    return;
   }
 
   const file = brandInput.files[0];
@@ -703,71 +742,41 @@ salvarBrandButton.addEventListener("click", async () => {
     return showError("Brand must be 30KB or less.");
   }
 
-  const img = new Image();
-  const objectUrl = URL.createObjectURL(file);
+  try {
+    brandBinaryData = await lowerJPG(file, 100);
 
-  img.onload = async function () {
-    URL.revokeObjectURL(objectUrl);
-
-    if (img.width !== 100 || img.height !== 100) {
-      return showError("The .jpg image must be exactly 100x100 pixels.");
+    if (brandPlaceholder.textContent !== "Choose your file") {
+      uploadBrandConfirm.textContent = brandPlaceholder.textContent;
+      uploadBrandConfirm.style.color = esmeraldColor;
     }
 
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = 100;
-      canvas.height = 100;
-      const ctx = canvas.getContext('2d');
-
-      ctx.drawImage(img, 0, 0, 100, 100);
-
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
-      const arrayBuffer = await blob.arrayBuffer();
-      brandBinaryData = new Uint8Array(arrayBuffer);
-
-      if (brandPlaceholder.textContent !== "Choose your file") {
-        uploadBrandConfirm.textContent = brandPlaceholder.textContent;
-        uploadBrandConfirm.style.color = esmeraldColor;
-      }
-
-      showSucess();
-      setTimeout(() => fadeOut(modalBrand), 2000);
-    } catch (e) {
-      console.error("❌ Error during optimization:", e);
-      showError("Failed to process brand image.");
-    }
-  };
+    showSucess();
+    setTimeout(() => fadeOut(modalBrand), 2000);
+  } catch (errMsg) {
+    showError(errMsg);
+  }
 
   brandInput.value = '';
-
-  img.onerror = function () {
-    URL.revokeObjectURL(objectUrl);
-    showError("Error reading brand image.");
-  };
-
-  img.src = objectUrl;
 });
 
 
-
 // CLOCK
-salvarClockButton.addEventListener("click", () => {
+salvarClockButton.addEventListener("click", async () => {
   const hasUTC = !!selectedUTCValue;
   const hasFile = clockInput.files && clockInput.files.length > 0;
   const hexInput = inputRectColor.value.trim();
+  const hexOnly = hexInput.toUpperCase();
+  const hasHex = hexOnly.length === 6;
 
   if (hexInput.includes("#")) {
     return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
   }
 
-  const hexOnly = hexInput.toUpperCase();
-  const hasHex = hexOnly.length === 6;
-
   if (hexInput.length > 0 && !hasHex) {
     return showError("HEX color must have exactly 6 characters.");
   } else if (hasHex) {
     rectHexColor = hexToRGB565(hexOnly);
-    rectHexConfirm.textContent = "#" + inputRectColor.value;
+    rectHexConfirm.textContent = "#" + hexOnly;
     rectHexConfirm.style.color = esmeraldColor;
   }
 
@@ -794,49 +803,21 @@ salvarClockButton.addEventListener("click", () => {
     return showError("Clock background must be 60KB or less.");
   }
 
-  const img = new Image();
-  const objectUrl = URL.createObjectURL(file);
+  try {
+    clockBinaryData = await lowerJPG(file);
 
-  img.onload = async function () {
-    URL.revokeObjectURL(objectUrl);
-
-    if (img.width !== 240 || img.height !== 240) {
-      return showError("The .jpg image must be exactly 240x240 pixels.");
+    if (clockPlaceholder.textContent !== "Choose your file") {
+      uploadClockConfirm.textContent = clockPlaceholder.textContent;
+      uploadClockConfirm.style.color = esmeraldColor;
     }
 
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = 240;
-      canvas.height = 240;
-      const ctx = canvas.getContext('2d');
-
-      ctx.drawImage(img, 0, 0, 240, 240);
-
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
-      const arrayBuffer = await blob.arrayBuffer();
-      clockBinaryData = new Uint8Array(arrayBuffer);
-
-      if (clockPlaceholder.textContent !== "Choose your file") {
-        uploadClockConfirm.textContent = clockPlaceholder.textContent;
-        uploadClockConfirm.style.color = esmeraldColor;
-      }
-
-      showSucess();
-      setTimeout(() => fadeOut(modalClock), 2000);
-    } catch (e) {
-      console.error("❌ Error during optimization:", e);
-      showError("Failed to process clock image.");
-    }
-  };
+    showSucess();
+    setTimeout(() => fadeOut(modalClock), 2000);
+  } catch (errMsg) {
+    showError(errMsg);
+  }
 
   clockInput.value = '';
-
-  img.onerror = function () {
-    URL.revokeObjectURL(objectUrl);
-    showError("Error reading clock image.");
-  };
-
-  img.src = objectUrl;
 });
 
 // GIF
@@ -891,11 +872,20 @@ salvarGifButton.addEventListener("click", async () => {
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 
 divRectHex.addEventListener('click', () => {
-  hexPlaceholder.style.display = "none"
+  hexPlaceholderClock.style.display = "none"
   inputRectColor.style.display = "block"
-  hexText.style.display = "block"
+  hexTextClock.style.display = "block"
   inputRectColor.classList.add("input-padding-hex")
   inputRectColor.focus()
+
+});
+
+divBgHex.addEventListener('click', () => {
+  hexPlaceholderBrand.style.display = "none"
+  inputBgColor.style.display = "block"
+  hexTextBrand.style.display = "block"
+  inputBgColor.classList.add("input-padding-hex")
+  inputBgColor.focus()
 
 });
 
@@ -955,6 +945,44 @@ function applyAnimation() {
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
+
+// JPG
+async function lowerJPG(file, size = 240) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = async function () {
+      URL.revokeObjectURL(objectUrl);
+
+      if (img.width !== size || img.height !== size) {
+        reject(`The .jpg image must be exactly ${size}x${size} pixels.`);
+        return;
+      }
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, size, size);
+
+        const blob = await new Promise(resolveBlob => canvas.toBlob(resolveBlob, 'image/jpeg'));
+        const arrayBuffer = await blob.arrayBuffer();
+        resolve(new Uint8Array(arrayBuffer));
+      } catch (e) {
+        reject("Failed to process image.");
+      }
+    };
+
+    img.onerror = function () {
+      URL.revokeObjectURL(objectUrl);
+      reject("Error loading image.");
+    };
+
+    img.src = objectUrl;
+  });
+}
 
 // GIF
 async function convertGIFtoHeader(file, variableName = "animation") {
@@ -1051,10 +1079,13 @@ confirmButton.addEventListener('click', async () => {
     if (selectedUTCValue) {
       config.utc = selectedUTCValue;
     }
+    if (bgHexColor) {
+      config.bgcolor = bgHexColor;
+    }
     if (rectHexColor) {
       config.color = rectHexColor;
     }
-
+    
     const resConfig = await fetch("/apply_config", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

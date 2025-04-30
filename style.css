@@ -268,7 +268,6 @@ WIFI WIFI WIFI WIFI WIFI WIFI */
     color: rgb(32, 32, 32);
 }
 
-
 .fechar{
     width: 38px;
     position: absolute;
@@ -534,7 +533,7 @@ CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK CLOCK */
     padding: 20px 20px 20px 5px;
 }
 
-#hex-text{
+.hex-text{
     color: rgba(255, 255, 255, 0.44);
     display: none;
 }
@@ -582,8 +581,14 @@ CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM CONFIRM  */
     border-radius: 45px;
 }
 
+#close-confirm{
+    height: 35px;
+    width: 100%;
+}
+
 #close-confirm svg{
     color: whitesmoke;
+    top: 20px;
 }
 
 .title-item-confirm{
