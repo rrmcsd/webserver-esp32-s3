@@ -1079,10 +1079,10 @@ confirmButton.addEventListener('click', async () => {
     if (selectedUTCValue) {
       config.utc = selectedUTCValue;
     }
-    if (bgHexColor) {
+    if (typeof bgHexColor === "number") {
       config.bgcolor = bgHexColor;
     }
-    if (rectHexColor) {
+    if (typeof rectHexColor === "number") {
       config.color = rectHexColor;
     }
     
