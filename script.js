@@ -1008,6 +1008,7 @@ function hexToRGB565(hex) {
 confirmButton.addEventListener('click', async () => {
   fadeIn(modalApply);
   applyAnimation();
+  await fetch('/start_apply', { method: 'POST' });
 
   try {
     // 1️⃣ Primeiro envia clockbg
