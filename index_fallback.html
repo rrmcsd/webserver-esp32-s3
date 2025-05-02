@@ -578,31 +578,34 @@
         fadeIn(modalApply);
         applyAnimation();
         try {
-            const formData = new URLSearchParams();
-            formData.append("ssid", ssid);
-            formData.append("password", password);
-            
-            const res = await fetch("/wifi", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              },
-              body: formData.toString()
+            const config = {};
+            if (ssid && password) {
+                config.ssid = ssid;
+                config.password = password;
+            }
+            // Enviando a requisição POST com JSON
+            const res = await fetch("/apply_config", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"  // Alterando para 'application/json'
+                },
+                body: JSON.stringify({ config })  // Enviando o JSON diretamente
             });
+    
             const responseText = await res.text();
             if (res.ok) {
-            showSucess();
-            setTimeout(() => {
-                fadeOut(modalApply)
-            }, 2000)
-            console.log("ESP32 response:", responseText);
+                showSucess();
+                setTimeout(() => {
+                    fadeOut(modalApply)
+                }, 2000);
+                console.log("ESP32 response:", responseText);
             } else {
-            showError("ESP32 rejected the apply request.");
-            setTimeout(() => {
-                fadeOut(modalApply)
-            }, 4000)
+                showError("ESP32 rejected the apply request.");
+                setTimeout(() => {
+                    fadeOut(modalApply)
+                }, 4000);
             }
-            } catch (e) {
+        } catch (e) {
             console.error("Error sending apply:", e);
             showError("Error sending apply.");
         }

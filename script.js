@@ -833,8 +833,8 @@ salvarGifButton.addEventListener("click", async () => {
     return showError("Only .gif files are allowed.");
   }
 
-  if (file.size > 40960) {
-    return showError("GIF must be 40K or less.");
+  if (file.size > 1024000) {
+    return showError("GIF must be 1MB or less.");
   }
 
   const img = new Image();
