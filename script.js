@@ -103,7 +103,7 @@ const gifMenuButton = document.getElementById("menu-gif");
 const modalGif = document.getElementById("modal-gif")
 const closeGifButton = document.getElementById("close-gif");
 const salvarGifButton = document.getElementById("salvar-gif")
-let gifHeaderData = null;
+let gifFileToUpload = null
 
 // CONFIRM
 const modalConfirm =  document.getElementById("modal-confirm");
@@ -627,8 +627,9 @@ function clearConfirm() {
   selectedUTCValue = "";
   rectHexColor = "";
   bgHexColor = ""
+  brandBinaryData = null;
   clockBinaryData = null;
-  gifHeaderData = null;
+  gifFileToUpload = null;
 
   setTimeout(() => {
     valuesConfirm.forEach((value) => {
@@ -845,17 +846,16 @@ salvarGifButton.addEventListener("click", async () => {
       return showError("GIF must be 240x240px.");
     }
 
-    try {
-      gifHeaderData = await convertGIFtoHeader(file, "animation");
-      if (gifPlaceholder.textContent !== "Choose your file"){
-      uploadGifConfirm.textContent = gifPlaceholder.textContent
+    // ⚡ Guarda direto o arquivo
+    gifFileToUpload = file;
+
+    if (gifPlaceholder.textContent !== "Choose your file") {
+      uploadGifConfirm.textContent = gifPlaceholder.textContent;
       uploadGifConfirm.style.color = esmeraldColor;
-      };
-      showSucess();
-      setTimeout(() => fadeOut(modalGif), 2000);
-    } catch (e) {
-      showError("Failed to convert gif.");
     }
+
+    showSucess();
+    setTimeout(() => fadeOut(modalGif), 2000);
   };
 
   img.onerror = function () {
@@ -865,6 +865,7 @@ salvarGifButton.addEventListener("click", async () => {
 
   img.src = objectUrl;
 });
+
 
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
 // ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES ANIMAÇÕES
@@ -931,16 +932,23 @@ function fadeOut(obj) {
 };
 
 function applyAnimation() {
-  const titleApply = document.getElementById("title-apply"); // certifique-se do ID correto
+  const titleApply = document.getElementById("title-apply");
   const baseText = "Applying";
   let dotCount = 0;
 
-  const interval = setInterval(() => {
-    dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3 → zera
+  // Limpa qualquer intervalo anterior salvo no próprio elemento
+  if (titleApply.dataset.intervalId) {
+    clearInterval(Number(titleApply.dataset.intervalId));
+  }
+
+  const intervalId = setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
     titleApply.textContent = baseText + ".".repeat(dotCount);
   }, 500);
-}
 
+  // Salva o novo ID como atributo de dados
+  titleApply.dataset.intervalId = intervalId;
+}
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
@@ -984,53 +992,6 @@ async function lowerJPG(file, size = 240) {
   });
 }
 
-// GIF
-async function convertGIFtoHeader(file, variableName = "animation") {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      const arrayBuffer = e.target.result;
-      const byteArray = new Uint8Array(arrayBuffer);
-
-      let output = `//\n// ${variableName}\n`;
-      output += `// Data size = ${byteArray.length} bytes\n`;
-      output += `//\n// GIF, Compression=LZW, Size: 240 x 240, 8-Bpp\n`;
-      output += `// (frame count not extracted here)\n//\n`;
-      output += `#ifndef PROGMEM\n#define PROGMEM\n#endif\n`;
-      output += `const uint8_t ${variableName}[] PROGMEM = {\n`;
-
-      const hexLines = [];
-      for (let i = 0; i < byteArray.length; i += 16) {
-        const line = Array.from(byteArray.slice(i, i + 16))
-          .map(b => `0x${b.toString(16).padStart(2, "0")}`)
-          .join(", ");
-        hexLines.push(line);
-      }
-
-      output += hexLines.join(",\n") + "\n};";
-      
-      resolve({
-        fileName: `${variableName}.h`,
-        content: output
-      });
-    };
-
-    reader.onerror = () => reject("Erro ao ler o arquivo .gif");
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-function downloadHeader({ fileName, content }) {
-  const blob = new Blob([content], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
 // HEX TO RGB565
 function hexToRGB565(hex) {
   const r = parseInt(hex.slice(0, 2), 16);
@@ -1061,9 +1022,10 @@ confirmButton.addEventListener('click', async () => {
       brandBinaryData = null;
     }
 
-    // 3️⃣ Depois envia gif (opcional, se quiser ainda trabalhar gif como h ou outro)
-    if (gifHeaderData?.content) {
-      await sendFileInParts(gifHeaderData.content, "/upload_gif_part");
+    // 3️⃣ Depois envia GIF puro (campo .gifFileToUpload esperado no backend)
+    if (gifFileToUpload) {
+      await sendBinary(gifFileToUpload, "/upload_gif_part");
+      gifFileToUpload = null;
     }
 
     // 4️⃣ Depois envia configurações normais
@@ -1085,7 +1047,7 @@ confirmButton.addEventListener('click', async () => {
     if (typeof rectHexColor === "number") {
       config.color = rectHexColor;
     }
-    
+
     const resConfig = await fetch("/apply_config", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1108,18 +1070,11 @@ confirmButton.addEventListener('click', async () => {
   }
 });
 
-async function sendBinary(fileData, endpoint) {
+
+async function sendBinary(fileData, endpoint, fieldName = "file") {
   const formData = new FormData();
-  formData.append("file", new Blob([fileData]));
+  formData.append(fieldName, fileData instanceof Blob ? fileData : new Blob([fileData]));
 
-  const res = await fetch(endpoint, {
-    method: "POST",
-    body: formData
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to send file to ${endpoint}`);
-  }
-
-  console.log(`✅ Upload de arquivo enviado para ${endpoint}`);
+  const res = await fetch(endpoint, { method: "POST", body: formData });
+  if (!res.ok) throw new Error(`Failed to send to ${endpoint}`);
 }
