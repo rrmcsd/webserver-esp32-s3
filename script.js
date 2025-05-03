@@ -224,6 +224,8 @@ toggleKey.addEventListener("click", () => {
 
 brandMenuButton.addEventListener('click', () => {
     brandPlaceholder.textContent = "Choose your file";
+    brandPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+    brandPlaceholder.style.fontWeight = "400";
 
     hexPlaceholderBrand.style.display = "block"
     inputBgColor.style.display = "none"
@@ -237,6 +239,8 @@ brandMenuButton.addEventListener('click', () => {
 
 closeBrandButton.addEventListener('click', () =>{
     brandInput.value = '';
+    brandPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+    brandPlaceholder.style.fontWeight = "400";
     fadeOut(modalBrand);
     
 })
@@ -264,6 +268,8 @@ document.addEventListener("click", (e) => {
 
 clockMenuButton.addEventListener('click', () => {
   clockPlaceholder.textContent = "Choose your file";
+  clockPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+  clockPlaceholder.style.fontWeight = "400";
   textUTC.textContent = "Your desired timezone";
   textUTC.style.color = "rgba(255, 255, 255, 0.44)";
   textUTC.style.fontWeight = "400";
@@ -280,16 +286,23 @@ clockMenuButton.addEventListener('click', () => {
 
 closeClockButton.addEventListener('click', () =>{
   clockInput.value = ''
+  clockPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+  clockPlaceholder.style.fontWeight = "400";
   fadeOut(modalClock)
 })
 
 gifMenuButton.addEventListener('click', () => {
   gifPlaceholder.textContent = "Choose your file";
+  gifPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+  gifPlaceholder.style.fontWeight = "400";
   fadeIn(modalGif)
 
 });
 
 closeGifButton.addEventListener('click', () =>{
+  gifInput.value = ''
+  gifPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
+  gifPlaceholder.style.fontWeight = "400";
   fadeOut(modalGif)
   
 })
@@ -367,6 +380,8 @@ brandInput.addEventListener('change', () => {
     }
   
     brandPlaceholder.textContent = fileName;
+    brandPlaceholder.style.color = "rgb(57, 255, 156)";
+    brandPlaceholder.style.fontWeight = "500";
   });
 
   clockInput.addEventListener('change', () => {
@@ -384,6 +399,8 @@ brandInput.addEventListener('change', () => {
       }
     
       clockPlaceholder.textContent = fileName;
+      clockPlaceholder.style.color = "rgb(57, 255, 156)";
+      clockPlaceholder.style.fontWeight = "500";
     });
   
 
@@ -402,6 +419,8 @@ brandInput.addEventListener('change', () => {
         }
       
         gifPlaceholder.textContent = fileName;
+        gifPlaceholder.style.color = "rgb(57, 255, 156)";
+        gifPlaceholder.style.fontWeight = "500";
       });
     
     });
@@ -785,11 +804,12 @@ salvarClockButton.addEventListener("click", async () => {
     return showError("Please select a UTC timezone, a .jpg image, or a HEX color.");
   }
 
+  if (textUTC.textContent !== "Your desired timezone") {
+    utcConfirm.textContent = textUTC.textContent;
+    utcConfirm.style.color = esmeraldColor;
+  }
+
   if ((hasUTC || hasHex) && !hasFile) {
-    if (textUTC.textContent !== "Your desired timezone") {
-      utcConfirm.textContent = textUTC.textContent;
-      utcConfirm.style.color = esmeraldColor;
-    }
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
     return;
@@ -864,6 +884,7 @@ salvarGifButton.addEventListener("click", async () => {
   };
 
   img.src = objectUrl;
+  gifInput.value = ''
 });
 
 

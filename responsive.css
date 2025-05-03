@@ -1,4 +1,7 @@
 @media (max-width: 480px){
+    html, body{
+        height: 100vh;
+    }
     .modal{
         padding: 15px 40px;
     }
