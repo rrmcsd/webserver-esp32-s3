@@ -1,9 +1,0 @@
-- clockbg
-- brand
-- gif
-- apikey
-- currency
-- adicionar moeda comparativa
-- teste
-- melhorias
-- otimizacao
