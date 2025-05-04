@@ -707,6 +707,7 @@ salvarApiButton.addEventListener("click", () => {
   if (hasKey) {
     apiData.key = key;
   }
+  
   if (hasCurrency) {
     apiData.currency = currency;
   }
@@ -1056,8 +1057,10 @@ confirmButton.addEventListener('click', async () => {
       config.ssid = wifiData.ssid;
       config.password = wifiData.password;
     }
-    if (apiData?.key && apiData?.currency) {
+    if (apiData?.key) {
       config.apikey = apiData.key;
+    }
+    if (apiData?.currency) {
       config.currency = apiData.currency;
     }
     if (selectedUTCValue) {
