@@ -354,6 +354,7 @@ buttonManual.addEventListener('click', () => {
 closeButtonManual.addEventListener('click', () => {
   fadeOut(modalManual)
 });
+
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ao carregar doc Ao carregar doc Ao carregar doc Ao carregar doc
 // Ouvindo Change Ouvindo Change Ouvindo Change Ouvindo Change
@@ -605,6 +606,7 @@ function formatSensitive(value, isPassword = false) {
 
   return value;
 }
+
 keyInput.addEventListener("input", (e) => {
   const selectionStart = keyInput.selectionStart;
   const selectionEnd = keyInput.selectionEnd;
@@ -706,14 +708,14 @@ salvarApiButton.addEventListener("click", () => {
 
   if (hasKey) {
     apiData.key = key;
+    keyConfirm.textContent = formatSensitive(key, true);
+    keyConfirm.style.color = esmeraldColor;
   }
   
   if (hasCurrency) {
     apiData.currency = currency;
   }
 
-  keyConfirm.textContent = formatSensitive(key, true);
-  keyConfirm.style.color = esmeraldColor;
   if (currency !== "Your desired conversion") {
   currencyConfirm.textContent = currency;
   currencyConfirm.style.color = esmeraldColor;
