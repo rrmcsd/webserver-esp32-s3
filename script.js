@@ -35,6 +35,7 @@ const modalApi = document.getElementById("modal-api")
 const closeApiButton = document.getElementById("close-api");
 const salvarApiButton = document.getElementById("salvar-api")
 const dropdown = document.getElementById("dropdown");
+const selectedCurrency = document.getElementById("selected-currency");
 const selectedText = document.getElementById("selected-text");
 const selectedFlag = document.getElementById("selected-flag");
 const optionsList = document.getElementById("options-list");
@@ -198,7 +199,7 @@ closeApiButton.addEventListener('click', () =>{
   
 })
 
-selected.addEventListener("click", () => {
+selectedCurrency.addEventListener("click", () => {
   const isOpen = optionsList.style.display === "block";
   optionsList.style.display = isOpen ? "none" : "block";
 });
@@ -527,40 +528,6 @@ async function carregarMoedas() {
     });
   } catch (e) {
     console.error("Erro ao carregar moedas:", e);
-  }
-}
-
-async function carregarUTCs() {
-  try {
-    const response = await fetch("https://worldtimeapi.org/api/timezone");
-    const timezones = await response.json();
-
-    // Ordena os timezones em ordem alfabética
-    timezones.sort((a, b) => a.localeCompare(b));
-
-    optionsListUTC.innerHTML = ""; // Limpa o dropdown antes de popular
-
-    timezones.forEach(tz => {
-      const timezoneLabel = tz; // Ex: "America/Sao_Paulo"
-
-      const div = document.createElement("div");
-      div.className = "option";
-      div.innerHTML = `<span>${timezoneLabel}</span>`;
-
-      div.addEventListener("click", () => {
-        textUTC.textContent = timezoneLabel;
-        textUTC.style.color = "rgb(57, 255, 156)";
-        textUTC.style.fontWeight = "500";
-        optionsListUTC.style.display = "none";
-        selectedUTCValue = timezoneLabel; // Salva direto o nome
-      });
-
-      optionsListUTC.appendChild(div);
-    });
-
-  } catch (error) {
-    console.error("❌ Failed to fetch UTC options:", error);
-    optionsListUTC.innerHTML = "<div class='option error-wifi-options'>Failed to load timezones</div>";
   }
 }
 
