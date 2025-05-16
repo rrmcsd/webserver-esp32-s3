@@ -688,6 +688,7 @@ function clearConfirm() {
   apiData = { key: "", currency: "" };
   selectedUTCValue = "";
   rectHexColor = "";
+  digitsHexColor = "";
   bgHexColor = ""
   brandBinaryData = null;
   clockBinaryData = null;
