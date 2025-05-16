@@ -73,6 +73,7 @@ const divBgHex = document.getElementById("div-bg-color-brand")
 const hexTextBrand = document.getElementById("hex-text-brand")
 const inputBgColor = document.getElementById("input-transparent-hex-brand")
 const hexPlaceholderBrand = document.getElementById("hex-placeholder-brand")
+const colorShowBrand = document.getElementById("color-show-brand")
 let bgHexColor = "";
 let brandBinaryData = null;
 
@@ -92,8 +93,15 @@ const divRectHex = document.getElementById("div-rect-color-clock")
 const hexTextClock = document.getElementById("hex-text-clock")
 const inputRectColor = document.getElementById("input-transparent-hex-clock")
 const hexPlaceholderClock = document.getElementById("hex-placeholder-clock")
+const colorShowRect = document.getElementById("color-show-rect")
+const divDigitsHex = document.getElementById("div-digits-color-clock")
+const hexTextDigitsClock = document.getElementById("hex-text-digits-clock")
+const inputDigitsColor = document.getElementById("input-transparent-hex-digits-clock")
+const hexPlaceholderDigitsClock = document.getElementById("hex-placeholder-digits-clock")
+const colorShowDigits = document.getElementById("color-show-digits")
 let selectedUTCValue = null;
 let rectHexColor = "";
+let digitsHexColor = "";
 let clockBinaryData = null;
 
 
@@ -117,6 +125,7 @@ const currencyConfirm = document.getElementById("currency-confirm");
 const uploadBrandConfirm = document.getElementById("upload-brand-confirm");
 const bgHexConfirm = document.getElementById("bg-hex-confirm");
 const rectHexConfirm = document.getElementById("rect-hex-confirm");
+const digitsHexConfirm = document.getElementById("digits-hex-confirm");
 const uploadClockConfirm = document.getElementById("upload-clock-confirm");
 const utcConfirm = document.getElementById("utc-confirm");
 const uploadGifConfirm = document.getElementById("upload-gif-confirm")
@@ -224,6 +233,7 @@ toggleKey.addEventListener("click", () => {
 });
 
 brandMenuButton.addEventListener('click', () => {
+    colorShowBrand.style.backgroundColor = "transparent";
     brandPlaceholder.textContent = "Choose your file";
     brandPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
     brandPlaceholder.style.fontWeight = "400";
@@ -265,9 +275,22 @@ document.addEventListener("click", (e) => {
       inputRectColor.value = "";
     }
   });
+
+    inputDigitsColor.addEventListener("blur", () => {
+    const isEmpty = inputDigitsColor.value.trim() === "";
+    if (isEmpty) {
+      hexPlaceholderDigitsClock.style.display = "block";
+      inputDigitsColor.style.display = "none";
+      hexTextDigitsClock.style.display = "none";
+      inputDigitsColor.classList.remove("input-padding-hex");
+      inputDigitsColor.value = "";
+    }
+  });
 });
 
 clockMenuButton.addEventListener('click', () => {
+  colorShowRect.style.backgroundColor = "transparent";
+  colorShowDigits.style.backgroundColor = "transparent";
   clockPlaceholder.textContent = "Choose your file";
   clockPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
   clockPlaceholder.style.fontWeight = "400";
@@ -280,6 +303,12 @@ clockMenuButton.addEventListener('click', () => {
   hexTextClock.style.display = "none"
   inputRectColor.value = ""
   inputRectColor.classList.remove("input-padding-hex")
+
+  hexPlaceholderDigitsClock.style.display = "block"
+  inputDigitsColor.style.display = "none"
+  hexTextDigitsClock.style.display = "none"
+  inputDigitsColor.value = ""
+  inputDigitsColor.classList.remove("input-padding-hex")
 
   fadeIn(modalClock)
 
@@ -424,7 +453,52 @@ brandInput.addEventListener('change', () => {
         gifPlaceholder.style.color = "rgb(57, 255, 156)";
         gifPlaceholder.style.fontWeight = "500";
       });
-    
+
+      inputBgColor.addEventListener('input', () => {
+        const hex = inputBgColor.value.trim();
+
+        if (hex.length === 6) {
+          colorShowBrand.style.backgroundColor = `#${hex}`;
+          fadeIn(colorShowBrand);
+        } else {
+          
+          // Só aplica fadeOut se estiver visível
+          if (colorShowBrand.classList.contains('display-show')) {
+            fadeOut(colorShowBrand);
+          }
+        }
+      });
+
+      inputRectColor.addEventListener('input', () => {
+        const hex = inputRectColor.value.trim();
+
+        if (hex.length === 6) {
+          colorShowRect.style.backgroundColor = `#${hex}`;
+          fadeIn(colorShowRect);
+        } else {
+          
+          // Só aplica fadeOut se estiver visível
+          if (colorShowRect.classList.contains('display-show')) {
+            fadeOut(colorShowRect);
+          }
+        }
+      });
+
+      inputDigitsColor.addEventListener('input', () => {
+        const hex = inputDigitsColor.value.trim();
+
+        if (hex.length === 6) {
+          colorShowDigits.style.backgroundColor = `#${hex}`;
+          fadeIn(colorShowDigits);
+        } else {
+          
+          // Só aplica fadeOut se estiver visível
+          if (colorShowDigits.classList.contains('display-show')) {
+            fadeOut(colorShowDigits);
+          }
+        }
+      });
+
     });
 
 // ForEachs ForEachs ForEachs ForEachs ForEachs ForEachs ForEachs
@@ -653,6 +727,8 @@ salvarWifiButton.addEventListener("click", () => {
   passwordConfirm.textContent = formatSensitive(password, true);
   passwordConfirm.style.color = esmeraldColor
   wifiData = { ssid, password };
+  visibilityWifiConfirm.style.display = "block";
+  invisibilityWifiConfirm.style.display = "none";
 
   showSucess();
   setTimeout(() => { 
@@ -677,20 +753,22 @@ salvarApiButton.addEventListener("click", () => {
     apiData.key = key;
     keyConfirm.textContent = formatSensitive(key, true);
     keyConfirm.style.color = esmeraldColor;
+    visibilityKeyConfirm.style.display = "block";
+    invisibilityKeyConfirm.style.display = "none";
   }
   
   if (hasCurrency) {
     apiData.currency = currency;
+    currencyConfirm.textContent = currency;
+    currencyConfirm.style.color = esmeraldColor;
   }
 
-  if (currency !== "Your desired conversion") {
-  currencyConfirm.textContent = currency;
-  currencyConfirm.style.color = esmeraldColor;
-  };
-  showSucess();
-  setTimeout(() => fadeOut(modalApi), 2000);
+  // ✅ Apenas se pelo menos um dos dois foi salvo corretamente
+  if (hasKey || hasCurrency) {
+    showSucess();
+    setTimeout(() => fadeOut(modalApi), 2000);
+  }
 });
-
 
 // BRAND
 salvarBrandButton.addEventListener("click", async () => {
@@ -754,24 +832,40 @@ salvarBrandButton.addEventListener("click", async () => {
 salvarClockButton.addEventListener("click", async () => {
   const hasUTC = !!selectedUTCValue;
   const hasFile = clockInput.files && clockInput.files.length > 0;
-  const hexInput = inputRectColor.value.trim();
-  const hexOnly = hexInput.toUpperCase();
-  const hasHex = hexOnly.length === 6;
+  const hexInputRect = inputRectColor.value.trim();
+  const hexOnlyRect = hexInputRect.toUpperCase();
+  const hasHexRect = hexOnlyRect.length === 6;
+  
+  const hexInputDigits = inputDigitsColor.value.trim();
+  const hexOnlyDigits = hexInputDigits.toUpperCase();
+  const hasHexDigits = hexOnlyDigits.length === 6;
 
-  if (hexInput.includes("#")) {
+  if (hexInputRect.includes("#")) {
     return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
   }
 
-  if (hexInput.length > 0 && !hasHex) {
+  if (hexInputRect.length > 0 && !hasHexRect) {
     return showError("HEX color must have exactly 6 characters.");
-  } else if (hasHex) {
-    rectHexColor = hexToRGB565(hexOnly);
-    rectHexConfirm.textContent = "#" + hexOnly;
+  } else if (hasHexRect) {
+    rectHexColor = hexToRGB565(hexOnlyRect);
+    rectHexConfirm.textContent = "#" + hexOnlyRect;
     rectHexConfirm.style.color = esmeraldColor;
   }
 
-  if (!hasUTC && !hasFile && !hasHex) {
-    return showError("Please select a UTC timezone, a .jpg image, or a HEX color.");
+  if (hexInputDigits.includes("#")) {
+    return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
+  }
+
+  if (hexInputDigits.length > 0 && !hasHexDigits) {
+    return showError("HEX color must have exactly 6 characters.");
+  } else if (hasHexDigits) {
+    digitsHexColor = hexToRGB565(hexOnlyDigits);
+    digitsHexConfirm.textContent = "#" + hexOnlyDigits;
+    digitsHexConfirm.style.color = esmeraldColor;
+  }
+
+  if (!hasUTC && !hasFile && !hasHexRect && !hasHexDigits) {
+    return showError("Please select a UTC timezone, a .jpg image, or a HEX colors.");
   }
 
   if (textUTC.textContent !== "Your desired timezone") {
@@ -779,7 +873,7 @@ salvarClockButton.addEventListener("click", async () => {
     utcConfirm.style.color = esmeraldColor;
   }
 
-  if ((hasUTC || hasHex) && !hasFile) {
+  if ((hasUTC || hasHexRect || hasHexDigits) && !hasFile) {
     showSucess();
     setTimeout(() => fadeOut(modalClock), 2000);
     return;
@@ -870,6 +964,14 @@ divRectHex.addEventListener('click', () => {
   inputRectColor.classList.add("input-padding-hex")
   inputRectColor.focus()
 
+});
+
+divDigitsHex.addEventListener('click', () => {
+  hexPlaceholderDigitsClock.style.display = "none"
+  inputDigitsColor.style.display = "block"
+  hexTextDigitsClock.style.display = "block"
+  inputDigitsColor.classList.add("input-padding-hex")
+  inputDigitsColor.focus()
 });
 
 divBgHex.addEventListener('click', () => {
@@ -1040,6 +1142,9 @@ confirmButton.addEventListener('click', async () => {
     }
     if (typeof rectHexColor === "number") {
       config.color = rectHexColor;
+    }
+    if (typeof digitsHexColor === "number") {
+      config.digitscolor = digitsHexColor;
     }
 
     const resConfig = await fetch("/apply_config", {

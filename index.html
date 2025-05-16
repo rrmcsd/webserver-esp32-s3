@@ -192,6 +192,7 @@
             <p id="hex-text-brand" class="hex-text">#</p>
             <span id="hex-placeholder-brand">Your #hex color</span>
             <input name="bg-color" id="input-transparent-hex-brand" class="input-transparent" type="text" maxlength="6" style="display: none;">
+            <div id="color-show-brand" class="color-show"></div>
         </div>
         <!-- Upload -->
         <label class="label label-space">Upload:</label>
@@ -232,7 +233,18 @@
             <p id="hex-text-clock" class="hex-text">#</p>
             <span id="hex-placeholder-clock">Your #hex color</span>
             <input name="rect-color" id="input-transparent-hex-clock" class="input-transparent" type="text" maxlength="6" style="display: none;">
+            <div id="color-show-rect" class="color-show"></div>
         </div>
+
+        <!-- Digits Color -->
+        <label for="digits-color" class="label label-space">Digits color:</label>
+        <div id="div-digits-color-clock" name="digits-color" class="input-div custom-upload" type="text">
+            <p id="hex-text-digits-clock" class="hex-text">#</p>
+            <span id="hex-placeholder-digits-clock">Your #hex color</span>
+            <input name="digits-color" id="input-transparent-hex-digits-clock" class="input-transparent" type="text" maxlength="6" style="display: none;">
+            <div id="color-show-digits" class="color-show"></div>
+        </div>
+
         <!-- Upload -->
         <label class="label label-space">Upload:</label>
         <label for="clock" class="input-div custom-upload">
@@ -372,6 +384,10 @@
             <div class="itens-confirm itens-space">
                 <p class="label-confirm">Rectangle color:</p>
                 <p id="rect-hex-confirm" class="value-confirm">No change</p>
+            </div>
+            <div class="itens-confirm itens-space">
+                <p class="label-confirm">Digits color:</p>
+                <p id="digits-hex-confirm" class="value-confirm">No change</p>
             </div>
             <div class="itens-confirm itens-space">
                 <p class="label-confirm">Upload:</p>
