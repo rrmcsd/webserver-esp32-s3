@@ -718,29 +718,38 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
 }
 #modal-manual{
     width: 100%;
-    min-width: 200px;
-    min-height: 500px;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(245, 245, 245, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+#container-modal-manual{
+    width: 90%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
     gap: 12px;
     color: rgb(32, 32, 32);
-    display: none;
-    z-index: 2;
+    max-width: 500px;
+    min-height: 500px;
+    position: absolute;
 }
+
 #close-icon-manual{
     width: 30px;
     position: absolute;
-    right: 60px;
-    top: 50px;
+    right: 30px;
+    top: 27px;
     cursor: pointer;
     color: rgb(32, 32, 32);
 }
