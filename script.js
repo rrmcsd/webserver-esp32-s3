@@ -117,7 +117,10 @@ let gifFileToUpload = null
 // CONFIRM
 const modalConfirm =  document.getElementById("modal-confirm");
 const closeConfirmButton = document.getElementById("close-confirm");
+const wrappers = document.querySelectorAll(".wrapper-confirm");
+const noneChanges = document.getElementById("none-changes");
 const confirmButton = document.getElementById("confirm-button");
+const containerButtons = document.getElementById('container-buttons')
 const ssidConfirm = document.getElementById("ssid-confirm");
 const passwordConfirm = document.getElementById("password-confirm");
 const keyConfirm = document.getElementById("key-confirm");
@@ -233,7 +236,6 @@ toggleKey.addEventListener("click", () => {
 });
 
 brandMenuButton.addEventListener('click', () => {
-    colorShowBrand.style.backgroundColor = "transparent";
     brandPlaceholder.textContent = "Choose your file";
     brandPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
     brandPlaceholder.style.fontWeight = "400";
@@ -248,10 +250,12 @@ brandMenuButton.addEventListener('click', () => {
   
 });
 
-closeBrandButton.addEventListener('click', () =>{
+closeBrandButton.addEventListener('click', () => {
     brandInput.value = '';
     brandPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
     brandPlaceholder.style.fontWeight = "400";
+
+    fadeOut(colorShowBrand);
     fadeOut(modalBrand);
     
 })
@@ -314,12 +318,15 @@ clockMenuButton.addEventListener('click', () => {
 
 });
 
-closeClockButton.addEventListener('click', () =>{
+closeClockButton.addEventListener('click', () => {
   clockInput.value = ''
   clockPlaceholder.style.color = "rgba(255, 255, 255, 0.44)";
   clockPlaceholder.style.fontWeight = "400";
-  fadeOut(modalClock)
-})
+
+  fadeOut(colorShowRect);
+  fadeOut(colorShowDigits);
+  fadeOut(modalClock);
+});
 
 gifMenuButton.addEventListener('click', () => {
   gifPlaceholder.textContent = "Choose your file";
@@ -344,9 +351,11 @@ buttonApply.addEventListener('click', () =>{
   
   if (keyConfirm.textContent === "No change") {
       visibilityKeyConfirm.style.display = "none"
-  } 
+  };
 
-  fadeIn(modalConfirm)
+  atualizarVisibilidadeConfirmacoes();
+  fadeIn(modalConfirm);
+
 })
 
 closeConfirmButton.addEventListener('click', () => {
@@ -370,7 +379,7 @@ toogleKeyConfirm.addEventListener('click', () => {
   if (keyConfirm.textContent !== "No change") {
   const isMasked = keyConfirm.textContent.includes('*');
   keyConfirm.textContent = isMasked
-    ? `${realApiKey.slice(0, 11)}...${realApiKey.slice(-11)}`
+    ? `${realApiKey.slice(0, 5)}...${realApiKey.slice(-5)}`
     : formatSensitive(realApiKey, true);
 
   visibilityKeyConfirm.style.display = isMasked ? "none" : "block";
@@ -454,49 +463,18 @@ brandInput.addEventListener('change', () => {
         gifPlaceholder.style.fontWeight = "500";
       });
 
-      inputBgColor.addEventListener('input', () => {
-        const hex = inputBgColor.value.trim();
+      // Um mapa para gerenciar possíveis timeouts pendentes por elemento
 
-        if (hex.length === 6) {
-          colorShowBrand.style.backgroundColor = `#${hex}`;
-          fadeIn(colorShowBrand);
-        } else {
-          
-          // Só aplica fadeOut se estiver visível
-          if (colorShowBrand.classList.contains('display-show')) {
-            fadeOut(colorShowBrand);
-          }
-        }
+      inputBgColor.addEventListener('input', () => {
+        handleHexInput(inputBgColor, colorShowBrand);
       });
 
       inputRectColor.addEventListener('input', () => {
-        const hex = inputRectColor.value.trim();
-
-        if (hex.length === 6) {
-          colorShowRect.style.backgroundColor = `#${hex}`;
-          fadeIn(colorShowRect);
-        } else {
-          
-          // Só aplica fadeOut se estiver visível
-          if (colorShowRect.classList.contains('display-show')) {
-            fadeOut(colorShowRect);
-          }
-        }
+        handleHexInput(inputRectColor, colorShowRect);
       });
 
       inputDigitsColor.addEventListener('input', () => {
-        const hex = inputDigitsColor.value.trim();
-
-        if (hex.length === 6) {
-          colorShowDigits.style.backgroundColor = `#${hex}`;
-          fadeIn(colorShowDigits);
-        } else {
-          
-          // Só aplica fadeOut se estiver visível
-          if (colorShowDigits.classList.contains('display-show')) {
-            fadeOut(colorShowDigits);
-          }
-        }
+        handleHexInput(inputDigitsColor, colorShowDigits);
       });
 
     });
@@ -569,7 +547,6 @@ async function carregarRedes() {
     return false; // ❌ erro
   }
 }
-
 
 function getFlag(code) {
   const pais = mapaPais[code] || code.slice(0, 2).toUpperCase();
@@ -681,6 +658,9 @@ keyInput.addEventListener("input", (e) => {
 
 function clearConfirm() {
   const valuesConfirm = document.querySelectorAll(".value-confirm");
+  fadeOut(colorShowBrand);
+  fadeOut(colorShowRect);
+  fadeOut(colorShowDigits); 
   fadeOut(modalConfirm);
 
   // Resetar variáveis usadas no /apply
@@ -750,6 +730,10 @@ salvarApiButton.addEventListener("click", () => {
     return showError("Please enter the API key or select a currency.");
   }
 
+  if (key.length < 10){
+    return showError("Please enter a valid API key.")
+  }
+
   if (hasKey) {
     apiData.key = key;
     keyConfirm.textContent = formatSensitive(key, true);
@@ -797,7 +781,10 @@ salvarBrandButton.addEventListener("click", async () => {
 
   if (hasHex && !hasFileBrand) {
     showSucess();
-    setTimeout(() => fadeOut(modalBrand), 2000);
+    setTimeout(() => {
+      fadeOut(modalBrand);
+      fadeOut(colorShowBrand);
+    }, 2000);
     return;
   }
 
@@ -853,6 +840,10 @@ salvarClockButton.addEventListener("click", async () => {
     rectHexConfirm.style.color = esmeraldColor;
   }
 
+  if (hasHexRect && !hasHexDigits) {
+    return showError("Please also select a contrasting color for the clock digits.")
+  }
+
   if (hexInputDigits.includes("#")) {
     return showError("Do not use '#' in the HEX color. Enter only the 6 characters.");
   }
@@ -876,7 +867,11 @@ salvarClockButton.addEventListener("click", async () => {
 
   if ((hasUTC || hasHexRect || hasHexDigits) && !hasFile) {
     showSucess();
-    setTimeout(() => fadeOut(modalClock), 2000);
+    setTimeout(() => {
+      fadeOut(colorShowRect);
+      fadeOut(colorShowDigits);
+      fadeOut(modalClock)
+    }, 2000);
     return;
   }
 
@@ -1043,6 +1038,71 @@ function applyAnimation() {
   // Salva o novo ID como atributo de dados
   titleApply.dataset.intervalId = intervalId;
 }
+
+function isHexValid(hex) {
+  return /^[0-9A-Fa-f]{6}$/.test(hex);
+}
+
+function isFading(obj) {
+  return obj.classList.contains('fade-in') || obj.classList.contains('fade-out');
+}
+
+const pendingFadeOuts = new Map();
+
+function handleHexInput(inputEl, targetDiv) {
+const hex = inputEl.value.trim();
+
+// Cancela fadeOut anterior se existir
+if (pendingFadeOuts.has(targetDiv)) {
+  clearTimeout(pendingFadeOuts.get(targetDiv));
+  pendingFadeOuts.delete(targetDiv);
+}
+
+if (isHexValid(hex)) {
+  targetDiv.style.backgroundColor = `#${hex}`;
+  if (!targetDiv.classList.contains('display-show')) {
+    fadeIn(targetDiv);
+  }
+} else {
+  if (targetDiv.classList.contains('display-show')) {
+    if (isFading(targetDiv)) {
+      const timeoutId = setTimeout(() => {
+        fadeOut(targetDiv);
+        pendingFadeOuts.delete(targetDiv);
+      }, 500);
+      pendingFadeOuts.set(targetDiv, timeoutId);
+    } else {
+      fadeOut(targetDiv);
+    }
+  }
+}
+}
+
+function atualizarVisibilidadeConfirmacoes() {
+
+  let algumGrupoVisivel = false;
+
+  wrappers.forEach(wrapper => {
+    const fields = wrapper.querySelectorAll(".field-confirm");
+    let grupoTemAlteracao = false;
+
+    fields.forEach(field => {
+      const value = field.querySelector(".value-confirm");
+      const alterado = value && value.textContent.trim() !== "No change";
+      field.style.display = alterado ? "flex" : "none";
+      if (alterado) grupoTemAlteracao = true;
+    });
+
+    wrapper.style.display = grupoTemAlteracao ? "block" : "none";
+    if (grupoTemAlteracao) algumGrupoVisivel = true;
+  });
+
+  if (noneChanges) {
+    noneChanges.style.display = algumGrupoVisivel ? "none" : "flex";
+    containerButtons.style.display = algumGrupoVisivel ? "block" : "none";
+  }
+}
+
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 
 // CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL CONVERTION TOOL 

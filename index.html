@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#39ff9c">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.55 81.68'%3E%3Cpath d='M40.11,0c7.52-.05,25.87.26,32.11,3.68,7.22,3.95,8.44,10.23,9.28,17.72,1.32,11.68,1.37,24.99.23,36.69-1.34,13.68-3.88,20.44-18.79,22.32-12.36,1.56-26.44,1.63-38.85.47-12.32-1.15-20.5-3.23-22.55-16.82C-.35,51.49-.39,36.29.84,23.62,1.67,15.04,2.62,7.04,11.54,3.08,17.55.42,33.19.05,40.11,0ZM35.4,10.01c-3.74.14-7.58.41-11.3.83-5.7.63-11.21.43-12.64,7.06-2.06,9.6-1.85,24.23-.25,33.93.69,4.19,1.62,6.85,6.21,7.87,5.67,1.25,12.75,1.41,18.58,1.63,8.81.32,20.53.27,29.15-1.63,5.97-1.31,6.13-6.27,6.69-11.39,1-9.06,1.18-21.5-.73-30.4-1.13-5.24-4.09-5.88-8.85-6.59-8.59-1.28-18.18-1.62-26.87-1.3ZM23.41,70.48c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73ZM36.96,71.36c0-2.06-1.69-3.73-3.77-3.73s-3.77,1.67-3.77,3.73,1.69,3.73,3.77,3.73,3.77-1.67,3.77-3.73Z' fill='%2339ff9c'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@1e94cb814246d1dbad40656f6ad56678cec732d5/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@1e94cb814246d1dbad40656f6ad56678cec732d5/responsive.css">
-    <!-- <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="responsive.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@47d5460816f86598bc0c01a4b95f760f75deb283/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@47d5460816f86598bc0c01a4b95f760f75deb283/responsive.css"> -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -317,98 +317,144 @@
     <div id="modal-confirm" role="dialog">
         <div id="close-confirm">
             <svg class="fechar" viewBox="0 0 45.91 45.91">
-                <use href="#icon-close"></use>
-              </svg>
+            <use href="#icon-close"></use>
+            </svg>
         </div>
+
         <div id="container-confirm">
+            
+            <div id="none-changes">
+                <h1 id="title-none-confirm" class="title">Make changes</h1>
+                <svg id="magic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <defs>
+                    <style>
+                    .st0 {
+                        fill: currentColor;
+                    }
+                    </style>
+                </defs>
+                <path class="st0" d="M37.37,15.18c1,3.23,2.42,6.67,4.55,9.41,3.17,4.07,7.67,6.46,12.65,7.7.67.41.72,1.21-.03,1.56-5.32,1.31-9.89,3.9-13.1,8.38-1.78,2.48-3.24,5.78-4.12,8.68-.21.68-.81,4.23-1.09,4.41-1.66,1.08-1.59-1.62-1.84-2.47-2.42-8.29-5.61-14.5-14.15-17.86-.69-.27-3.83-1.14-4-1.49-.24-.49-.03-.94.42-1.2,4.41-1.14,9.06-3.34,12.02-6.88s4.43-7.85,5.72-12.08c.18-.59.22-2.19.67-2.54.35-.27,1.01-.22,1.27.17.28.41.78,3.38,1.04,4.21Z"/>
+                <path class="st0" d="M73.44,46.79c.22.31.61,2.51.81,3.15,1.23,3.85,2.95,7.14,6.29,9.54,1.93,1.39,4.13,2.28,6.42,2.95.39.26.4,1.15,0,1.43-.3.21-2.06.66-2.65.91-5.54,2.32-8.28,5.96-10.06,11.58-.25.77-.48,2.54-.77,3.07-.36.67-1.36.72-1.74,0-.57-1.08-.85-3.59-1.44-5.01-1.84-4.42-4.83-7.67-9.3-9.6-.58-.25-2.58-.74-2.86-1.02-.29-.29-.26-1.1.1-1.36.47-.34,1.82-.53,2.44-.79,4.67-1.95,7.71-5.17,9.62-9.77.53-1.27.99-4.32,1.5-5.12.41-.64,1.28-.46,1.64.04Z"/>
+                <path class="st0" d="M24.29,73.19c1.03,1.69,2.58,3.18,4.36,4.12.74.39,3.68,1.12,2.27,2.21-.85.65-2.71,1.11-3.76,1.89-1.69,1.26-3.13,3.71-3.89,5.64-.24.61-.38,2.42-1.34,2.32-1.11-.12-1.21-1.92-1.55-2.8-.98-2.47-2.37-4.44-4.7-5.8-.62-.36-2.72-1.04-2.86-1.5-.39-1.28,1.67-1.51,2.6-2.02,1.97-1.08,3.5-2.73,4.45-4.76.28-.61,1.12-3.5,1.26-3.62,1.67-1.44,1.97,1.45,2.35,2.47.22.6.49,1.31.82,1.85Z"/>
+
+                </svg>
+            </div>            
+            
             <!-- WIFI -->
+            <div class="wrapper-confirm">
             <div class="title-sensitivity">
                 <p class="title-item-confirm">WiFi</p>
                 <div class="icon-toggle-wifi-confirm">
-                    <div id="visibility-wifi-confirm">
-                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                            <use href="#icon-visibility"></use>
-                        </svg>
-                    </div>
-                    <div id="invisibility-wifi-confirm">
-                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                            <use href="#icon-invisibility"></use>
-                        </svg>
-                    </div>
+                <div id="visibility-wifi-confirm">
+                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                    <use href="#icon-visibility"></use>
+                    </svg>
+                </div>
+                <div id="invisibility-wifi-confirm">
+                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                    <use href="#icon-invisibility"></use>
+                    </svg>
+                </div>
                 </div>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Network:</p>
                 <p id="ssid-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Password:</p>
                 <p id="password-confirm" class="value-confirm">No change</p>
             </div>
+            </div>
+
             <!-- API -->
+            <div class="wrapper-confirm">
             <div class="title-sensitivity">
                 <p class="title-item-confirm">AwesomeAPI Infos</p>
                 <div class="icon-toggle-key-confirm">
-                    <div id="visibility-key-confirm">
-                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                            <use href="#icon-visibility"></use>
-                        </svg>
-                    </div>
-                    <div id="invisibility-key-confirm">
-                        <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
-                            <use href="#icon-invisibility"></use>
-                        </svg>
-                    </div>
+                <div id="visibility-key-confirm">
+                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                    <use href="#icon-visibility"></use>
+                    </svg>
+                </div>
+                <div id="invisibility-key-confirm">
+                    <svg class="icon-visibility-confirm" viewBox="0 0 45.91 45.91">
+                    <use href="#icon-invisibility"></use>
+                    </svg>
+                </div>
                 </div>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Key:</p>
                 <p id="key-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Currency:</p>
                 <p id="currency-confirm" class="value-confirm">No change</p>
             </div>
+            </div>
+
             <!-- BRAND -->
+            <div class="wrapper-confirm">
             <p class="title-item-confirm">Brand Init</p>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Background color:</p>
                 <p id="bg-hex-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Upload:</p>
                 <p id="upload-brand-confirm" class="value-confirm">No change</p>
             </div>
+            </div>
+
             <!-- CLOCK -->
+            <div class="wrapper-confirm">
             <p class="title-item-confirm">Clock Layout & UTC</p>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Rectangle color:</p>
                 <p id="rect-hex-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Digits color:</p>
                 <p id="digits-hex-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Upload:</p>
                 <p id="upload-clock-confirm" class="value-confirm">No change</p>
             </div>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">UTC:</p>
                 <p id="utc-confirm" class="value-confirm">No change</p>
             </div>
+            </div>
+
             <!-- GIF -->
+            <div class="wrapper-confirm">
             <p class="title-item-confirm">Animation GIF</p>
-            <div class="itens-confirm itens-space">
+
+            <div class="field-confirm">
                 <p class="label-confirm">Upload:</p>
                 <p id="upload-gif-confirm" class="value-confirm">No change</p>
             </div>
+            </div>
         </div>
-        <div class="container-buttons-container">
+
+        <div id="container-buttons">
             <button id="confirm-button" class="button">Confirm</button>
             <button id="clear-button" class="button" onclick="clearConfirm()">Clear</button>
         </div>
-        </div>
+    </div>
+
 
     <!-- SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
     SUCESS SUCESS SUCESS SUCESS SUCESS SUCESS
@@ -512,9 +558,9 @@ SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS SVGS  -->
     <path d="M65.72,0C29.43,0,0,29.42,0,65.71s29.43,65.71,65.72,65.71,65.71-29.42,65.71-65.71S102.01,0,65.72,0ZM96.11,53.17l-34.08,34.19c-2.26,2.23-5.97,2.37-8.63.7-5.17-5.99-12.71-11.5-17.6-17.55-4.6-5.69.93-13.42,7.54-11.05,3.56,1.27,13.04,12.94,14,12.94l28.56-28.56c.77-.6,2.2-1.37,3.15-1.54,6.34-1.08,10.52,5.55,7.06,10.87Z" fill="#39ff9c"/>
 </symbol>
 </svg>
-<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@1e94cb814246d1dbad40656f6ad56678cec732d5/script.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@1e94cb814246d1dbad40656f6ad56678cec732d5/timezone_map.js"></script>
-<!-- <script src="script.js"></script>
-<script src="timezone_map.js"></script>  -->
+<!-- <script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@47d5460816f86598bc0c01a4b95f760f75deb283/script.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@47d5460816f86598bc0c01a4b95f760f75deb283/timezone_map.js"></script> -->
+<script src="script.js"></script>
+<script src="timezone_map.js"></script> 
 </body>
 </html>

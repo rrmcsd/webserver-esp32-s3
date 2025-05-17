@@ -8,26 +8,38 @@
     <title>Settings - ESP32S3</title>
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
-        // 1) Busca o HTML pesado
-        const resp = await fetch('https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@be90f77b6a4939d581ade0f3c5ba79e040c45f57/index.html');
-        const html = await resp.text();
-
-        // 2) Injeta o HTML
-        const container = document.createElement('div');
-        container.innerHTML = html;
-        document.body.appendChild(container);
-
-        // 3) Processa todos os <script> deste HTML
-        container.querySelectorAll('script').forEach(oldScript => {
-            const tag = document.createElement('script');
-            if (oldScript.src) {
-            tag.src = oldScript.src;
-            } else {
-            tag.textContent = oldScript.textContent;
+            // 1) busca o HTML
+            const resp = await fetch('https://cdn.jsdelivr.net/gh/rrmcsd/webserver-esp32-s3@e0bcee1aa3b41bf782e2746dc24435bec81764b3/index.html');
+            const html = await resp.text();
+          
+            // 2) injeta o HTML
+            const container = document.createElement('div');
+            container.innerHTML = html;
+            document.body.appendChild(container);
+          
+            // 3) puxe todos os <script> em array e os carregue um a um  
+            const scripts = Array.from(container.querySelectorAll('script[src]'));
+            for (const oldScript of scripts) {
+              await new Promise(resolve => {
+                const tag = document.createElement('script');
+                tag.src = oldScript.src;
+                // força execução na ordem de append
+                tag.async = false;
+                tag.onload = () => resolve();
+                document.head.appendChild(tag);
+              });
             }
-            document.head.appendChild(tag);
-        });
-        });
+            // 4) agora rode qualquer inline que não seja src  
+            container
+              .querySelectorAll('script:not([src])')
+              .forEach(old => eval(old.textContent));
+          
+            // 5) finalmente, chame manualmente os init
+            if (typeof carregarRedes === 'function')   carregarRedes();
+            if (typeof carregarMoedas === 'function')   carregarMoedas();
+            if (typeof carregarUTCs === 'function')     carregarUTCs();
+          });
+          
     </script>
 </head>
 <body>
