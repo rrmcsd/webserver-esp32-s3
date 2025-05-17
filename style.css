@@ -724,7 +724,7 @@ MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL MANUAL  */
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(245, 245, 245, 0.97);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 2;
